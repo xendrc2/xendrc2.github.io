@@ -1,0 +1,493 @@
+<!-- 
+Caveat:
+- tutti i risparmi vengono investiti in borsa al rendimento specificato;
+- l'imposta di registro è calcolata sul prezzo d'acquisto, non sul valore catastale;
+- la detrazione degli interessi non è considerata (TBD);
+
+-->
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Affittare o acquistare casa?</title>
+        <meta name="description" content="Un simulatore di scelte finanziarie: affitto vs acquisto casa.">
+        <link rel="stylesheet" href="./styles/style.css">
+        
+        <!--icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--font -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;600&family=Titillium+Web:wght@300;400;600&display=swap" rel="stylesheet">
+        
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        
+    </head>
+    <body>
+        <div class="navbar-fixed z-depth-0">
+            <nav class="z-depth-0">
+                <div class="nav-wrapper z-depth-0">
+                    <img src="./img/logo.png" id="logo-img">
+                    <a href="home.html" class="brand-logo">Sossoldi!</a>
+                    <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li class="active"><a href="index.html">Casa: Affitto o Acquisto?</a></li>
+                        <li><a href="">Auto: Acquisto o Noleggio?</a></li>
+                        <li><a href="">Altro</a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+        </div>
+        <ul class="sidenav" id="mobile-menu">
+            <li><a href="">Home</a></li>
+            <li class=""><a href="index.html">Casa: Affitto o Acquisto?</a></li>
+            <li><a href="">Auto: Acquisto o Noleggio?</a></li>
+            <li><a href="">Altro</a></li>
+        </ul>
+        
+        <div class="valign-wrapper">
+            
+            <div id="header" class="row">
+                <div class="title col s12 m12 l8 xl8 offset-xl2 offset-l2 center-align" id="title">
+                        <h3 class="center-align" id="titolo">Casa</h3>
+                        <h1 class="center-align" id="titolo">Affitto o Acquisto?</h1>
+                        <h6 id="sottotitolo">Scopri l'effetto sul tuo patrimonio</h6>
+                </div>
+            </div> 
+        </div>
+        <div class="container centered" id="container">
+            <div class="intro fade-in">
+                <p class="flow-text">Scegliere di affittare o acquistare casa può significativamente influenzare la crescita del tuo patrimonio. Sì, ma quanto?<br>Questo simulatore ti permette di calcolare il tuo ipotetico patrimonio dopo un numero definito di anni e quattro diversi scenari:</p>
+                <div class="row scenari">
+                    <div class="col s12 m6 l6 xl6">
+                    <div class="card blue-grey darken-1 fade-in hidden z-depth-3">
+                        <div class="card-content white-text">
+                        <span class="card-title">Affitto</span>
+                        <p>Il nostro scenario di base: affittiamo per tutta la durata della simulazione e investiamo soltanto il capitale altrimenti speso per l'acquisto di un immobile.</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col s12 m6 l6 xl6">
+                    <div class="card blue-grey darken-1 fade-in hidden z-depth-3">
+                        <div class="card-content white-text">
+                        <span class="card-title">Acquisto</span>
+                        <p>Un grande classico: compriamo il nido dei nostri sogni, investiamo la differenza tra le rate del mutuo e dell'affitto (se c'è!) e poi attendiamo la prossima bolla immobiliare.</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col s12 m6 l6 xl6">
+                    <div class="card blue-grey darken-1 fade-in hidden z-depth-3">
+                        <div class="card-content white-text">
+                        <span class="card-title">Affitto + Acquisto</span>
+                        <p>Già più realistico! Affittiamo per qualche anno, e solo POI troviamo il nido dei nostri sogni. Valgono le stesse regole di cui sopra per la fase di affitto e quella di acquisto.</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col s12 m6 l6 xl6">
+                    <div class="card blue-grey darken-1 fade-in hidden z-depth-3">
+                        <div class="card-content white-text">
+                        <span class="card-title">Acquisto + Acquisto</span>
+                        <p>La specialità di noi indecisi: acquistiamo casa, ma poi ne acquistiamo un'altra. Investiamo la differenza tra le rate dell'affitto e del mutuo ed eventuali capital gain.</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <p class="flow-text"> Per testarli tutti, compila tutti i dati richiesti qui sotto.<br>Il risultato finale è un'approssimazione... ma anche un ottimo inizio! ✌</p>
+            </div>
+            <div class="divider"></div>
+            <h5>Quali scenari vuoi simulare?</h5>
+            <p>
+                <label>
+                    <input type="checkbox" checked="checked" disabled="disabled" class="filled-in"/>
+                    <span>Affitto</span>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" checked="checked" disabled="disabled" class="filled-in"/>
+                    <span>Acquisto</span>
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input id="checkbox-affitto-acquisto" type="checkbox" class="filled-in"/>
+                    <span class="black-font">Affitto + Acquisto</span>
+                </label>
+            </p>
+
+            <p>
+                <label>
+                    <input id="checkbox-acquisto-acquisto" type="checkbox" class="filled-in"/>
+                    <span class="black-font">Acquisto + Acquisto</span>
+                </label>
+            </p>
+
+            <div class="divider"></div>
+            <div class="row">
+                <div class="col s12 m12 l10">
+                           
+                    <div class="row">
+                        <div class="col s12 center-align">
+                            <h5>Affitto vs Acquisto</h5>
+                        </div>
+                        <div class="input-field col s4 z-depth-1">
+                            <label>Prezzo dell'acquisto</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="150000" min="0" >
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Affitto mensile</label>
+                            <input type="number" class="validate" id="affitto-mensile" value="650" min="0"/>
+                        </div>
+                        <div class="input-field col s6 z-depth-1">
+                            <label>Spese condominiali mensili</label>
+                            <input type="number" class="validate" id="spese-condominiali" value="150" min="0"/>
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Anni da simulare</label>
+                            <input type="number" class="validate" id="anni-simulazione" value="30" min="0" max="50" step="1"/>
+                        </div>
+                        <div class="input-field col s4 z-depth-1">
+                            <label>Durata Mutuo (anni)</label>
+                            <input type="number" class="validate" id="durata-mutuo" value="30" min="0" max="40" step="1"/>
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Tasso Mutuo</label>
+                            <input type="number" class="validate" id="tasso-mutuo" value="0.02" min="0" max="1" step="0.01"/>
+                        </div>
+                        <div class="input-field col s5 z-depth-1">
+                            <label>Finanziamento Acquisto</label>
+                            <input type="number" class="validate" id="finanziamento-mutuo" value="150000" min="0"/>
+                        </div>  
+                    </div>
+
+                    <div id="container-opzioni-avanzate">
+                         <a class="waves-effect waves-teal btn-flat z-depth-2" id="opzioni-avanzate"><i class="material-icons left" id="icona-opzioni-avanzate">arrow_drop_down</i>Opzioni Avanzate</a>
+                    </div>
+
+                    <div id="row-opzioni-avanzate">
+                        <div class="row">
+                            <div class="input-field col s3 z-depth-1">
+                                <label>Istruttoria</label>
+                                <input type="number" class="validate" id="istruttoria" value="1250" min="0"  step="50"/>
+                            </div>
+                            <div class="input-field col s3 z-depth-1">
+                                <label>Perizia</label>
+                                <input type="number" class="validate" id="perizia" value="320" min="0" step="5"/>
+                            </div>
+                            <div class="input-field col s2 z-depth-1">
+                                <label>Notaio</label>
+                                <input type="number" class="validate" id="notaio" value="3000" min="0"/>
+                            </div>
+                            <div class="input-field col s3 z-depth-1">
+                                <label>% Agenzia</label>
+                                <input type="number" min="0" max="1" step="0.01" class="validate" id="commissioni-agenzia" value="0.06"/>
+                            </div>
+                            <div class="input-field col s3 z-depth-1">
+                                <label>Mobilio</label>
+                                <input type="number" class="validate" id="mobilio" value="10000" min="0"  step="500"/>
+                            </div>
+                            
+
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4" id="switch-prima-casa">
+                                <div class="switch">
+                                    <label>
+
+                                      <input type="checkbox" id="prima-casa" checked>
+                                      <span class="lever"></span>
+                                      Prima Casa?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="input-field col s4" id="switch-da-privato">
+                                <div class="switch">
+                                    <label>
+
+                                      <input type="checkbox" id="da-privato" checked>
+                                      <span class="lever"></span>
+                                      Acquisto da Privato?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="input-field col s4 tooltipped z-depth-1 disabled" data-position="top" data-tooltip="In caso di acquisto da privati, l'imposta effettiva sarà probabilmente più bassa perchè il valore catastale è spesso minore del prezzo d'acquisto">
+                                <label>Imposta di Registro</label>
+                                <input type="number" id="imposta" value="0" readonly/>
+                            </div>
+                            
+                            <div class="input-field col s2 z-depth-1">
+                                <label>IVA</label>
+                                <input type="number" id="iva" value="0" readonly/>
+                            </div>
+                            <div class="input-field col s3 z-depth-1">
+                                <label>Imposte Add.</label>
+                                <input type="number" id="altre-imposte" value="100" readonly/>
+                            </div>
+                            <div class="input-field col s5 z-depth-1">
+                                <label>Rendimento immobili</label>
+                                <input type="number" min="0" max="1" step="0.01" class="validate" id="rendimento-immobili" value="0.01"/>
+                            </div>
+                            <div class="input-field col s5 z-depth-1">
+                                <label>Rendimento investimenti</label>
+                                <input type="number" min="0" max="1" step="0.01" class="validate" id="rendimento-investimenti" value="0.07"/>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row" id="container-affitto-acquisto">
+                            <div class="col s12 center-align">
+                                <h5>Affitto + Acquisto</h6>
+                            </div>
+                            <div class="input-field col s8 z-depth-1" id="div-anni-affitto-acquisto">
+                                <label>Tra quanti anni acquisterai casa?</label>
+                                <input type="number" class="validate" id="anni-affitto-acquisto" value="3" min="0" max="50" step="1"/>
+                            </div>
+                            
+                        </div>
+
+                        <div class="divider" id="divider-affitto-acquisto"></div>
+                        
+                        <div class="row" id="container-acquisto-acquisto">
+                            <div class="col s12 center-align">
+                                <h5>Acquisto + Acquisto</h6>
+                            </div>
+                            <div class="input-field col s7 z-depth-1" id="div-anni-acquisto-acquisto">
+                                <label>Tra quanti anni acquisterai casa?</label>
+                                <input type="number" class="validate" id="anni-acquisto-acquisto" value="3" min="1" max="50" step="1"/>
+                            </div>
+                            <div class="input-field col s4 z-depth-1">
+                                <label>Prezzo Nuova Casa</label>
+                                <input type="number" class="validate" id="prezzo-nuova-casa" value="150000" min="0" >
+                            </div>
+                            <div class="input-field col s6 z-depth-1">
+                                <label>Prezzo Vendita Prima Casa</label>
+                                <input type="number" class="validate" id="prezzo-vendita-casa" value="150000" min="0" >
+                            </div>
+                            <div class="input-field col s7 z-depth-1">
+                                <label>Spese Condominiali Seconda Casa</label>
+                                <input type="number" class="validate" id="spese-condominiali-seconda-casa" value="150" min="0" >
+                            </div>
+                            <div class="input-field col s6 z-depth-1">
+                                <label>Finanziamento Nuova Casa</label>
+                                <input type="number" class="validate" id="finanziamento-nuova-casa" value="150000" min="0" >
+                            </div>
+                            <div class="input-field col s4 z-depth-1">
+                                <label>Tasso Nuovo Mutuo</label>
+                                <input type="number" class="validate" id="tasso-nuovo-mutuo" value="0.02" min="0" max="1" step="0.01"/>
+                            </div>
+                            <div class="input-field col s5 z-depth-1" id="div-anni-nuovo-mutuo">
+                                <label>Anni Secondo Mutuo</label>
+                                <input type="number" class="validate" id="anni-nuovo-mutuo" value="30" min="1" max="50" step="1"/>
+                            </div>
+                            <div class="input-field col s4 z-depth-1">
+                                <label>Mobilio Nuova Casa</label>
+                                <input type="number" class="validate" id="mobilio-nuova-casa" value="2000" min="0" >
+                            </div>
+                            <div class="input-field col s4 z-depth-1">
+                                <label>Certificato APE</label>
+                                <input type="number" class="validate" id="ape-nuova-casa" value="400" min="0" readonly>
+                            </div>
+                            <div class="input-field col s5 z-depth-1">
+                                <label>Istruttoria Nuova Casa</label>
+                                <input type="number" class="validate" id="istruttoria-secondo-mutuo" value="1250" min="0"  step="50"/>
+                            </div>
+                            <div class="input-field col s4 z-depth-1">
+                                <label>Perizia Nuova Casa</label>
+                                <input type="number" class="validate" id="perizia-secondo-mutuo" value="320" min="0" step="5"/>
+                            </div>
+                            <div class="input-field col s4 z-depth-1">
+                                <label>Notaio Nuova Casa</label>
+                                <input type="number" class="validate" id="notaio-secondo-mutuo" value="3000" min="0"/>
+                            </div>
+                            <div class="input-field col s5 z-depth-1">
+                                <label>% Agenzia Nuova Casa</label>
+                                <input type="number" min="0" max="1" step="0.01" class="validate" id="commissioni-agenzia-secondo-mutuo" value="0.06"/>
+                            </div>
+                            <div class="input-field col s7 tooltipped z-depth-1" data-position="top" data-tooltip="In caso di acquisto da privati, l'imposta effettiva sarà probabilmente più bassa perchè il valore catastale è spesso minore del prezzo d'acquisto">
+                                <label>Imposta di Registro Nuova Casa</label>
+                                <input type="number" id="imposta-secondo-mutuo" value="3000" readonly/>
+                            </div>
+
+                            <div class="input-field col s4 z-depth-1">
+                                <label>IVA Nuova Casa</label>
+                                <input type="number" id="iva-secondo-mutuo" value="0" readonly/>
+                            </div>
+                            <div class="input-field col s5 z-depth-1">
+                                <label>Imposte Add. Nuova Casa</label>
+                                <input type="number" id="altre-imposte-secondo-mutuo" value="100" readonly/>
+                            </div>
+                            <div class="input-field col s5" id="switch-prima-casa-secondo-mutuo">
+                                <div class="switch">
+                                        <label>
+
+                                          <input type="checkbox" id="prima-casa-secondo-mutuo" checked>
+                                          <span class="lever"></span>
+                                          Prima Casa?
+                                        </label>
+                                    </div>
+                                </div>
+                            <div class="input-field col s5" id="switch-da-privato-secondo-mutuo">
+                                <div class="switch">
+                                    <label>
+
+                                      <input type="checkbox" id="da-privato-secondo-mutuo" checked>
+                                      <span class="lever"></span>
+                                      Acquisto da Privato?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fixed-action-btn">
+                      <a class="btn-floating btn-large red pulse" id="floating-calcolo" onclick="calcolo()">
+                        <i class="large material-icons">autorenew</i>
+                      </a>
+                    </div>
+                    
+                    <canvas id="myChart" width="0" height="0" class="hidden-chart"></canvas>
+                    
+                    <div class="row user-hidden" id="results-container">
+
+                        <div class="col s12 risultati">
+                            <h3>Affitto</h3>
+                            <div class="row">
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Costi Affitto</p>
+                                    <p id="costi-affitto"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Patrimonio</p>
+                                    <p id="patrimonio-affitto"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col s12 risultati">
+                            <h3>Acquisto</h3>
+                            <div class="row">
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Rata Mensile</p>
+                                    <p id="rata-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Capitale</p>
+                                    <p id="capitale-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Interessi</p>
+                                    <p id="interessi-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Costi Addizionali</p>
+                                    <p id="costi-acquisto"></p>
+                                </div>
+                                <div class="card-panel col s12">
+                                    <p class="card-title">Patrimonio</p>
+                                    <p id="patrimonio-acquisto"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col s12 risultati" id="container-patrimonio-affitto-acquisto">
+                            <h3>Affitto + Acquisto</h3>
+                            
+                            <div class="row">
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Rata Affitto Mensile</p>
+                                    <p id="rata-affitto"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Rata Mutuo Mensile</p>
+                                    <p id="rata-affitto-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Capitale</p>
+                                    <p id="capitale-affitto-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Interessi</p>
+                                    <p id="interessi-affitto-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Costi Totali</p>
+                                    <p id="costi-affitto-acquisto"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Patrimonio</p>
+                                    <p id="patrimonio-affitto-acquisto"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col s12 risultati" id="container-patrimonio-acquisto-acquisto">
+                            <h3>Acquisto + Acquisto</h3>
+                            <div class="row">
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Rata Mensile (1° mutuo)</p>
+                                    <p id="rata-primo-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Capitale (1° mutuo)</p>
+                                    <p id="capitale-primo-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Rata Mensile (2° mutuo)</p>
+                                    <p id="rata-secondo-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Capitale (2° mutuo)</p>
+                                    <p id="capitale-secondo-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Interessi (1° mutuo)</p>
+                                    <p id="interessi-primo-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Costi Addizionali (1° mutuo)</p>
+                                    <p id="costi-primo-acquisto"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Interessi (2° mutuo)</p>
+                                    <p id="interessi-secondo-mutuo"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Costi Addizionali (2° mutuo)</p>
+                                    <p id="costi-secondo-acquisto"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Costi Vendita Casa</p>
+                                    <p id="costi-vendita"></p>
+                                </div>
+                                <div class="card-panel col s6">
+                                    <p class="card-title">Patrimonio</p>
+                                    <p id="patrimonio-acquisto-acquisto"></p>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Compiled and minified JavaScript -->
+        <script src="main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+        
+        <footer class="page-footer">
+            <div class="footer-copyright">
+              <div class="container">
+              © 2020 Copyright Riccardo Dinale
+              </div>
+            </div>
+        </footer>
+    </body>
+</html>

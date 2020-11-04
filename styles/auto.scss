@@ -1,0 +1,217 @@
+body {
+    /*font-family: 'Open Sans', sans-serif;*/
+    font-family: 'Titillium Web', sans-serif;
+    margin-top: 10%;
+    background-color: #f8fcfd;
+    color: black;
+    p {
+        font-size: 1.2rem;
+    }
+
+    .flow-text {
+        margin-left: 1%;
+    }
+    .black-font {
+        color: black;
+    }
+}
+
+#header {
+    background: rgb(100,149,237);
+    background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,1) 100%);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#title {
+    color: white;
+    height: 100%;
+    padding-top: 0%;
+    padding-bottom: 2%;
+}
+
+#titolo {
+    animation: fade-in 1.5s ease;
+    text-shadow: 1px 1px 1px #000000;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+#sottotitolo {
+    opacity: 0;
+    animation: fade-in 1s ease;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.page-footer {
+    background-color: #6495ed !important;
+    background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,1) 100%);
+    margin-top: 30%;
+}
+
+.fade-in {
+    animation: fade-in-bottom 1s ease;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+  }
+
+.hidden {
+    opacity: 0;
+}
+
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-30%);
+    } to {
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in-bottom {
+    from {
+        opacity: 0;
+        transform: translateY(30%);
+    } to {
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+#container-opzioni-avanzate {
+    border-style: solid;
+    border-width: thin;
+    border-radius: 10px;
+    border-color: darkgray;
+    padding: 0 10px 0 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 190px;
+    background-color: whitesmoke;
+    display: none;
+}
+
+#row-opzioni-avanzate {
+    margin-top: 5%;
+    //display: none;
+}
+
+#opzioni-avanzate {
+    font-size: 11px;
+    min-width: 250px;
+}
+
+#p-bottone {
+    margin: auto;
+}
+
+#row-calcolo {
+   margin: 5% 
+}  
+
+#calcolo {
+    border-radius: 10px;
+    min-width: 130px;
+}
+
+.input-field {
+    background-color: lightcyan;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 5px 0 0 10px 10px black;
+}
+
+.input-field label {
+     color: darkslategray!important;
+   }
+
+#switch-prima-casa, #switch-da-privato, #switch-prima-casa-secondo-mutuo, #switch-da-privato-secondo-mutuo {
+    background-color: transparent !important;
+    padding-bottom: 5px;
+}
+
+.risultati {
+    margin: 20px;
+}
+
+#anni-affitto-acquisto, #div-anni-affitto-acquisto {
+    padding-left: 10px;
+    width: 220px;
+    min-width: 220px;
+}
+
+#div-anni-affitto-acquisto {
+    min-width: 240px;
+}
+
+.divider {
+    margin-bottom: 10px;
+}
+
+.card, .card-content {
+    background-color: #6495ed;
+    transition: all .2s ease;
+    /* background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,0.2) 100%); */
+}
+
+.card:hover .card-content:hover {
+    transform: scale(1.1);
+}
+
+.nav-wrapper {
+    background: rgb(100,149,237);
+    background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,1) 100%);
+    padding-top: 0.5%;
+}
+
+.brand-logo {
+    margin-left: 5%;
+    align-self: left;
+    font-family: 'Lobster', cursive;
+} 
+
+#logo-img {
+    width: 60px;
+    height: 60px;
+    top: 0;
+    margin-left: 5%;
+}
+
+.scenari {
+    span {
+        font-size: 25px;
+        text-shadow: 1px 1px 1px #3a3a3a;
+    }
+}
+
+.left-margin {
+    margin-left: 2%;
+}
+
+#myChart {
+    max-height: 600px;
+    max-width: 600px;
+    margin-top: 5%;
+}
+
+.user-hidden {
+    opacity: 0% !important;
+    display: none !important;
+    visibility: hidden !important;
+}
+
+.active {
+    max-height: 58px !important;
+}
+
+#container-affitto-acquisto, #container-acquisto-acquisto, #divider-affitto-acquisto {
+    display:none;
+}

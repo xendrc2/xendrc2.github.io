@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Affittare o acquistare casa?</title>
+        <meta name="description" content="Un simulatore di scelte finanziarie: affitto vs acquisto casa.">
+        <link rel="stylesheet" href="./styles/auto.css">
+        
+        <!--icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--font -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;600&family=Titillium+Web:wght@300;400;600&display=swap" rel="stylesheet">
+        
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        
+    </head>
+
+    <body>
+        <div class="navbar-fixed z-depth-0">
+            <nav class="z-depth-0">
+                <div class="nav-wrapper z-depth-0">
+                    <img src="./img/logo.png" id="logo-img">
+                    <a href="home.html" class="brand-logo">Sossoldi!</a>
+                    <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="index.html">Casa: Affitto o Acquisto?</a></li>
+                        <li class="active"><a href="">Auto: Acquisto o Noleggio?</a></li>
+                        <li><a href="">Altro</a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+        </div>
+        <ul class="sidenav" id="mobile-menu">
+            <li><a href="">Home</a></li>
+            <li class=""><a href="index.html">Casa: Affitto o Acquisto?</a></li>
+            <li><a href="">Auto: Acquisto o Noleggio?</a></li>
+            <li><a href="">Altro</a></li>
+        </ul>
+
+        <div class="valign-wrapper">
+            
+            <div id="header" class="row">
+                <div class="title col s12 m12 l8 xl8 offset-xl2 offset-l2 center-align" id="title">
+                        <h3 class="center-align" id="titolo">Auto</h3>
+                        <h1 class="center-align" id="titolo">Acquisto o Noleggio?</h1>
+                        <h6 id="sottotitolo">Compara i costi</h6>
+                </div>
+            </div> 
+        </div>
+
+        <div class="container centered" id="container">
+            <div class="intro fade-in">
+                <p class="flow-text">Le offerte di Noleggio a Lungo Termine (NLT) stanno aumentando e migliorando di anno in anno. Acquistare un  auto è ancora l'opzione migliore? Questo simulatore ti permette di comparare i costi tra una soluzione NLT e l'acquisto di un auto. <br>
+                Compila tutte le sezioni qui sotto!</p>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+                <div class="col s12 m12 l10">   
+                    <div class="row">
+                        <div class="col s12 center-align">
+                            <h5>Generale</h5>
+                        </div>
+                        <div class="input-field col s6 z-depth-1">
+                            <label>Quanti Km Percorri in un Anno?</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="15000" min="0" >
+                        </div>
+                        <div class="col s12 center-align">
+                            <h5>Acquisto</h5>
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Prezzo Auto - Listino</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="15000" min="0" >
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Km Auto</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="0" min="0" >
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Anticipo</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="5000" min="0" >
+                        </div>
+                        <div class="input-field col s4 z-depth-1">
+                            <label>Rata Mensile Finanziamento</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="200" min="0" >
+                        </div>
+                        <div class="input-field col s4 z-depth-1">
+                            <label>Durata Finanziamento (Mesi)</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="36" min="0" >
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Maxi-rata Finale</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="5000" min="0" >
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Rata Annuale RCA</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="700" min="0" >
+                        </div>
+                        <div class="input-field col s8 z-depth-1">
+                            <label>Costi di Gestione Annuali (Bollo, Tagliando, Manutenzione)</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="700" min="0" >
+                        </div>
+                        <div class="input-field col s6 z-depth-1">
+                            <label>Tra Quanti Anni Cambierai Auto?</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="10" min="0" >
+                        </div>
+                        <div class="input-field col s4 z-depth-1">
+                            <label>Valore di Rivendita Stimato</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="6000" min="0" >
+                        </div>
+                        <div class="col s12 center-align">
+                            <h5>Noleggio a Lungo Termine</h5>
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Rata Mensile</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="300" min="0" >
+                        </div>
+                        <div class="input-field col s8 z-depth-1 tooltipped" data-position="top" data-tooltip="Molti contratti NLT coprono i costi di gestione al 100% o in misura minore. Verifica i termini contrattuale e inserisci qui i costi scoperti">
+                            <label>Costi di Gestione Annuali (Bollo, Tagliando, Manutenzione)</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="300" min="0" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+        
+        <footer class="page-footer">
+            <div class="footer-copyright">
+              <div class="container">
+              © 2020 Copyright Riccardo Dinale
+              </div>
+            </div>
+        </footer>
+    </body>
+</html>
+
