@@ -54,6 +54,12 @@
             </div> 
         </div>
 
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large red pulse" id="floating-calcolo" onclick="calcolo()">
+              <i class="large material-icons">autorenew</i>
+            </a>
+        </div>
+
         <div class="container centered" id="container">
             <div class="intro fade-in">
                 <p class="flow-text">Le offerte di Noleggio a Lungo Termine (NLT) stanno aumentando e migliorando di anno in anno. Acquistare un  auto è ancora l'opzione migliore? Questo simulatore ti permette di comparare i costi tra una soluzione NLT e l'acquisto di un auto. <br>
@@ -63,13 +69,19 @@
             <div class="row">
                 <div class="col s12 m12 l10">   
                     <div class="row">
+
                         <div class="col s12 center-align">
                             <h5>Generale</h5>
                         </div>
-                        <div class="input-field col s6 z-depth-1">
+                        <div class="input-field col s4 z-depth-1">
                             <label>Quanti Km Percorri in un Anno?</label>
                             <input type="number" class="validate" id="prezzo-casa" value="15000" min="0" >
                         </div>
+                        <div class="input-field col s4 z-depth-1">
+                            <label>Durata simulazione (anni)</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="10" min="0" >
+                        </div>
+
                         <div class="col s12 center-align">
                             <h5>Acquisto</h5>
                         </div>
@@ -102,17 +114,18 @@
                             <input type="number" class="validate" id="prezzo-casa" value="700" min="0" >
                         </div>
                         <div class="input-field col s8 z-depth-1">
-                            <label>Costi di Gestione Annuali (Bollo, Tagliando, Manutenzione)</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="700" min="0" >
+                            <label>Costi di Gestione Annuali (Bollo, Tagliando, Revisione)</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="300" min="0" >
                         </div>
                         <div class="input-field col s6 z-depth-1">
                             <label>Tra Quanti Anni Cambierai Auto?</label>
                             <input type="number" class="validate" id="prezzo-casa" value="10" min="0" >
                         </div>
                         <div class="input-field col s4 z-depth-1">
-                            <label>Valore di Rivendita Stimato</label>
+                            <label>Valore Stimato di Rivendita</label>
                             <input type="number" class="validate" id="prezzo-casa" value="6000" min="0" >
                         </div>
+
                         <div class="col s12 center-align">
                             <h5>Noleggio a Lungo Termine</h5>
                         </div>
@@ -122,7 +135,15 @@
                         </div>
                         <div class="input-field col s8 z-depth-1 tooltipped" data-position="top" data-tooltip="Molti contratti NLT coprono i costi di gestione al 100% o in misura minore. Verifica i termini contrattuale e inserisci qui i costi scoperti">
                             <label>Costi di Gestione Annuali (Bollo, Tagliando, Manutenzione)</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="300" min="0" >
+                            <input type="number" class="validate" id="prezzo-casa" value="0" min="0" >
+                        </div>
+                        <div class="input-field col s3 z-depth-1">
+                            <label>Anticipo</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="3000" min="0" >
+                        </div>
+                        <div class="input-field col s6 z-depth-1">
+                            <label>Durata Noleggio (anni)</label>
+                            <input type="number" class="validate" id="prezzo-casa" value="3" min="0" >
                         </div>
                     </div>
                 </div>
@@ -131,7 +152,7 @@
 
 
         <!-- Compiled and minified JavaScript -->
-        <script src="main.js"></script>
+        <script src="auto.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
