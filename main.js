@@ -250,8 +250,8 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     });
 
-//Formattazione automatica inputs? e la mnautenzione straordinaria?
-        
+//Check # of simulations
+var contatore = 0;
 
 //Click bottone "opzioni avanzate"
     const buttonClick = document.getElementById('opzioni-avanzate');
@@ -509,7 +509,11 @@ function calcolo()
     let checkboxValueAcqAcq = document.getElementById('checkbox-acquisto-acquisto').checked;
 
     //Creazione Grafico
-            document.getElementById("myChart").innerHTML = [];
+            if(contatore > 0) {
+                $('#myChart').remove(); // this is my <canvas> element
+                $('#graph-container').append('<canvas id="myChart" width="0" height="0" class="hidden-chart"><canvas>');
+            };
+                 
             let patrimonioTotaleAffittoChart = capitaleInizialeAffitto * parametroCrescitaPatrimonio;
             let data = [];
             data.push(patrimonioTotaleAffittoChart);
@@ -573,8 +577,11 @@ function calcolo()
                     }
                 }
             });
+            
             document.getElementById("myChart").width = "600";
             document.getElementById("myChart").height = "600";
+            contatore = contatore + 1;
+            console.log(contatore);
 
     document.getElementById("results-container").classList.remove("user-hidden");
     $("#icona-opzioni-avanzate").html('arrow_drop_down');

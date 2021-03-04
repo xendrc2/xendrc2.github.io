@@ -244,9 +244,11 @@ body .black-font {
 }
 
 #myChart {
+  min-height: 600px;
   max-height: 600px;
   max-width: 600px;
   margin-top: 5%;
+  display: none;
 }
 
 .user-hidden {
