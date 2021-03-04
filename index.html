@@ -26,6 +26,8 @@ Caveat:
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         
+        <!-- Viewport for mobile and tablet -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     </head>
     <body>
         <div class="navbar-fixed z-depth-0">
@@ -136,31 +138,31 @@ Caveat:
                         <div class="col s12 center-align">
                             <h5>Affitto vs Acquisto</h5>
                         </div>
-                        <div class="input-field col s4 z-depth-1">
+                        <div class="input-field col s5 m4 l4 z-depth-1">
                             <label>Prezzo dell'acquisto</label>
                             <input type="number" class="validate" id="prezzo-casa" value="150000" min="0" >
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s4 m3 l3 z-depth-1">
                             <label>Affitto mensile</label>
                             <input type="number" class="validate" id="affitto-mensile" value="650" min="0"/>
                         </div>
-                        <div class="input-field col s6 z-depth-1">
+                        <div class="input-field col s7 m6 l6 z-depth-1">
                             <label>Spese condominiali mensili</label>
                             <input type="number" class="validate" id="spese-condominiali" value="150" min="0"/>
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s4 m3 l3 z-depth-1">
                             <label>Anni da simulare</label>
                             <input type="number" class="validate" id="anni-simulazione" value="30" min="0" max="50" step="1"/>
                         </div>
-                        <div class="input-field col s4 z-depth-1">
+                        <div class="input-field col s5 m4 l4 z-depth-1">
                             <label>Durata Mutuo (anni)</label>
                             <input type="number" class="validate" id="durata-mutuo" value="30" min="0" max="40" step="1"/>
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s4 m3 l3 z-depth-1">
                             <label>Tasso Mutuo</label>
                             <input type="number" class="validate" id="tasso-mutuo" value="0.02" min="0" max="1" step="0.01"/>
                         </div>
-                        <div class="input-field col s5 z-depth-1">
+                        <div class="input-field col s6 m5 l5 z-depth-1">
                             <label>Finanziamento Acquisto</label>
                             <input type="number" class="validate" id="finanziamento-mutuo" value="150000" min="0"/>
                         </div>  
@@ -217,7 +219,7 @@ Caveat:
                                     </label>
                                 </div>
                             </div>
-                            <div class="input-field col s4 tooltipped z-depth-1 disabled" data-position="top" data-tooltip="In caso di acquisto da privati, l'imposta effettiva sarà probabilmente più bassa perchè il valore catastale è spesso minore del prezzo d'acquisto">
+                            <div class="input-field col s5 m4 l4 tooltipped z-depth-1 disabled" data-position="top" data-tooltip="In caso di acquisto da privati, l'imposta effettiva sarà probabilmente più bassa perchè il valore catastale è spesso minore del prezzo d'acquisto">
                                 <label>Imposta di Registro</label>
                                 <input type="number" id="imposta" value="0" readonly/>
                             </div>
@@ -226,7 +228,7 @@ Caveat:
                                 <label>IVA</label>
                                 <input type="number" id="iva" value="0" readonly/>
                             </div>
-                            <div class="input-field col s3 z-depth-1">
+                            <div class="input-field col s4 m3 l3 z-depth-1">
                                 <label>Imposte Add.</label>
                                 <input type="number" id="altre-imposte" value="100" readonly/>
                             </div>
@@ -234,7 +236,7 @@ Caveat:
                                 <label>Rendimento immobili</label>
                                 <input type="number" min="0" max="1" step="0.01" class="validate" id="rendimento-immobili" value="0.01"/>
                             </div>
-                            <div class="input-field col s5 z-depth-1">
+                            <div class="input-field col s6 m5 l5 z-depth-1">
                                 <label>Rendimento investimenti</label>
                                 <input type="number" min="0" max="1" step="0.01" class="validate" id="rendimento-investimenti" value="0.07"/>
                             </div>
