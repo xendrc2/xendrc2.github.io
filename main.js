@@ -509,6 +509,7 @@ function calcolo()
     let checkboxValueAcqAcq = document.getElementById('checkbox-acquisto-acquisto').checked;
 
     //Creazione Grafico
+            document.getElementById("myChart").innerHTML = [];
             let patrimonioTotaleAffittoChart = capitaleInizialeAffitto * parametroCrescitaPatrimonio;
             let data = [];
             data.push(patrimonioTotaleAffittoChart);
