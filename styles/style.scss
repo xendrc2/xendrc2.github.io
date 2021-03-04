@@ -96,7 +96,6 @@ body {
     margin-right: auto;
     width: 190px;
     background-color: whitesmoke;
-    display: none;
 }
 
 #row-opzioni-avanzate {
@@ -197,6 +196,10 @@ body {
 }
 
 #myChart {
+    @media (max-width: 400px) {
+        width: 300px !important;
+        height: 300px !important;
+    }
     min-height: 600px;
     max-height: 600px;
     max-width: 600px;

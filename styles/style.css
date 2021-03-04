@@ -140,7 +140,6 @@ body .black-font {
   margin-right: auto;
   width: 190px;
   background-color: whitesmoke;
-  display: none;
 }
 
 #row-opzioni-avanzate {
@@ -248,7 +247,13 @@ body .black-font {
   max-height: 600px;
   max-width: 600px;
   margin-top: 5%;
-  display: none;
+}
+
+@media (max-width: 400px) {
+  #myChart {
+    width: 300px !important;
+    height: 300px !important;
+  }
 }
 
 .user-hidden {

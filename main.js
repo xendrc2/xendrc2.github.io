@@ -574,12 +574,13 @@ function calcolo()
                                 return formatter.format(tooltipItems.yLabel);
                             }
                         }   
-                    }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
-            
-            document.getElementById("myChart").width = "600";
-            document.getElementById("myChart").height = "600";
+            //document.getElementById("myChart").width = "600";
+            //document.getElementById("myChart").height = "600";
             contatore = contatore + 1;
             console.log(contatore);
 
@@ -587,7 +588,7 @@ function calcolo()
     $("#icona-opzioni-avanzate").html('arrow_drop_down');
     $("#row-opzioni-avanzate").hide();
     
-    // Nasconde le sezioni non selezionati dall'utente a inizio pagina
+    // Nasconde le sezioni non selezionate dall'utente a inizio pagina
     
     if (checkboxValueAffAcq == true) {
         $("#container-patrimonio-affitto-acquisto").show();
