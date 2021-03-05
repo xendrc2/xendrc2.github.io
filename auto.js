@@ -59,6 +59,9 @@ var formatter = new Intl.NumberFormat(undefined, {
       var instances = M.FloatingActionButton.init(elems);
     });       
   
+    //attivazione dropdown navbar
+  $(".dropdown-trigger").dropdown({ hover: false, constrainWidth: false, coverTrigger: false });
+  
   //FUNZIONE DI CALCOLO - abbinata al bottone
   function calcolo()
   {

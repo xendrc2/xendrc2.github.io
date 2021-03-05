@@ -32,15 +32,18 @@ Caveat:
     </head>
     <body>
         <div class="navbar-fixed z-depth-0">
+            <ul id="dropdown1" class="dropdown-content">
+                <li><a href="affitto-o-acquisto.html" class="nav-bottoni">Casa: Affitto o Acquisto?</a></li>
+                <li><a href="auto-noleggio-o-acquisto.html" class="nav-bottoni">Auto: Acquisto o Noleggio?</a></li>
+            </ul>
             <nav class="z-depth-0">
                 <div class="nav-wrapper z-depth-0">
                     <img src="./img/logo.png" id="logo-img">
                     <a href="index.html" class="brand-logo">Sossoldi!</a>
                     <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li class="active"><a href="affitto-o-acquisto.html">Casa: Affitto o Acquisto?</a></li>
-                        <li><a href="auto-noleggio-o-acquisto.html">Auto: Acquisto o Noleggio?</a></li>
-                        <li><a href="">Altro</a></li>
+                        <li><a class="dropdown-trigger nav-bottoni" href="#!" data-target="dropdown1" data-constrainwidth="false">Simulatori<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a href="" class="nav-bottoni">Blog</a></li>
                     </ul>
                 </div>
             </nav>

@@ -171,6 +171,21 @@ body {
     background: rgb(100,149,237);
     background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,1) 100%);
     padding-top: 0.5%;
+
+    .nav-bottoni {
+        min-width: 100px !important;
+        text-align: center;
+        font-size: 1.2rem;
+      }
+    
+      .dropdown-content {
+        li {
+            background-color: white;
+        }
+        a {
+          color: cornflowerblue;
+        }
+      }
 }
 
 .brand-logo {

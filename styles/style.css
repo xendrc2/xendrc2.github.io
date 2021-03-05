@@ -218,6 +218,20 @@ body .black-font {
   padding-top: 0.5%;
 }
 
+.nav-wrapper .nav-bottoni {
+  min-width: 100px !important;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.nav-wrapper .dropdown-content li {
+  background-color: white;
+}
+
+.nav-wrapper .dropdown-content a {
+  color: cornflowerblue;
+}
+
 .brand-logo {
   margin-left: 5%;
   -ms-flex-item-align: left;

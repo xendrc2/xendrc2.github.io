@@ -126,7 +126,14 @@ body {
     background: -webkit-gradient(linear, left top, right top, from(cornflowerblue), to(#a81dfd));
     background: linear-gradient(90deg, cornflowerblue 0%, #a81dfd 100%);
     padding-top: 0.5%;
-
+    
+    .nav-bottoni {
+      min-width: 100px !important;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+      
+    
     .dropdown-content {
       li {
           background-color: white;
