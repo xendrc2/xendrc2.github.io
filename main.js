@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var instances = M.Sidenav.init(elems);
   });
 
+//attivazione dropdown navbar
+  $(".dropdown-trigger").dropdown({ hover: false, constrainWidth: false, coverTrigger: false });
+
 //attivazione animazioni
 (function() {
     var elements;

@@ -41,6 +41,7 @@ body .black-font {
 }
 
 #titolo {
+  font-size: 2rem !important;
   -webkit-animation: fade-in 1.5s ease;
           animation: fade-in 1.5s ease;
   text-shadow: 1px 1px 1px #000000;

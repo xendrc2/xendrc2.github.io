@@ -3,7 +3,7 @@ body {
   font-family: 'Titillium Web', sans-serif;
   margin-top: 10%;
   background-color: #f8fcfd;
-  color: black;
+  color: white;
 }
 
 body p {
@@ -34,6 +34,7 @@ body p {
 }
 
 #titolo {
+  font-size: 6rem !important;
   -webkit-animation: fade-in 1.5s ease;
   animation: fade-in 1.5s ease;
   text-shadow: 1px 1px 1px #000000;
@@ -126,6 +127,14 @@ body p {
   padding-top: 0.5%;
 }
 
+.nav-wrapper .dropdown-content li {
+  background-color: white;
+}
+
+.nav-wrapper .dropdown-content a {
+  color: cornflowerblue;
+}
+
 .brand-logo {
   margin-left: 5%;
   -ms-flex-item-align: left;
@@ -187,7 +196,7 @@ body p {
   grid-column: 1/2;
   border: 1px solid white !important;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 1rem 0.6rem 1rem 0.6rem;
 }
 
 .grid .link-casa:hover, .grid .link-casa:focus {
@@ -225,7 +234,7 @@ body p {
   grid-column: 3/4;
   border: 1px solid white !important;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 1rem 0rem 1rem 0rem;
 }
 
 .grid .link-auto:hover, .grid .link-auto:focus {
@@ -268,4 +277,4 @@ body p {
     grid-column: 1/4;
   }
 }
-/*# sourceMappingURL=home.css.map */
+/*# sourceMappingURL=index.css.map */

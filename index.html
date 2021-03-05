@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./styles/home.css">
+    <link rel="stylesheet" href="./styles/index.css">
 
     <!--icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -15,18 +15,25 @@
     
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Viewport for mobile and tablet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    
 </head>
 <body>
     <div class="navbar-fixed z-depth-0">
+        <ul id="dropdown1" class="dropdown-content">
+            <li><a href="affitto-o-acquisto.html" class="nav-bottoni">Casa: Affitto o Acquisto?</a></li>
+            <li><a href="auto-noleggio-o-acquisto.html" class="nav-bottoni">Auto: Acquisto o Noleggio?</a></li>
+        </ul>
         <nav class="z-depth-0">
             <div class="nav-wrapper z-depth-0">
                 <img src="./img/logo.png" id="logo-img">
                 <a href="home.html" class="brand-logo">Sossoldi!</a>
                 <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="affitto-o-acquisto.html">Casa: Affitto o Acquisto?</a></li>
-                    <li><a href="auto-noleggio-o-acquisto.html">Auto: Acquisto o Noleggio?</a></li>
-                    <li><a href="">Altro</a></li>
+                    <li><a class="dropdown-trigger nav-bottoni" href="#!" data-target="dropdown1" data-constrainwidth="false">Simulatori<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a href="" class="nav-bottoni">Blog</a></li>
                 </ul>
             </div>
         </nav>
@@ -68,10 +75,11 @@
     </footer>
 
     <!-- Compiled and minified JavaScript -->
-    <script src="main.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="main.js"></script>
     
     
 </body>
