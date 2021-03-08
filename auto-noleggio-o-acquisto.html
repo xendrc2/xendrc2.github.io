@@ -79,77 +79,92 @@
                         <div class="col s12 center-align">
                             <h5>Generale</h5>
                         </div>
-                        <div class="input-field col s4 z-depth-1">
+                        <div class="input-field col s7 m5 l5 z-depth-1">
                             <label>Quanti Km Percorri in un Anno?</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="15000" min="0" >
+                            <input type="number" class="validate" id="km-annui" value="15000" min="0" >
                         </div>
-                        <div class="input-field col s4 z-depth-1">
+                        <div class="input-field col s6 m4 l4 z-depth-1">
                             <label>Durata simulazione (anni)</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="10" min="0" >
+                            <input type="number" class="validate" id="durata-simulazione" value="10" min="0" >
+                        </div>
+                        <div class="input-field col s6 m5 l4" id="switch-prima-casa">
+                            <div class="switch tooltipped" data-position="top" data-tooltip="Molti contratti NLT coprono i costi di gestione al 100% o in misura minore. Verifica i termini contrattuale e inserisci qui i costi scoperti">
+                                <label>
+
+                                  <input type="checkbox" id="investire-risparmi" >
+                                  <span class="lever"></span>
+                                  Investire i risparmi?
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="input-field col s5 m5 l5 z-depth-1" id="container-rendimenti">
+                            <label>Rendimento investimenti</label>
+                            <input type="number" min="0" max="1" step="0.01" class="validate" id="rendimento-investimenti" value="0.07"/>
                         </div>
 
                         <div class="col s12 center-align">
                             <h5>Acquisto</h5>
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s5 m4 l3 z-depth-1">
                             <label>Prezzo Auto - Listino</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="15000" min="0" >
+                            <input type="number" class="validate" id="prezzo-auto" value="15000" min="0" >
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s3 m2 l2 z-depth-1">
                             <label>Km Auto</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="0" min="0" >
+                            <input type="number" class="validate" id="km-auto" value="0" min="0" >
                         </div>
                         <div class="input-field col s3 z-depth-1">
                             <label>Anticipo</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="5000" min="0" >
+                            <input type="number" class="validate" id="anticipo-acquisto" value="5000" min="0" >
                         </div>
-                        <div class="input-field col s4 z-depth-1">
+                        <div class="input-field col s7 m5 l4 z-depth-1">
                             <label>Rata Mensile Finanziamento</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="200" min="0" >
+                            <input type="number" class="validate" id="rata-acquisto" value="200" min="0" >
                         </div>
-                        <div class="input-field col s4 z-depth-1">
+                        <div class="input-field col s7 m5 l4 z-depth-1">
                             <label>Durata Finanziamento (Mesi)</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="36" min="0" >
+                            <input type="number" class="validate" id="durata-acquisto" value="36" min="0" >
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s4 m3 l3 z-depth-1">
                             <label>Maxi-rata Finale</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="5000" min="0" >
+                            <input type="number" class="validate" id="maxirata" value="5000" min="0" >
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s5 m3 l3 z-depth-1">
                             <label>Rata Annuale RCA</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="700" min="0" >
+                            <input type="number" class="validate" id="rca" value="700" min="0" >
                         </div>
-                        <div class="input-field col s8 z-depth-1">
+                        <div class="input-field col s12 m8 l7 z-depth-1">
                             <label>Costi di Gestione Annuali (Bollo, Tagliando, Revisione)</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="300" min="0" >
+                            <input type="number" class="validate" id="costi-gestione-acquisto" value="300" min="0" >
                         </div>
-                        <div class="input-field col s6 z-depth-1">
+                        <div class="input-field col s8 m5 l5 z-depth-1">
                             <label>Tra Quanti Anni Cambierai Auto?</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="10" min="0" >
+                            <input type="number" class="validate" id="anni-auto" value="10" min="0" >
                         </div>
-                        <div class="input-field col s4 z-depth-1">
+                        <div class="input-field col s7 m4 l4 z-depth-1">
                             <label>Valore Stimato di Rivendita</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="6000" min="0" >
+                            <input type="number" class="validate" id="rivendita" value="6000" min="0" >
                         </div>
 
                         <div class="col s12 center-align">
                             <h5>Noleggio a Lungo Termine</h5>
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s4 z-depth-1">
                             <label>Rata Mensile</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="300" min="0" >
+                            <input type="number" class="validate" id="rata-nlt" value="300" min="0" >
                         </div>
-                        <div class="input-field col s8 z-depth-1 tooltipped" data-position="top" data-tooltip="Molti contratti NLT coprono i costi di gestione al 100% o in misura minore. Verifica i termini contrattuale e inserisci qui i costi scoperti">
-                            <label>Costi di Gestione Annuali (Bollo, Tagliando, Manutenzione)</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="0" min="0" >
+                        <div class="input-field col s12 m8 l8 z-depth-1 tooltipped" data-position="top" data-tooltip="Molti contratti NLT coprono i costi di gestione al 100% o in misura minore. Verifica i termini contrattuale e inserisci qui i costi scoperti">
+                            <label>Costi di Gestione Annuali (Bollo, Tagliando, Revisione)</label>
+                            <input type="number" class="validate" id="costi-gestione-nlt" value="0" min="0" >
                         </div>
-                        <div class="input-field col s3 z-depth-1">
+                        <div class="input-field col s3 m2 l2 z-depth-1">
                             <label>Anticipo</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="3000" min="0" >
+                            <input type="number" class="validate" id="anticipo-nlt" value="3000" min="0" >
                         </div>
-                        <div class="input-field col s6 z-depth-1">
+                        <div class="input-field col s6 m4 l4 z-depth-1">
                             <label>Durata Noleggio (anni)</label>
-                            <input type="number" class="validate" id="prezzo-casa" value="3" min="0" >
+                            <input type="number" class="validate" id="durata-nlt" value="3" min="0" >
                         </div>
                     </div>
                 </div>

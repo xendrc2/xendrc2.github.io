@@ -61,6 +61,20 @@ var formatter = new Intl.NumberFormat(undefined, {
   
     //attivazione dropdown navbar
   $(".dropdown-trigger").dropdown({ hover: false, constrainWidth: false, coverTrigger: false });
+
+  //Mostra/nasconde il rendimento degli investimenti
+  $("#container-rendimenti").hide();
+  
+  const selectInvestireRisparmi = document.getElementById('investire-risparmi');
+  selectInvestireRisparmi.addEventListener('change', (event) => {
+      let checkboxValue = document.getElementById('investire-risparmi').checked;
+      if (checkboxValue == true) {
+          $("#container-rendimenti").show();
+      } else if (checkboxValue == false) {
+          $("#container-rendimenti").hide();
+      };
+  });
+
   
   //FUNZIONE DI CALCOLO - abbinata al bottone
   function calcolo()

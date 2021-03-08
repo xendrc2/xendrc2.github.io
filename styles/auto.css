@@ -216,7 +216,6 @@ body .black-font {
   background: cornflowerblue;
   background: -webkit-gradient(linear, left top, right top, from(cornflowerblue), to(#a81dfd));
   background: linear-gradient(90deg, cornflowerblue 0%, #a81dfd 100%);
-  padding-top: 0.5%;
 }
 
 .nav-wrapper .nav-bottoni {
@@ -242,8 +241,8 @@ body .black-font {
 }
 
 #logo-img {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   top: 0;
   margin-left: 5%;
 }
