@@ -282,4 +282,44 @@ body .black-font {
 #container-affitto-acquisto, #container-acquisto-acquisto, #divider-affitto-acquisto {
   display: none;
 }
+
+#cookie-law {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 5%;
+  background-color: #ccc;
+  z-index: 999;
+}
+
+#cookie-law > div {
+  padding: 0;
+}
+
+#cookie-law > div:first-child {
+  padding-right: 40px;
+}
+
+#cookie-law > div:first-child > a {
+  color: inherit;
+}
+
+#cookie-law > div:last-child {
+  vertical-align: middle;
+}
+
+#cookie-law > div:last-child > a {
+  padding: 10px 20px;
+  background: cornflowerblue;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+}
 /*# sourceMappingURL=style.css.map */

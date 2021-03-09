@@ -1,5 +1,3 @@
-@import 'variables';
-
 body {
     /*font-family: 'Open Sans', sans-serif;*/
     font-family: 'Titillium Web', sans-serif;
@@ -88,83 +86,8 @@ body {
     }
 }
 
-#container-opzioni-avanzate {
-    border-style: solid;
-    border-width: thin;
-    border-radius: 10px;
-    border-color: darkgray;
-    padding: 0 10px 0 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 190px;
-    background-color: whitesmoke;
-}
-
-#row-opzioni-avanzate {
-    margin-top: 5%;
-    //display: none;
-}
-
-#opzioni-avanzate {
-    font-size: 11px;
-    min-width: 250px;
-}
-
-#p-bottone {
-    margin: auto;
-}
-
-#row-calcolo {
-   margin: 5% 
-}  
-
-#calcolo {
-    border-radius: 10px;
-    min-width: 130px;
-}
-
-.input-field {
-    background-color: lightcyan;
-    border-radius: 10px;
-    margin: 20px;
-    box-shadow: 5px 0 0 10px 10px black;
-}
-
-.input-field label {
-     color: darkslategray!important;
-   }
-
-#switch-prima-casa, #switch-da-privato, #switch-prima-casa-secondo-mutuo, #switch-da-privato-secondo-mutuo {
-    background-color: transparent !important;
-    padding-bottom: 5px;
-}
-
-.risultati {
-    margin: 20px;
-}
-
-#anni-affitto-acquisto, #div-anni-affitto-acquisto {
-    padding-left: 10px;
-    width: 220px;
-    min-width: 220px;
-}
-
-#div-anni-affitto-acquisto {
-    min-width: 240px;
-}
-
 .divider {
     margin-bottom: 10px;
-}
-
-.card, .card-content {
-    background-color: #6495ed;
-    transition: all .2s ease;
-    /* background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,0.2) 100%); */
-}
-
-.card:hover .card-content:hover {
-    transform: scale(1.1);
 }
 
 .nav-wrapper {
@@ -176,7 +99,7 @@ body {
         text-align: center;
         font-size: 1.2rem;
       }
-    
+
       .dropdown-content {
         li {
             background-color: white;
@@ -211,17 +134,6 @@ body {
     margin-left: 2%;
 }
 
-#myChart {
-    @media (max-width: 400px) {
-        width: 300px !important;
-        height: 300px !important;
-    }
-    min-height: 600px;
-    max-height: 600px;
-    max-width: 600px;
-    margin-top: 5%;
-}
-
 .user-hidden {
     opacity: 0% !important;
     display: none !important;
@@ -230,10 +142,6 @@ body {
 
 .active {
     max-height: 58px !important;
-}
-
-#container-affitto-acquisto, #container-acquisto-acquisto, #divider-affitto-acquisto {
-    display:none;
 }
 
 #cookie-law {
@@ -266,3 +174,4 @@ body {
     color: white;
     text-decoration: none;
 }
+
