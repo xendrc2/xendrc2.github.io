@@ -322,4 +322,13 @@ body .black-font {
   color: white;
   text-decoration: none;
 }
+
+.tabella-costi {
+  background: rgba(100, 148, 237, 0.5) !important;
+}
+
+.tabella-patrimonio {
+  background: rgba(1, 23, 65, 0.836) !important;
+  color: white;
+}
 /*# sourceMappingURL=style.css.map */

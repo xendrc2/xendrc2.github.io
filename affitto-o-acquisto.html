@@ -389,47 +389,280 @@ Caveat:
 
                         <div class="col s12 risultati">
                             <h3>Affitto</h3>
-                            <div class="row">
-                                <div class="card-panel col s6">
-                                    <p class="card-title">Costi Affitto</p>
-                                    <p id="costi-affitto"></p>
-                                </div>
-                                <div class="card-panel col s6">
-                                    <p class="card-title">Patrimonio</p>
-                                    <p id="patrimonio-affitto"></p>
-                                </div>
+                            <div class="row card-panel tabella-costi">
+                                <h5>Costi</h5>
+                                <table>
+                                    <thead>
+                                      <tr>
+                                        <th>Oggetto</th>
+                                        <th>Valore</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>Rate affitto</td>
+                                        <td id="table-rate-affitto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Spese condominiali</td>
+                                        <td id="table-spese-condominiali"></td>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Totale</th>
+                                          <th id="table-affitto-totale"></th>
+                                        </tr>
+                                      </tfoot>
+                                  </table>
+                            </div>
+                            <div class="row card-panel tabella-patrimonio">
+                                <h5>Patrimonio finale</h5>
+                                <table>
+                                    <thead>
+                                      <tr>
+                                        <th>Oggetto</th>
+                                        <th>Capitale investito</th>
+                                        <th>Rendimento annuale</th>
+                                        <th>Valore finale</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>Contributo annuale</td>
+                                        <td id="table-contributo-annuale-affitto"></td>
+                                        <td class="table-rendimenti"></td>
+                                        <td id="table-contributo-annuale-affitto-finale"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Capitale iniziale</td>
+                                        <td id="table-capitale-iniziale-affitto"></td>
+                                        <td class="table-rendimenti"></td>
+                                        <td id="table-capitale-iniziale-affitto-finale"></td>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Totale</th>
+                                          <th id="table-totale-capitale-affitto"></th>
+                                          <th class="table-rendimenti"></th>
+                                          <th id="table-totale-patrimonio-affitto-finale"></th>
+                                        </tr>
+                                      </tfoot>
+                                  </table>
                             </div>
                         </div>
 
                         <div class="col s12 risultati">
                             <h3>Acquisto</h3>
-                            <div class="row">
-                                <div class="card-panel col s6">
-                                    <p class="card-title">Rata Mensile</p>
-                                    <p id="rata-mutuo"></p>
-                                </div>
-                                <div class="card-panel col s6">
-                                    <p class="card-title">Capitale</p>
-                                    <p id="capitale-mutuo"></p>
-                                </div>
-                                <div class="card-panel col s6">
-                                    <p class="card-title">Interessi</p>
-                                    <p id="interessi-mutuo"></p>
-                                </div>
-                                <div class="card-panel col s6">
-                                    <p class="card-title">Costi Addizionali</p>
-                                    <p id="costi-acquisto"></p>
-                                </div>
-                                <div class="card-panel col s12">
-                                    <p class="card-title">Patrimonio</p>
-                                    <p id="patrimonio-acquisto"></p>
-                                </div>
+                            <div class="row card-panel tabella-costi">
+                                <h5>Costi</h5>
+                                <table>
+                                    <thead>
+                                      <tr>
+                                        <th>Oggetto</th>
+                                        <th>Valore</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>Commissione agenzia</td>
+                                        <td class="table-commissione-agenzia-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Mobilio</td>
+                                        <td class="table-mobilio-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Notaio</td>
+                                        <td class="table-notaio-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Imposta di registro</td>
+                                        <td class="table-imposta-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Altre imposte</td>
+                                        <td class="table-altre-imposte-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Istruttoria</td>
+                                        <td class="table-istruttoria-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Perizia</td>
+                                        <td class="table-perizia-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>IVA</td>
+                                        <td class="table-iva-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Spese condominiali</td>
+                                        <td id="table-spese-condominiali-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Interessi mutuo</td>
+                                        <td id="table-interessi-acquisto"></td>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Totale</th>
+                                          <th id="table-acquisto-totale"></th>
+                                        </tr>
+                                      </tfoot>
+                                  </table>
+                            </div>
+                            <div class="row card-panel tabella-patrimonio">
+                                <h5>Patrimonio finale</h5>
+                                <table>
+                                    <thead>
+                                      <tr>
+                                        <th>Oggetto</th>
+                                        <th>Capitale investito</th>
+                                        <th>Rendimento annuale</th>
+                                        <th>Valore finale</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>Contributo annuale</td>
+                                        <td id="table-contributo-annuale-acquisto"></td>
+                                        <td class="table-rendimenti"></td>
+                                        <td id="table-contributo-annuale-acquisto-finale"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Capitale iniziale</td>
+                                        <td id="table-capitale-iniziale-acquisto"></td>
+                                        <td class="table-rendimenti"></td>
+                                        <td id="table-capitale-iniziale-acquisto-finale"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Immobile</td>
+                                        <td id="table-immobile-acquisto"></td>
+                                        <td class="table-rendimenti-immobili"></td>
+                                        <td id="table-immobile-acquisto-finale"></td>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Totale</th>
+                                          <th id="table-totale-capitale-acquisto"></th>
+                                          <th id="table-rendimento-finale-acquisto"></th>
+                                          <th id="table-totale-patrimonio-acquisto-finale"></th>
+                                        </tr>
+                                      </tfoot>
+                                  </table>
                             </div>
                         </div>
 
                         <div class="col s12 risultati" id="container-patrimonio-affitto-acquisto">
                             <h3>Affitto + Acquisto</h3>
-                            
+                            <div class="row card-panel tabella-costi">
+                                <h5>Costi</h5>
+                                <table>
+                                    <thead>
+                                      <tr>
+                                        <th>Oggetto</th>
+                                        <th>Valore</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>Rata affitto</td>
+                                        <td id="table-rata-affitto-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Commissione agenzia</td>
+                                        <td class="table-commissione-agenzia-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Mobilio</td>
+                                        <td class="table-mobilio-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Notaio</td>
+                                        <td class="table-notaio-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Imposta di registro</td>
+                                        <td class="table-imposta-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Altre imposte</td>
+                                        <td class="table-altre-imposte-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Istruttoria</td>
+                                        <td class="table-istruttoria-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Perizia</td>
+                                        <td class="table-perizia-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>IVA</td>
+                                        <td class="table-iva-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Spese condominiali</td>
+                                        <td id="table-spese-condominiali-affitto-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Interessi mutuo</td>
+                                        <td id="table-interessi-affitto-acquisto"></td>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Totale</th>
+                                          <th id="table-affitto-acquisto-totale"></th>
+                                        </tr>
+                                      </tfoot>
+                                  </table>
+                            </div>
+                            <div class="row card-panel tabella-patrimonio">
+                                <h5>Patrimonio finale</h5>
+                                <table>
+                                    <thead>
+                                      <tr>
+                                        <th>Oggetto</th>
+                                        <th>Capitale investito</th>
+                                        <th>Rendimento annuale</th>
+                                        <th>Valore finale</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>Contributo annuale</td>
+                                        <td id="table-contributo-annuale-affitto-acquisto"></td>
+                                        <td class="table-rendimenti"></td>
+                                        <td id="table-contributo-annuale-affitto-acquisto-finale"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Capitale iniziale</td>
+                                        <td id="table-capitale-iniziale-affitto-acquisto"></td>
+                                        <td class="table-rendimenti"></td>
+                                        <td id="table-capitale-iniziale-affitto-acquisto-finale"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Immobile</td>
+                                        <td id="table-immobile-affitto-acquisto"></td>
+                                        <td class="table-rendimenti-immobili"></td>
+                                        <td id="table-immobile-affitto-acquisto-finale"></td>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Totale</th>
+                                          <th id="table-totale-capitale-affitto-acquisto"></th>
+                                          <th id="table-rendimento-finale-affitto-acquisto"></th>
+                                          <th id="table-totale-patrimonio-affitto-acquisto-finale"></th>
+                                        </tr>
+                                      </tfoot>
+                                  </table>
+                            </div>
                             <div class="row">
                                 <div class="card-panel col s6">
                                     <p class="card-title">Rata Affitto Mensile</p>

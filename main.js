@@ -285,8 +285,11 @@ function calcolo()
     //Costi Affitto
         let affittoMensile = parseFloat(document.getElementById('affitto-mensile').value);
         let affittoAnnuale = affittoMensile * 12;
-        let affittoTotale = formatter.format(affittoAnnuale * anniSimulazione + speseCondominialiTotali);
-        document.getElementById('costi-affitto').innerHTML = affittoTotale;
+        let affittoSimulazione = affittoAnnuale * anniSimulazione;
+        let affittoTotale = formatter.format(affittoSimulazione + speseCondominialiTotali);
+        document.getElementById('table-affitto-totale').innerHTML = affittoTotale;
+        document.getElementById('table-rate-affitto').innerHTML = formatter.format(affittoSimulazione);
+        document.getElementById('table-spese-condominiali').innerHTML = formatter.format(speseCondominialiTotali);
         let rataAffittoMensile = affittoMensile + speseCondominialiMensili;
         document.getElementById('rata-affitto').innerHTML = formatterDigits.format(rataAffittoMensile);
     
@@ -302,6 +305,18 @@ function calcolo()
             let altreImposte = parseFloat(document.getElementById('altre-imposte').value);
             let ammontareIva = iva * prezzo;
             let costiTotaliTransazioneAcquisto = istruttoria+perizia+notaio+commissioniAgenzia+impostaRegistro+mobilio+altreImposte+ammontareIva;
+
+            $('.table-commissione-agenzia-acquisto').html(formatter.format(commissioniAgenzia));
+            $('.table-mobilio-acquisto').html(formatter.format(mobilio));
+            $('.table-notaio-acquisto').html(formatter.format(notaio));
+            $('.table-imposta-acquisto').html(formatter.format(impostaRegistro));
+            $('.table-altre-imposte-acquisto').html(formatter.format(altreImposte));
+            $('.table-istruttoria-acquisto').html(formatter.format(istruttoria));
+            $('.table-perizia-acquisto').html(formatter.format(perizia));
+            $('.table-iva-acquisto').html(formatter.format(ammontareIva));
+            document.getElementById('table-spese-condominiali-acquisto').innerHTML = formatter.format(speseCondominialiTotali);
+            
+            
         
         //Costi Rate
             let tassoMutuo = document.getElementById('tasso-mutuo').value;
@@ -312,6 +327,9 @@ function calcolo()
             let rateAnnuali = rataMensile*12;
             let interessiTotali = rateAnnuali*durataMutuo-finanziamentoMutuo;
             let rateTotali = rateAnnuali*durataMutuo+speseCondominialiTotali;
+
+            document.getElementById('table-interessi-acquisto').innerHTML = formatter.format(interessiTotali);
+            document.getElementById('table-acquisto-totale').innerHTML = formatter.format(costiTotaliTransazioneAcquisto + interessiTotali + speseCondominialiTotali);
     
         //Costi Totali
             let costiTotaliAcquisto = formatter.format(speseCondominialiTotali+costiTotaliTransazioneAcquisto);
@@ -320,7 +338,8 @@ function calcolo()
         //Costi Affitto - solo prima dell'acquisto
             let rataAffittoAnnuale = rataAffittoMensile * 12;
             let anniPreAcquisto = parseFloat(document.getElementById('anni-affitto-acquisto').value);
-            let rataAffittoTemporaneoTotale = rataAffittoAnnuale * anniPreAcquisto;
+            let rataAffittoTemporaneoTotale = (rataAffittoAnnuale + speseCondominialiMensili*12) * anniPreAcquisto;
+            document.getElementById('table-rata-affitto-acquisto').innerHTML = formatter.format(rataAffittoTemporaneoTotale);
         
         //Costi Acquisto - tenendo conto degli anni pre acquisto
             //Costi Transazione
@@ -389,12 +408,8 @@ function calcolo()
                 let costiTotaliAcquistoAcquisto = costiTotaliPrimoAcquisto + costiVenditaCasa + costiTotaliSecondoAcquisto;
     
         //Update Pagina
-            document.getElementById('rata-mutuo').innerHTML = formatterDigits.format(rataMensile);
             document.getElementById('rata-affitto-mutuo').innerHTML = formatterDigits.format(rataMensile);
-            document.getElementById('costi-acquisto').innerHTML = formatter.format(costiTotaliTransazioneAcquisto+speseCondominialiTotali);
-            document.getElementById('interessi-mutuo').innerHTML = formatter.format(interessiTotali);
             document.getElementById('interessi-affitto-mutuo').innerHTML = formatter.format(interessiTotali);
-            document.getElementById('capitale-mutuo').innerHTML = formatter.format(finanziamentoMutuo);
             document.getElementById('capitale-affitto-mutuo').innerHTML = formatter.format(finanziamentoMutuo);
             document.getElementById('costi-affitto-acquisto').innerHTML = costiTotaliAffittoAcquisto;
             document.getElementById('rata-primo-mutuo').innerHTML = formatterDigits.format(rataMensile);
@@ -412,23 +427,48 @@ function calcolo()
         let capitaleInizialeAffitto = costiTotaliTransazioneAcquisto + prezzo - finanziamentoMutuo;
         let parametroCrescitaPatrimonio = Math.pow(1+rendimentoInvestimenti,anniSimulazione);
         let patrimonioTotaleAffitto = formatter.format(capitaleInizialeAffitto * parametroCrescitaPatrimonio);
-        document.getElementById('patrimonio-affitto').innerHTML = patrimonioTotaleAffitto;
+
+        document.getElementById('table-capitale-iniziale-affitto').innerHTML = formatter.format(capitaleInizialeAffitto);
+        document.getElementById('table-contributo-annuale-affitto').innerHTML = formatter.format(0);
+        document.getElementById('table-totale-capitale-affitto').innerHTML = formatter.format(capitaleInizialeAffitto);
+        
+        let rendimentoInvestimentipercento = rendimentoInvestimenti*100;
+        $('.table-rendimenti').html(rendimentoInvestimentipercento.toFixed(2) +' %');
+
+        
+        
+        document.getElementById('table-contributo-annuale-affitto-finale').innerHTML = formatter.format(0);
+        document.getElementById('table-capitale-iniziale-affitto-finale').innerHTML = patrimonioTotaleAffitto;
+        document.getElementById('table-totale-patrimonio-affitto-finale').innerHTML = patrimonioTotaleAffitto;
+        
 
     //Patrimonio Acquisto
-        //Patrimonio Investimenti - se rata mutuo < rata affitto
+        //Patrimonio Investimenti
             let capitaleAnnualeMutuo = Math.max(affittoAnnuale - rateAnnuali,0);
             let capitaleAnnualePostMutuo = affittoAnnuale;
+            let capitaleAnnualeTotale = 0;
             let patrimonioInvestimentiAcquisto = 0;
             if (durataMutuo == anniSimulazione) {    
                 patrimonioInvestimentiAcquisto = capitaleAnnualeMutuo * (Math.pow(1+rendimentoInvestimenti,anniSimulazione) - 1) / rendimentoInvestimenti;
+                capitaleAnnualeTotale = capitaleAnnualeMutuo * anniSimulazione;
             } else if (durataMutuo > anniSimulazione) {
                 patrimonioInvestimentiAcquisto = capitaleAnnualeMutuo * (Math.pow(1+rendimentoInvestimenti,anniSimulazione) - 1) / rendimentoInvestimenti;
+                capitaleAnnualeTotale = capitaleAnnualeMutuo * durataMutuo;
             } else {
                 patrimonioInvestimentiAcquisto = capitaleAnnualeMutuo * (Math.pow(1+rendimentoInvestimenti,durataMutuo) - 1) / rendimentoInvestimenti + capitaleAnnualePostMutuo * (Math.pow(1+rendimentoInvestimenti,anniSimulazione-durataMutuo) - 1) / rendimentoInvestimenti;
-            }; // BUGGATO - invece che else serve else if confrontando meglio duratamutuo e annisimulazione -> se duratamutuo > annisimulazione tocca troncare la durata degli investimenti
+                capitaleAnnualeTotale = capitaleAnnualeMutuo * durataMutuo + capitaleAnnualePostMutuo * (anniSimulazione - durataMutuo);
+            }; 
+            
+            document.getElementById('table-contributo-annuale-acquisto').innerHTML = formatter.format(capitaleAnnualeTotale);
+            document.getElementById('table-capitale-iniziale-acquisto').innerHTML = formatter.format(0);
+
+            document.getElementById('table-contributo-annuale-acquisto-finale').innerHTML = formatter.format(patrimonioInvestimentiAcquisto);
+            document.getElementById('table-capitale-iniziale-acquisto-finale').innerHTML = formatter.format(0);
+            
+            
+
         
         //Patrimonio Immobiliare
-            //ROBA INUTILE - da cancellare?
             let anticipo = prezzo - finanziamentoMutuo;
             let totaleMutuo = rateAnnuali * durataMutuo;
             let totaleInteressi = totaleMutuo - prezzo;
@@ -436,15 +476,24 @@ function calcolo()
             let equityCasaAnnuale = (1-incidenzaInteressiMutuo)*rateAnnuali;
             let rendimentoImmobili = parseFloat(document.getElementById('rendimento-immobili').value);
             
+            let rendimentoImmobiliPercento = rendimentoImmobili*100;
+            $('.table-rendimenti-immobili').html(rendimentoImmobiliPercento.toFixed(2) +' %');
+
+            document.getElementById('table-immobile-acquisto').innerHTML = formatter.format(equityCasaAnnuale*Math.min(durataMutuo,anniSimulazione));
+            let totaleCapitaleAcquisto = capitaleAnnualeTotale + equityCasaAnnuale*Math.min(durataMutuo,anniSimulazione);
+            document.getElementById('table-totale-capitale-acquisto').innerHTML = formatter.format(totaleCapitaleAcquisto);
+
             //PATRIMONIO
             let patrimonioCasaMutuo = prezzo * (Math.pow(1+rendimentoImmobili,anniSimulazione));
+            document.getElementById('table-immobile-acquisto-finale').innerHTML = formatter.format(patrimonioCasaMutuo);
             
         //Patrimonio Totale Acquisto
             let patrimonioTotaleAcquisto = patrimonioCasaMutuo + patrimonioInvestimentiAcquisto;
-        
-        //Update pagina
-            let patrimonioTotaleAcquistoFormat = formatter.format(patrimonioTotaleAcquisto);
-            document.getElementById('patrimonio-acquisto').innerHTML = patrimonioTotaleAcquistoFormat;
+            document.getElementById('table-totale-patrimonio-acquisto-finale').innerHTML = formatter.format(patrimonioTotaleAcquisto);
+
+            let rendimentoFinaleAcquisto = Math.pow(patrimonioTotaleAcquisto/totaleCapitaleAcquisto,1/anniSimulazione)-1;
+            let rendimentoFinaleAcquistoPercento = rendimentoFinaleAcquisto * 100;
+            document.getElementById('table-rendimento-finale-acquisto').innerHTML = rendimentoFinaleAcquistoPercento.toFixed(2) + ' %';
     
     //Patrimonio Affitto + Acquisto
         //Patrimonio Investimenti
