@@ -530,15 +530,25 @@ function calcolo()
 
             document.getElementById('table-immobile-acquisto').innerHTML = formatter.format(prezzo);
             
-            let totaleCapitaleAcquisto = capitaleAnnualeTotale + prezzo;
+            let capitaleRimborsato = equityCasaAnnuale * Math.min(durataMutuo, anniSimulazione);
+
+            let totaleCapitaleAcquisto = capitaleAnnualeTotale + prezzo - finanziamentoMutuo + capitaleRimborsato;
             document.getElementById('table-totale-capitale-acquisto').innerHTML = formatter.format(totaleCapitaleAcquisto);
 
             document.getElementById('table-interessi-mutuo-acquisto').innerHTML = formatter.format(0);
 
-            let capitaleRimborsato = equityCasaAnnuale * Math.min(durataMutuo, anniSimulazione);
             let montanteRimasto = finanziamentoMutuo - capitaleRimborsato;
 
             let patrimonioMutuoFinale = montanteRimasto + interessiPagati;
+
+            document.getElementById('table-mutuo-acquisto').innerHTML = formatter.format(-finanziamentoMutuo);
+
+            document.getElementById('table-mutuo-acquisto-finale').innerHTML = formatter.format(-montanteRimasto);
+
+            document.getElementById('table-rimborso-mutuo-acquisto').innerHTML = formatter.format(capitaleRimborsato);
+
+            document.getElementById('table-rimborso-mutuo-acquisto-finale').innerHTML = formatter.format(0);
+
             document.getElementById('table-interessi-mutuo-acquisto-finale').innerHTML = formatter.format(-interessiPagati);
 
             let tassoMutuoPercento = tassoMutuo * 100;
@@ -550,7 +560,7 @@ function calcolo()
             document.getElementById('table-immobile-acquisto-finale').innerHTML = formatter.format(patrimonioCasaMutuo);
             
         //Patrimonio Totale Acquisto
-            let patrimonioTotaleAcquisto = patrimonioCasaMutuo + patrimonioInvestimentiAcquisto - interessiPagati;
+            let patrimonioTotaleAcquisto = patrimonioCasaMutuo + patrimonioInvestimentiAcquisto - interessiPagati - montanteRimasto;
             document.getElementById('table-totale-patrimonio-acquisto-finale').innerHTML = formatter.format(patrimonioTotaleAcquisto);
 
             let rendimentoFinaleAcquisto = Math.pow(patrimonioTotaleAcquisto/totaleCapitaleAcquisto,1/anniSimulazione)-1;
@@ -585,10 +595,13 @@ function calcolo()
 
         //Patrimonio Immobiliare
             let patrimonioAffittoAcquisto = 0;
+            let finanziamentoMutuoAffittoAcquisto = 0;
             if(anniPreAcquisto < anniSimulazione) {
+                finanziamentoMutuoAffittoAcquisto = finanziamentoMutuo;
                 patrimonioAffittoAcquisto = prezzo * Math.pow(1+rendimentoImmobili,anniSimulazione-anniPreAcquisto);
                 document.getElementById('table-immobile-affitto-acquisto').innerHTML = formatter.format(prezzo);
             } else {
+                
                 document.getElementById('table-immobile-affitto-acquisto').innerHTML = formatter.format(0);};
             
             
@@ -596,21 +609,27 @@ function calcolo()
 
             let capitaleRimborsatoAffittoAcquisto = equityCasaAnnuale * Math.min(durataMutuo, Math.max(anniSimulazione-anniPreAcquisto,0));
             let montanteRimastoAffittoAcquisto = finanziamentoMutuo - capitaleRimborsatoAffittoAcquisto;
-            
-            let finanziamentoMutuoAffittoAcquisto = finanziamentoMutuo;
+        
             document.getElementById('table-interessi-mutuo-affitto-acquisto').innerHTML = formatter.format(0);
 
-            
             document.getElementById('table-interessi-mutuo-affitto-acquisto-finale').innerHTML = formatter.format(-interessiPagatiAffittoAcquisto);
+
+            document.getElementById('table-mutuo-affitto-acquisto').innerHTML = formatter.format(-finanziamentoMutuoAffittoAcquisto);
+
+            document.getElementById('table-mutuo-affitto-acquisto-finale').innerHTML = formatter.format(-montanteRimastoAffittoAcquisto);
+
+            document.getElementById('table-rimborso-mutuo-affitto-acquisto').innerHTML = formatter.format(capitaleRimborsatoAffittoAcquisto);
+
+            document.getElementById('table-rimborso-mutuo-affitto-acquisto-finale').innerHTML = formatter.format(0);
             
 
             
 
             
         //Update pagina 
-            let patrimonioTotaleAffittoAcquisto = patrimonioTransazioniAffittoAcquisto + patrimonioInvestimentiAffittoAcquisto + patrimonioAffittoAcquisto - interessiPagatiAffittoAcquisto;
+            let patrimonioTotaleAffittoAcquisto = patrimonioTransazioniAffittoAcquisto + patrimonioInvestimentiAffittoAcquisto + patrimonioAffittoAcquisto - interessiPagatiAffittoAcquisto - montanteRimastoAffittoAcquisto;
             
-            let totaleCapitaleAffittoAcquisto = prezzo+capitaleInizialeAffitto+capitaleAnnuoAffittoAcquisto;
+            let totaleCapitaleAffittoAcquisto = prezzo+capitaleInizialeAffitto+capitaleAnnuoAffittoAcquisto - finanziamentoMutuoAffittoAcquisto + capitaleRimborsatoAffittoAcquisto;
             document.getElementById('table-totale-capitale-affitto-acquisto').innerHTML = formatter.format(totaleCapitaleAffittoAcquisto);
 
             document.getElementById('table-totale-patrimonio-affitto-acquisto-finale').innerHTML = formatter.format(patrimonioTotaleAffittoAcquisto);
@@ -715,12 +734,30 @@ function calcolo()
                 let patrimonioRimanenteVenditaPrimaCasa = prezzo + capitalGainNetto - montanteRimastoPrimaCasa;
                 let capitalGainNettoInvestito = patrimonioRimanenteVenditaPrimaCasa * Math.pow(1+rendimentoInvestimenti,Math.max(anniSimulazione - anniVenditaPrimaCasa,0));
 
+                let finanziamentoMutuoPrimaCasa = finanziamentoMutuo;
                 if (anniSimulazione >= anniVenditaPrimaCasa) {
                 
                 
                 document.getElementById('table-primo-immobile-acquisto-acquisto').innerHTML = formatter.format(prezzoPrimaCasa);
 
                 document.getElementById('table-primo-immobile-acquisto-acquisto-finale').innerHTML = formatter.format(patrimonioImmobiliarePrimoAcquisto);
+                
+                finanziamentoMutuoPrimaCasa = finanziamentoMutuo;
+                document.getElementById('table-rimborso-primo-mutuo-acquisto-acquisto').innerHTML = formatter.format(finanziamentoMutuoPrimaCasa);
+
+                document.getElementById('table-rimborso-primo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(0);
+
+                document.getElementById('table-primo-mutuo-acquisto-acquisto').innerHTML = formatter.format(-finanziamentoMutuoPrimaCasa);
+
+                document.getElementById('table-primo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(0);
+
+                document.getElementById('table-secondo-mutuo-acquisto-acquisto').innerHTML = formatter.format(-finanziamentoSecondoMutuo);
+
+                document.getElementById('table-secondo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(-montanteRimastoSecondoMutuo);
+
+                document.getElementById('table-rimborso-secondo-mutuo-acquisto-acquisto').innerHTML = formatter.format(capitaleRimborsatoSecondoMutuo);
+
+                document.getElementById('table-rimborso-secondo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(0);
 
                 } else {
                 patrimonioImmobiliarePrimoAcquisto = prezzo*Math.pow(1+rendimentoImmobili,Math.min(anniSimulazione,durataMutuo));
@@ -729,6 +766,25 @@ function calcolo()
                 document.getElementById('table-primo-immobile-acquisto-acquisto').innerHTML = formatter.format(prezzo);
 
                 document.getElementById('table-primo-immobile-acquisto-acquisto-finale').innerHTML = formatter.format(patrimonioImmobiliarePrimoAcquisto);
+
+                document.getElementById('table-rimborso-primo-mutuo-acquisto-acquisto').innerHTML = formatter.format(capitaleRimborsatoPrimaCasa);
+
+                document.getElementById('table-rimborso-primo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(0);
+
+                document.getElementById('table-primo-mutuo-acquisto-acquisto').innerHTML = formatter.format(-finanziamentoMutuoPrimaCasa);
+
+                document.getElementById('table-primo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(-montanteRimastoPrimaCasa);
+                
+                finanziamentoSecondoMutuo = 0;
+                document.getElementById('table-secondo-mutuo-acquisto-acquisto').innerHTML = formatter.format(-finanziamentoSecondoMutuo);
+                
+                montanteRimastoSecondoMutuo = 0;
+                document.getElementById('table-secondo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(-montanteRimastoSecondoMutuo);
+                
+                capitaleRimborsatoSecondoMutuo = 0;
+                document.getElementById('table-rimborso-secondo-mutuo-acquisto-acquisto').innerHTML = formatter.format(capitaleRimborsatoSecondoMutuo);
+
+                document.getElementById('table-rimborso-secondo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(0);
 
                 patrimonioRimanenteVenditaPrimaCasa = 0;
 
@@ -748,11 +804,21 @@ function calcolo()
                 document.getElementById('table-costi-vendita-acquisto-acquisto-finale').innerHTML = formatter.format(-opportunitàCostiVenditaCasa);
 
         //Patrimonio Totale Acquisto Acquisto
-            let patrimonioTotaleAcquistoAcquisto = patrimonioInvestimentiTotaleAcquistoAcquisto + patrimonioImmobiliarePrimoAcquisto + patrimonioImmobiliareSecondoAcquisto + capitalGainNettoInvestito - opportunitàCostiAcquistoSecondaCasa - opportunitàCostiVenditaCasa - interessiTotaliPrimaCasa - interessiTotaliSecondoMutuo;
+            let montanteRimastoPrimaCasaNetto = 0;
+            let capitaleRimborsatoPrimaCasaFinale = 0;
+            if (anniVenditaPrimaCasa <= anniSimulazione) {
+                capitaleRimborsatoPrimaCasaFinale = finanziamentoMutuo;
+            } else {
+                capitaleRimborsatoPrimaCasaFinale = capitaleRimborsatoPrimaCasa;
+                montanteRimastoPrimaCasaNetto = montanteRimastoPrimaCasa;
+            };
+
+            let patrimonioTotaleAcquistoAcquisto = patrimonioInvestimentiTotaleAcquistoAcquisto + patrimonioImmobiliarePrimoAcquisto - montanteRimastoPrimaCasaNetto + patrimonioImmobiliareSecondoAcquisto - montanteRimastoSecondoMutuo + capitalGainNettoInvestito - opportunitàCostiAcquistoSecondaCasa - opportunitàCostiVenditaCasa - interessiTotaliPrimaCasa - interessiTotaliSecondoMutuo;
             
             let patrimonioTotaleAcquistoAcquistoFormat = formatter.format(patrimonioTotaleAcquistoAcquisto);
             
-            let totaleCapitaleAcquistoAcquisto = contributoAnnualeTotale + 0 + prezzoPrimaCasa + prezzoNuovaCasa - costiTotaliTransazioneSecondoAcquisto - 0 - 0 + patrimonioRimanenteVenditaPrimaCasa - costiVenditaCasa;
+            
+            let totaleCapitaleAcquistoAcquisto = contributoAnnualeTotale + 0 + prezzoPrimaCasa - finanziamentoMutuoPrimaCasa + capitaleRimborsatoPrimaCasaFinale + prezzoNuovaCasa - finanziamentoSecondoMutuo + capitaleRimborsatoSecondoMutuo - costiTotaliTransazioneSecondoAcquisto - 0 - 0 + patrimonioRimanenteVenditaPrimaCasa - costiVenditaCasa;
             document.getElementById('table-totale-capitale-acquisto-acquisto').innerHTML = formatter.format(totaleCapitaleAcquistoAcquisto);
             
             let rendimentoFinaleAcquistoAcquisto = Math.pow(patrimonioTotaleAcquistoAcquisto/totaleCapitaleAcquistoAcquisto,1/anniSimulazione)-1;
@@ -782,12 +848,19 @@ function calcolo()
             data.push(patrimonioTotaleAffittoChart);
             data.push(patrimonioTotaleAcquisto);
             let labels = ['Affitto','Acquisto'];
+            let cagrData = [];
+            cagrData.push(rendimentoInvestimenti);
+            cagrData.push(rendimentoFinaleAcquisto);
+
             if (checkboxValueAffAcq == true) {
                 data.push(patrimonioTotaleAffittoAcquisto);
+                cagrData.push(rendimentoFinaleAffittoAcquisto);
                 labels.push('Affitto + Acquisto');
+                
             };
             if (checkboxValueAcqAcq == true) {
                 data.push(patrimonioTotaleAcquistoAcquisto);
+                cagrData.push(rendimentoFinaleAcquistoAcquisto);
                 labels.push('Acquisto + Acquisto');
             };
             var ctx = document.getElementById('myChart');
@@ -797,6 +870,7 @@ function calcolo()
                     labels: labels,
                     datasets: [{
                         label: 'Patrimonio',
+                        yAxisID: 'Patrimonio',
                         data: data,
                         backgroundColor: [
                             'rgba(0, 99, 132, 0.5)',
@@ -810,18 +884,51 @@ function calcolo()
                             'rgba(10, 120, 61, 0.5)',
                             'rgba(110, 11, 11, 0.5)'
                         ],
-                        borderWidth: 1
+                        borderWidth: 1,
+                        order: 1
+                    }, {
+                        label: 'CAGR',
+                        yAxisID: 'CAGR',
+                        type: 'line',
+                        data: cagrData,
+                        borderColor: [
+                            'rgba(0, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(10, 120, 61, 0.5)',
+                            'rgba(110, 11, 11, 0.5)'
+                        ],
+                        borderWidth: 1,
+                        fill: 'false',
+                        order: 2
+                        
                     }]
                 },
                 options: {
                     scales: {
                         yAxes: [{
+                            id: 'Patrimonio',
+                            type: 'linear',
+                            position: 'left',
                             ticks: {
                                 beginAtZero: true,
                                 callback: function(value, index, values) {
                                     return formatter.format(value);
                                 }
                             }
+                        }, {
+                            id: 'CAGR',
+                            type: 'linear',
+                            position: 'right',
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                let valuePercento =  value * 100;
+                                return (valuePercento.toFixed(2) + ' %');
+                                }
+                            },
+                            gridLines: {
+                                display:false
+                            }                           
                         }]
                     },
                     title:{
@@ -835,6 +942,10 @@ function calcolo()
                         callbacks: {
                             label: function(tooltipItems, data) { 
                                 return formatter.format(tooltipItems.yLabel);
+                            },
+                            label: function(tooltipItems, cagrData) {
+                                let item =  tooltipItems.yLabel * 100;
+                                return (item.toFixed(2) + ' %');
                             }
                         }   
                     },
