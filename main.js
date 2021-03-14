@@ -175,10 +175,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let switchValue10 = document.getElementById('prima-casa-secondo-mutuo').checked;
         if (switchValue10 == true) {
             impostaNuovaCasa = 0.02;
+            prezzoNuovaCasa = parseFloat(document.getElementById('prezzo-nuova-casa').value);
             document.getElementById('imposta-secondo-mutuo').value = impostaNuovaCasa * prezzoNuovaCasa;
             console.log("true");
         } else if (switchValue10 == false) {
             impostaNuovaCasa = 0.09;
+            prezzoNuovaCasa = parseFloat(document.getElementById('prezzo-nuova-casa').value);
             document.getElementById('imposta-secondo-mutuo').value = impostaNuovaCasa * prezzoNuovaCasa;
             console.log("false");
         };
@@ -191,11 +193,13 @@ document.addEventListener('DOMContentLoaded', function() {
             let switchValue5 = document.getElementById('da-privato-secondo-mutuo').checked;
             if (switchValue5 == true) {
                 impostaNuovaCasa = 0.02;
+                prezzoNuovaCasa = parseFloat(document.getElementById('prezzo-nuova-casa').value);
                 document.getElementById('imposta-secondo-mutuo').value = impostaNuovaCasa * prezzoNuovaCasa;
                 document.getElementById('altre-imposte-secondo-mutuo').value = 100;
                 document.getElementById('iva-secondo-mutuo').value = 0;
             } else if (switchValue5 == false) {
                 ivaNuovaCasa = 0.04;
+                prezzoNuovaCasa = parseFloat(document.getElementById('prezzo-nuova-casa').value);
                 document.getElementById('iva-secondo-mutuo').value = ivaNuovaCasa * prezzoNuovaCasa;
                 document.getElementById('imposta-secondo-mutuo').value = 200;
                 document.getElementById('altre-imposte-secondo-mutuo').value = 400;
@@ -205,10 +209,12 @@ document.addEventListener('DOMContentLoaded', function() {
             let switchValue6 = document.getElementById('da-privato-secondo-mutuo').checked;
             if (switchValue6 == true) {
                 impostaNuovaCasa = 0.09;
+                prezzoNuovaCasa = parseFloat(document.getElementById('prezzo-nuova-casa').value);
                 document.getElementById('imposta-secondo-mutuo').value = impostaNuovaCasa * prezzoNuovaCasa;
                 document.getElementById('altre-imposte-secondo-mutuo').value = 100;
             } else if (switchValue6 == false) {
                 ivaNuovaCasa = 0.1;
+                prezzoNuovaCasa = parseFloat(document.getElementById('prezzo-nuova-casa').value);
                 document.getElementById('iva-secondo-mutuo').value = ivaNuovaCasa * prezzoNuovaCasa;
                 document.getElementById('imposta-secondo-mutuo').value = 200;
                 document.getElementById('altre-imposte-secondo-mutuo').value = 720;
@@ -280,7 +286,7 @@ function calcolo()
     let anniSimulazione = parseFloat(document.getElementById('anni-simulazione').value);
     let speseCondominialiTotali = speseCondominialiMensili*12*anniSimulazione;
     let rendimentoInvestimenti = parseFloat(document.getElementById('rendimento-investimenti').value);
-    let finanziamentoMutuo = document.getElementById('finanziamento-mutuo').value;
+    let finanziamentoMutuo = parseFloat(document.getElementById('finanziamento-mutuo').value);
     
     //Costi Affitto
         let affittoMensile = parseFloat(document.getElementById('affitto-mensile').value);
@@ -289,9 +295,8 @@ function calcolo()
         let affittoTotale = formatter.format(affittoSimulazione + speseCondominialiTotali);
         document.getElementById('table-affitto-totale').innerHTML = affittoTotale;
         document.getElementById('table-rate-affitto').innerHTML = formatter.format(affittoSimulazione);
-        document.getElementById('table-spese-condominiali').innerHTML = formatter.format(speseCondominialiTotali);
+        $('.table-spese-condominiali').html(formatter.format(speseCondominialiTotali));
         let rataAffittoMensile = affittoMensile + speseCondominialiMensili;
-        document.getElementById('rata-affitto').innerHTML = formatterDigits.format(rataAffittoMensile);
     
     //Costi Acquisto
         //Costi Transazione
@@ -314,7 +319,6 @@ function calcolo()
             $('.table-istruttoria-acquisto').html(formatter.format(istruttoria));
             $('.table-perizia-acquisto').html(formatter.format(perizia));
             $('.table-iva-acquisto').html(formatter.format(ammontareIva));
-            document.getElementById('table-spese-condominiali-acquisto').innerHTML = formatter.format(speseCondominialiTotali);
             
             
         
@@ -326,9 +330,11 @@ function calcolo()
             let rataMensile = quotaRataMensile * finanziamentoMutuo;
             let rateAnnuali = rataMensile*12;
             let interessiTotali = rateAnnuali*durataMutuo-finanziamentoMutuo;
+            let interessiAnnuali = interessiTotali / durataMutuo;
+            let interessiPagati = interessiAnnuali * Math.min(durataMutuo,anniSimulazione);
             let rateTotali = rateAnnuali*durataMutuo+speseCondominialiTotali;
 
-            document.getElementById('table-interessi-acquisto').innerHTML = formatter.format(interessiTotali);
+            document.getElementById('table-interessi-acquisto').innerHTML = formatter.format(interessiPagati);
             document.getElementById('table-acquisto-totale').innerHTML = formatter.format(costiTotaliTransazioneAcquisto + interessiTotali + speseCondominialiTotali);
     
         //Costi Totali
@@ -338,7 +344,7 @@ function calcolo()
         //Costi Affitto - solo prima dell'acquisto
             let rataAffittoAnnuale = rataAffittoMensile * 12;
             let anniPreAcquisto = parseFloat(document.getElementById('anni-affitto-acquisto').value);
-            let rataAffittoTemporaneoTotale = (rataAffittoAnnuale + speseCondominialiMensili*12) * anniPreAcquisto;
+            let rataAffittoTemporaneoTotale = rataAffittoAnnuale * anniPreAcquisto;
             document.getElementById('table-rata-affitto-acquisto').innerHTML = formatter.format(rataAffittoTemporaneoTotale);
         
         //Costi Acquisto - tenendo conto degli anni pre acquisto
@@ -347,11 +353,15 @@ function calcolo()
         
             //Costi Rate
                 let orizzonteMutuo = Math.max(durataMutuo,anniSimulazione) - anniPreAcquisto;
-                let interessiTotaliAffittoAcquisto = rateAnnuali*orizzonteMutuo-finanziamentoMutuo;
-                let rateTotaliAffittoAcquisto = rateAnnuali*orizzonteMutuo+speseCondominialiMensili*12*orizzonteMutuo;
+
+                let interessiPagatiAffittoAcquisto = interessiAnnuali * Math.min(durataMutuo,Math.max(anniSimulazione-anniPreAcquisto,0));
+
+                document.getElementById('table-interessi-affitto-acquisto').innerHTML = formatter.format(interessiPagatiAffittoAcquisto);
     
             //Costi Totali
-                let costiTotaliAffittoAcquisto = formatter.format(speseCondominialiMensili*12*orizzonteMutuo+costiTotaliTransazioneAffittoAcquisto);
+                
+
+                document.getElementById('table-affitto-acquisto-totale').innerHTML = formatter.format(rataAffittoTemporaneoTotale+interessiPagatiAffittoAcquisto+speseCondominialiTotali+costiTotaliTransazioneAcquisto);
     //Costi Acquisto + Acquisto
                 
         //Costi Primo Acquisto
@@ -360,34 +370,81 @@ function calcolo()
         
             //Costi Rate
                 let anniVenditaPrimaCasa = parseFloat(document.getElementById('anni-acquisto-acquisto').value);
-                let interessiTotaliPrimaCasa = (rateAnnuali*durataMutuo - finanziamentoMutuo)*anniVenditaPrimaCasa/durataMutuo;
+                let interessiTotaliPrimaCasa = (rateAnnuali*durataMutuo - finanziamentoMutuo)*Math.min(anniVenditaPrimaCasa,anniSimulazione)/durataMutuo;
+
+                document.getElementById('table-interessi-primo-acquisto').innerHTML = formatter.format(interessiTotaliPrimaCasa);
+
+                let speseCondominialiPrimoAcquisto = speseCondominialiMensili*12*anniVenditaPrimaCasa;
+
+                document.getElementById('table-spese-condominiali-primo-acquisto').innerHTML = formatter.format(speseCondominialiPrimoAcquisto);
+
                 let rateTotaliPrimaCasa = rateAnnuali*anniVenditaPrimaCasa + speseCondominialiMensili*12*anniVenditaPrimaCasa;
     
             //Costi Totali
-                let costiTotaliPrimoAcquisto = costiTotaliTransazionePrimoAcquisto+ speseCondominialiMensili*12*anniVenditaPrimaCasa;
+                let costiTotaliPrimoAcquisto = costiTotaliTransazionePrimoAcquisto+ speseCondominialiPrimoAcquisto+interessiTotaliPrimaCasa;
+
+                document.getElementById('table-primo-acquisto-totale').innerHTML = formatter.format(costiTotaliPrimoAcquisto);
     
         //Costi Vendita Prima Casa
-            let prezzoSecondoAcquisto = parseFloat(document.getElementById('prezzo-nuova-casa').value);
-            let percentCommissioniAgenziaSecondoAcquisto = parseFloat(document.getElementById('commissioni-agenzia-secondo-mutuo').value);
-            let commissioniAgenziaSecondoAcquisto = percentCommissioniAgenziaSecondoAcquisto * prezzoSecondoAcquisto;
+            
+            let percentCommissioniAgenziaVendita = parseFloat(document.getElementById('commissioni-agenzia-vendita').value);
+            
             let prezzoVenditaCasa = parseFloat(document.getElementById('prezzo-vendita-casa').value);
+
+            let commissioniAgenziaVendita = percentCommissioniAgenziaVendita * prezzoVenditaCasa;
+
             let certificatoAPE = parseFloat(document.getElementById('ape-nuova-casa').value);
-            let costiVenditaCasa = prezzoVenditaCasa*percentCommissioniAgenziaSecondoAcquisto + certificatoAPE;
+
+            let costiVenditaCasa = commissioniAgenziaVendita + certificatoAPE;
+
+            document.getElementById('table-commissione-agenzia-vendita-acquisto').innerHTML = formatter.format(commissioniAgenziaVendita);
+
+            document.getElementById('table-ape-vendita-acquisto').innerHTML = formatter.format(certificatoAPE);
+
+            document.getElementById('table-vendita-acquisto-totale').innerHTML = formatter.format(costiVenditaCasa);
     
         //Costi Secondo Acquisto
             //Costi Transazione
-                let ivaSecondoAcquisto = 0;
+                let prezzoSecondoAcquisto = parseFloat(document.getElementById('prezzo-nuova-casa').value);
+
+                let ivaSecondoAcquisto = parseFloat(document.getElementById('iva-secondo-mutuo').value);
+
                 let istruttoriaSecondoAcquisto = parseFloat(document.getElementById('istruttoria-secondo-mutuo').value);
+                document.getElementById('table-istruttoria-secondo-acquisto').innerHTML = formatter.format(istruttoriaSecondoAcquisto);
+
                 let periziaSecondoAcquisto = parseFloat(document.getElementById('perizia-secondo-mutuo').value);
+                document.getElementById('table-perizia-secondo-acquisto').innerHTML = formatter.format(periziaSecondoAcquisto);
+
                 let notaioSecondoAcquisto = parseFloat(document.getElementById('notaio-secondo-mutuo').value);
+                document.getElementById('table-notaio-secondo-acquisto').innerHTML = formatter.format(notaioSecondoAcquisto);
+
                 let impostaRegistroSecondoAcquisto = parseFloat(document.getElementById('imposta-secondo-mutuo').value);
+                document.getElementById('table-imposta-secondo-acquisto').innerHTML = formatter.format(impostaRegistroSecondoAcquisto);
+
                 let mobilioSecondoAcquisto = parseFloat(document.getElementById('mobilio-nuova-casa').value);
+                document.getElementById('table-mobilio-secondo-acquisto').innerHTML = formatter.format(mobilioSecondoAcquisto);
+
                 let altreImposteSecondoAcquisto = parseFloat(document.getElementById('altre-imposte-secondo-mutuo').value);
+                document.getElementById('table-altre-imposte-secondo-acquisto').innerHTML = formatter.format(altreImposteSecondoAcquisto);
+
                 let ammontareIvaSecondoAcquisto = ivaSecondoAcquisto * prezzoSecondoAcquisto;
-                let costiTotaliTransazioneSecondoAcquisto = istruttoria+perizia+notaio+commissioniAgenzia+impostaRegistro+mobilioSecondoAcquisto+altreImposte+ammontareIva;
-        
-            //Costi Rate
+                document.getElementById('table-iva-secondo-acquisto').innerHTML = formatter.format(ammontareIvaSecondoAcquisto);
+
+                let percentCommissioniAgenziaSecondoAcquisto = parseFloat(document.getElementById('commissioni-agenzia-secondo-mutuo').value);
+                let commissioniAgenziaSecondoAcquisto = percentCommissioniAgenziaSecondoAcquisto * prezzoSecondoAcquisto;
+                document.getElementById('table-commissione-agenzia-secondo-acquisto').innerHTML = formatter.format(commissioniAgenziaSecondoAcquisto);
+
+                let costiTotaliTransazioneSecondoAcquisto = istruttoriaSecondoAcquisto+periziaSecondoAcquisto+notaioSecondoAcquisto+commissioniAgenziaSecondoAcquisto+impostaRegistroSecondoAcquisto+mobilioSecondoAcquisto+altreImposteSecondoAcquisto+ammontareIvaSecondoAcquisto;
+
                 let speseCondominialiMensiliSecondaCasa = parseFloat(document.getElementById('spese-condominiali-seconda-casa').value);
+
+                let speseCondominialiSecondaCasaTotali = speseCondominialiMensiliSecondaCasa*12*Math.max(anniSimulazione - anniVenditaPrimaCasa,0);
+
+                document.getElementById('table-spese-condominiali-secondo-acquisto').innerHTML = formatter.format(speseCondominialiSecondaCasaTotali);
+
+                
+
+            //Costi Rate
                 let finanziamentoSecondoMutuo = parseFloat(document.getElementById('finanziamento-nuova-casa').value);
                 let durataSecondoMutuo = parseFloat(document.getElementById('anni-nuovo-mutuo').value);
                 let tassoSecondoMutuo = document.getElementById('tasso-nuovo-mutuo').value;
@@ -398,30 +455,22 @@ function calcolo()
                 let rateAnnualiSecondoMutuo = rataMensileSecondoMutuo*12;
                 let periodoSimulazioneSecondoMutuo = Math.min(anniSimulazione-anniVenditaPrimaCasa,durataSecondoMutuo);
                 let montanteSecondoMutuo = rateAnnualiSecondoMutuo*durataSecondoMutuo;
-                let interessiTotaliSecondoMutuo = (montanteSecondoMutuo - finanziamentoSecondoMutuo)*(durataSecondoMutuo-anniVenditaPrimaCasa)/durataSecondoMutuo;
+
+                let interessiTotaliSecondoMutuo = (montanteSecondoMutuo - finanziamentoSecondoMutuo)/durataSecondoMutuo * Math.min(durataSecondoMutuo,Math.max(anniSimulazione-anniVenditaPrimaCasa,0));
+
+                document.getElementById('table-interessi-secondo-acquisto').innerHTML = formatter.format(interessiTotaliSecondoMutuo);
+
                 let rateTotaliSecondoMutuo = (rateAnnuali*Math.min(anniSimulazione-anniVenditaPrimaCasa,durataSecondoMutuo)+speseCondominialiMensiliSecondaCasa*12*(anniSimulazione - anniVenditaPrimaCasa));
     
             //Costi Totali
-                let costiTotaliSecondoAcquisto = costiTotaliTransazioneSecondoAcquisto+speseCondominialiMensiliSecondaCasa*12*(anniSimulazione - anniVenditaPrimaCasa);
+                let costiTotaliSecondoAcquisto = costiTotaliTransazioneSecondoAcquisto + speseCondominialiSecondaCasaTotali + interessiTotaliSecondoMutuo;
+
+                document.getElementById('table-secondo-acquisto-totale').innerHTML = formatter.format(costiTotaliSecondoAcquisto);
                                               
         //Costi Totali Acquisto + Acquisto
                 let costiTotaliAcquistoAcquisto = costiTotaliPrimoAcquisto + costiVenditaCasa + costiTotaliSecondoAcquisto;
-    
-        //Update Pagina
-            document.getElementById('rata-affitto-mutuo').innerHTML = formatterDigits.format(rataMensile);
-            document.getElementById('interessi-affitto-mutuo').innerHTML = formatter.format(interessiTotali);
-            document.getElementById('capitale-affitto-mutuo').innerHTML = formatter.format(finanziamentoMutuo);
-            document.getElementById('costi-affitto-acquisto').innerHTML = costiTotaliAffittoAcquisto;
-            document.getElementById('rata-primo-mutuo').innerHTML = formatterDigits.format(rataMensile);
-            document.getElementById('rata-secondo-mutuo').innerHTML = formatterDigits.format(rataMensileSecondoMutuo);
-            document.getElementById('capitale-primo-mutuo').innerHTML = formatter.format(finanziamentoMutuo);
-            document.getElementById('capitale-secondo-mutuo').innerHTML = formatter.format(finanziamentoSecondoMutuo);
-            document.getElementById('interessi-primo-mutuo').innerHTML = formatter.format(interessiTotaliPrimaCasa);
-            document.getElementById('interessi-secondo-mutuo').innerHTML = formatter.format(interessiTotaliSecondoMutuo);
-            document.getElementById('costi-primo-acquisto').innerHTML = formatter.format(costiTotaliPrimoAcquisto);
-            document.getElementById('costi-secondo-acquisto').innerHTML = formatter.format(costiTotaliSecondoAcquisto);
-            document.getElementById('costi-vendita').innerHTML = formatter.format(costiVenditaCasa);
-            document.getElementById('patrimonio-acquisto-acquisto').innerHTML = formatter.format(0);
+
+                document.getElementById('table-acquisto-acquisto-totale').innerHTML = formatter.format(costiTotaliAcquistoAcquisto);
     
     //Patrimonio Affitto
         let capitaleInizialeAffitto = costiTotaliTransazioneAcquisto + prezzo - finanziamentoMutuo;
@@ -453,7 +502,7 @@ function calcolo()
                 capitaleAnnualeTotale = capitaleAnnualeMutuo * anniSimulazione;
             } else if (durataMutuo > anniSimulazione) {
                 patrimonioInvestimentiAcquisto = capitaleAnnualeMutuo * (Math.pow(1+rendimentoInvestimenti,anniSimulazione) - 1) / rendimentoInvestimenti;
-                capitaleAnnualeTotale = capitaleAnnualeMutuo * durataMutuo;
+                capitaleAnnualeTotale = capitaleAnnualeMutuo * anniSimulazione;
             } else {
                 patrimonioInvestimentiAcquisto = capitaleAnnualeMutuo * (Math.pow(1+rendimentoInvestimenti,durataMutuo) - 1) / rendimentoInvestimenti + capitaleAnnualePostMutuo * (Math.pow(1+rendimentoInvestimenti,anniSimulazione-durataMutuo) - 1) / rendimentoInvestimenti;
                 capitaleAnnualeTotale = capitaleAnnualeMutuo * durataMutuo + capitaleAnnualePostMutuo * (anniSimulazione - durataMutuo);
@@ -479,16 +528,29 @@ function calcolo()
             let rendimentoImmobiliPercento = rendimentoImmobili*100;
             $('.table-rendimenti-immobili').html(rendimentoImmobiliPercento.toFixed(2) +' %');
 
-            document.getElementById('table-immobile-acquisto').innerHTML = formatter.format(equityCasaAnnuale*Math.min(durataMutuo,anniSimulazione));
-            let totaleCapitaleAcquisto = capitaleAnnualeTotale + equityCasaAnnuale*Math.min(durataMutuo,anniSimulazione);
+            document.getElementById('table-immobile-acquisto').innerHTML = formatter.format(prezzo);
+            
+            let totaleCapitaleAcquisto = capitaleAnnualeTotale + prezzo;
             document.getElementById('table-totale-capitale-acquisto').innerHTML = formatter.format(totaleCapitaleAcquisto);
+
+            document.getElementById('table-interessi-mutuo-acquisto').innerHTML = formatter.format(0);
+
+            let capitaleRimborsato = equityCasaAnnuale * Math.min(durataMutuo, anniSimulazione);
+            let montanteRimasto = finanziamentoMutuo - capitaleRimborsato;
+
+            let patrimonioMutuoFinale = montanteRimasto + interessiPagati;
+            document.getElementById('table-interessi-mutuo-acquisto-finale').innerHTML = formatter.format(-interessiPagati);
+
+            let tassoMutuoPercento = tassoMutuo * 100;
+            $('.table-rendimenti-mutuo').html(tassoMutuoPercento.toFixed(2) + ' %');
+
 
             //PATRIMONIO
             let patrimonioCasaMutuo = prezzo * (Math.pow(1+rendimentoImmobili,anniSimulazione));
             document.getElementById('table-immobile-acquisto-finale').innerHTML = formatter.format(patrimonioCasaMutuo);
             
         //Patrimonio Totale Acquisto
-            let patrimonioTotaleAcquisto = patrimonioCasaMutuo + patrimonioInvestimentiAcquisto;
+            let patrimonioTotaleAcquisto = patrimonioCasaMutuo + patrimonioInvestimentiAcquisto - interessiPagati;
             document.getElementById('table-totale-patrimonio-acquisto-finale').innerHTML = formatter.format(patrimonioTotaleAcquisto);
 
             let rendimentoFinaleAcquisto = Math.pow(patrimonioTotaleAcquisto/totaleCapitaleAcquisto,1/anniSimulazione)-1;
@@ -497,8 +559,13 @@ function calcolo()
     
     //Patrimonio Affitto + Acquisto
         //Patrimonio Investimenti
-            let parametroCrescitaPatrimonioAffittoAcquisto = Math.pow(1+rendimentoInvestimenti,anniPreAcquisto);
-            let patrimonioTransazioniAffittoAcquisto = capitaleInizialeAffitto * parametroCrescitaPatrimonioAffittoAcquisto - capitaleInizialeAffitto; 
+            let parametroCrescitaPatrimonioAffittoAcquisto = Math.pow(1+rendimentoInvestimenti,Math.min(anniPreAcquisto,anniSimulazione));
+            let patrimonioTransazioniAffittoAcquisto = (capitaleInizialeAffitto * parametroCrescitaPatrimonioAffittoAcquisto - capitaleInizialeAffitto)*Math.pow(1+rendimentoInvestimenti,Math.max(anniSimulazione-anniPreAcquisto,0));
+            
+            document.getElementById('table-capitale-iniziale-affitto-acquisto').innerHTML = formatter.format(capitaleInizialeAffitto);
+
+            document.getElementById('table-capitale-iniziale-affitto-acquisto-finale').innerHTML = formatter.format(patrimonioTransazioniAffittoAcquisto);
+
             //i costi per l'acquisto vengono pagati solo dopo qualche anno ottenendo nel frattempo dei rendimenti di mercato
     
             let patrimonioInvestimentiAffittoAcquisto = 0;
@@ -509,17 +576,48 @@ function calcolo()
             } else if (anniSimulazione > durataMutuo + anniPreAcquisto) {
                 patrimonioInvestimentiAffittoAcquisto = capitaleAnnualeMutuo * (Math.pow(1+rendimentoInvestimenti,durataMutuo) - 1) / rendimentoInvestimenti + capitaleAnnualePostMutuo * (Math.pow(1+rendimentoInvestimenti,anniSimulazione-durataMutuo-anniPreAcquisto) - 1) / rendimentoInvestimenti;
             };
-    
+            
+            let capitaleAnnuoAffittoAcquisto = capitaleAnnualeMutuo*Math.min(anniSimulazione-anniPreAcquisto,durataMutuo)+capitaleAnnualePostMutuo*Math.max(anniSimulazione-durataMutuo-anniPreAcquisto,0);
+
+            document.getElementById('table-contributo-annuale-affitto-acquisto').innerHTML = formatter.format(capitaleAnnuoAffittoAcquisto);
+
+            document.getElementById('table-contributo-annuale-affitto-acquisto-finale').innerHTML = formatter.format(patrimonioInvestimentiAffittoAcquisto);
+
         //Patrimonio Immobiliare
             let patrimonioAffittoAcquisto = 0;
             if(anniPreAcquisto < anniSimulazione) {
                 patrimonioAffittoAcquisto = prezzo * Math.pow(1+rendimentoImmobili,anniSimulazione-anniPreAcquisto);
-            } else {0};
-    
+                document.getElementById('table-immobile-affitto-acquisto').innerHTML = formatter.format(prezzo);
+            } else {
+                document.getElementById('table-immobile-affitto-acquisto').innerHTML = formatter.format(0);};
+            
+            
+            document.getElementById('table-immobile-affitto-acquisto-finale').innerHTML = formatter.format(patrimonioAffittoAcquisto);
+
+            let capitaleRimborsatoAffittoAcquisto = equityCasaAnnuale * Math.min(durataMutuo, Math.max(anniSimulazione-anniPreAcquisto,0));
+            let montanteRimastoAffittoAcquisto = finanziamentoMutuo - capitaleRimborsatoAffittoAcquisto;
+            
+            let finanziamentoMutuoAffittoAcquisto = finanziamentoMutuo;
+            document.getElementById('table-interessi-mutuo-affitto-acquisto').innerHTML = formatter.format(0);
+
+            
+            document.getElementById('table-interessi-mutuo-affitto-acquisto-finale').innerHTML = formatter.format(-interessiPagatiAffittoAcquisto);
+            
+
+            
+
+            
         //Update pagina 
-            let patrimonioTotaleAffittoAcquisto = patrimonioTransazioniAffittoAcquisto + patrimonioInvestimentiAffittoAcquisto + patrimonioAffittoAcquisto;
-            let patrimonioTotaleAffittoAcquistoFormat = formatter.format(patrimonioTotaleAffittoAcquisto);
-            document.getElementById('patrimonio-affitto-acquisto').innerHTML = patrimonioTotaleAffittoAcquistoFormat;
+            let patrimonioTotaleAffittoAcquisto = patrimonioTransazioniAffittoAcquisto + patrimonioInvestimentiAffittoAcquisto + patrimonioAffittoAcquisto - interessiPagatiAffittoAcquisto;
+            
+            let totaleCapitaleAffittoAcquisto = prezzo+capitaleInizialeAffitto+capitaleAnnuoAffittoAcquisto;
+            document.getElementById('table-totale-capitale-affitto-acquisto').innerHTML = formatter.format(totaleCapitaleAffittoAcquisto);
+
+            document.getElementById('table-totale-patrimonio-affitto-acquisto-finale').innerHTML = formatter.format(patrimonioTotaleAffittoAcquisto);
+            
+            let rendimentoFinaleAffittoAcquisto = Math.pow(patrimonioTotaleAffittoAcquisto/totaleCapitaleAffittoAcquisto,1/anniSimulazione)-1;
+            let rendimentoFinaleAffittoAcquistoPercento = rendimentoFinaleAffittoAcquisto * 100;
+            document.getElementById('table-rendimento-finale-affitto-acquisto').innerHTML = rendimentoFinaleAffittoAcquistoPercento.toFixed(2) + ' %';
     
     //Patrimonio Acquisto + Acquisto
         //Patrimonio Investimenti
@@ -541,20 +639,133 @@ function calcolo()
             } else {
                 patrimonioInvestimentiSecondoAcquisto = capitaleAnnualeSecondoMutuo * (Math.pow(1+rendimentoInvestimenti,anniSimulazione - anniVenditaPrimaCasa) - 1) / rendimentoInvestimenti + capitaleAnnualePostMutuo * (Math.pow(1+rendimentoInvestimenti,anniSimulazione-durataMutuo-anniVenditaPrimaCasa) - 1) / rendimentoInvestimenti
             };
-    
+            
+            document.getElementById('table-capitale-iniziale-acquisto-acquisto').innerHTML = formatter.format(0);
+
+            document.getElementById('table-capitale-iniziale-acquisto-acquisto-finale').innerHTML = formatter.format(0);
+
+            let patrimonioInvestimentiTotaleAcquistoAcquisto = patrimonioInvestimentiPrimoAcquisto + patrimonioInvestimentiSecondoAcquisto;
+
+            let contributoAnnualePrimoAcquisto = capitaleAnnualeMutuo * Math.min(anniVenditaPrimaCasa, durataMutuo);
+            let contributoAnnualeSecondoAcquisto = capitaleAnnualeSecondoMutuo * Math.min(anniSimulazione - anniVenditaPrimaCasa, durataMutuo);
+            let contributoAnnualePostMutui = capitaleAnnualePostMutuo * Math.max(anniSimulazione-durataMutuo-anniVenditaPrimaCasa,0);
+            let contributoAnnualeTotale = contributoAnnualePrimoAcquisto + contributoAnnualeSecondoAcquisto + contributoAnnualePostMutui;
+
+            document.getElementById('table-contributo-annuale-acquisto-acquisto').innerHTML = formatter.format(contributoAnnualeTotale);
+
+            document.getElementById('table-contributo-annuale-acquisto-acquisto-finale').innerHTML = formatter.format(patrimonioInvestimentiTotaleAcquistoAcquisto);
+
         //Patrimonio Immobiliare
-            //Equity Casa
-                let patrimonioImmobiliareAcquistoAcquisto = prezzoSecondoAcquisto * ( (Math.pow(1+rendimentoImmobili,anniSimulazione - anniVenditaPrimaCasa)));
+            //Prima Casa
+            let capitaleRimborsatoPrimaCasa = equityCasaAnnuale * anniVenditaPrimaCasa;
+            let montanteRimastoPrimaCasa = finanziamentoMutuo - capitaleRimborsatoPrimaCasa;
+
+            document.getElementById('table-interessi-primo-mutuo-acquisto-acquisto').innerHTML = formatter.format(0);
+
+            document.getElementById('table-interessi-primo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(-interessiTotaliPrimaCasa);
+
+            
+
+            let opportunitàCostiVenditaCasa = costiVenditaCasa * Math.pow(1+rendimentoInvestimenti,Math.max(anniSimulazione - anniVenditaPrimaCasa,0));
+            
+
+            
+
+
+
+            //Seconda Casa
+                let patrimonioImmobiliareSecondoAcquisto = prezzoSecondoAcquisto * ( (Math.pow(1+rendimentoImmobili,Math.max(anniSimulazione - anniVenditaPrimaCasa,0))));
+
+                document.getElementById('table-secondo-immobile-acquisto-acquisto').innerHTML = formatter.format(prezzoSecondoAcquisto);
+
+                document.getElementById('table-secondo-immobile-acquisto-acquisto-finale').innerHTML = formatter.format(patrimonioImmobiliareSecondoAcquisto);
+
+                if (anniSimulazione < anniVenditaPrimaCasa) { 
+                    document.getElementById('table-costi-secondo-immobile-acquisto-acquisto').innerHTML = formatter.format(0); } else {
+                document.getElementById('table-costi-secondo-immobile-acquisto-acquisto').innerHTML = formatter.format(-costiTotaliTransazioneSecondoAcquisto);
+                }
+
+                let opportunitàCostiAcquistoSecondaCasa = costiTotaliTransazioneSecondoAcquisto * Math.pow(1+rendimentoInvestimenti,Math.max(anniSimulazione - anniVenditaPrimaCasa,0));
+                document.getElementById('table-costi-secondo-immobile-acquisto-acquisto-finale').innerHTML = formatter.format(-opportunitàCostiAcquistoSecondaCasa);
+
+                document.getElementById('table-interessi-secondo-mutuo-acquisto-acquisto').innerHTML = formatter.format(0);
+
+                let tassoSecondoMutuoPercento = tassoSecondoMutuo * 100;
+                document.getElementById('table-rendimenti-secondo-mutuo').innerHTML = tassoSecondoMutuoPercento.toFixed(2) + ' %';
+
+                let equityCasaAnnualeSecondoMutuo = finanziamentoSecondoMutuo / durataSecondoMutuo;
+                let capitaleRimborsatoSecondoMutuo = equityCasaAnnualeSecondoMutuo * Math.max(Math.min(anniSimulazione - anniVenditaPrimaCasa,durataSecondoMutuo),0);
+                let montanteRimastoSecondoMutuo = finanziamentoSecondoMutuo - capitaleRimborsatoSecondoMutuo;
+                document.getElementById('table-interessi-secondo-mutuo-acquisto-acquisto-finale').innerHTML = formatter.format(-interessiTotaliSecondoMutuo);
+                
     
             //Capital Gain Vendita 
                 let capitalGain = Math.max(prezzoVenditaCasa - prezzo,0);
-                let tassaCapitalGain = 0.26;
-                let capitalGainNetto = capitalGain * (1-tassaCapitalGain);
-    
-        //Update pagina 
-            let patrimonioTotaleAcquistoAcquisto = patrimonioInvestimentiPrimoAcquisto + patrimonioInvestimentiSecondoAcquisto + patrimonioImmobiliareAcquistoAcquisto + capitalGainNetto;
+                let tassaCapitalGain = 0.2;
+                let capitalGainNetto = 0;
+                if (anniVenditaPrimaCasa <= 5) {
+                    capitalGainNetto = capitalGain;
+                } else {
+                    capitalGainNetto = capitalGain * (1-tassaCapitalGain);
+                }
+                
+                let prezzoPrimaCasa = 0;
+                let patrimonioImmobiliarePrimoAcquisto = 0;
+                
+                let patrimonioRimanenteVenditaPrimaCasa = prezzo + capitalGainNetto - montanteRimastoPrimaCasa;
+                let capitalGainNettoInvestito = patrimonioRimanenteVenditaPrimaCasa * Math.pow(1+rendimentoInvestimenti,Math.max(anniSimulazione - anniVenditaPrimaCasa,0));
+
+                if (anniSimulazione >= anniVenditaPrimaCasa) {
+                
+                
+                document.getElementById('table-primo-immobile-acquisto-acquisto').innerHTML = formatter.format(prezzoPrimaCasa);
+
+                document.getElementById('table-primo-immobile-acquisto-acquisto-finale').innerHTML = formatter.format(patrimonioImmobiliarePrimoAcquisto);
+
+                } else {
+                patrimonioImmobiliarePrimoAcquisto = prezzo*Math.pow(1+rendimentoImmobili,Math.min(anniSimulazione,durataMutuo));
+                
+                prezzoPrimaCasa = prezzo;
+                document.getElementById('table-primo-immobile-acquisto-acquisto').innerHTML = formatter.format(prezzo);
+
+                document.getElementById('table-primo-immobile-acquisto-acquisto-finale').innerHTML = formatter.format(patrimonioImmobiliarePrimoAcquisto);
+
+                patrimonioRimanenteVenditaPrimaCasa = 0;
+
+                capitalGainNettoInvestito = 0;
+
+                costiVenditaCasa = 0;
+
+                opportunitàCostiVenditaCasa = 0;
+
+                opportunitàCostiAcquistoSecondaCasa = 0;
+                
+                }
+                
+                document.getElementById('table-plusvalenza-casa-acquisto-acquisto').innerHTML = formatter.format(patrimonioRimanenteVenditaPrimaCasa);
+                document.getElementById('table-plusvalenza-casa-acquisto-acquisto-finale').innerHTML = formatter.format(capitalGainNettoInvestito);
+                document.getElementById('table-costi-vendita-acquisto-acquisto').innerHTML = formatter.format(-costiVenditaCasa);
+                document.getElementById('table-costi-vendita-acquisto-acquisto-finale').innerHTML = formatter.format(-opportunitàCostiVenditaCasa);
+
+        //Patrimonio Totale Acquisto Acquisto
+            let patrimonioTotaleAcquistoAcquisto = patrimonioInvestimentiTotaleAcquistoAcquisto + patrimonioImmobiliarePrimoAcquisto + patrimonioImmobiliareSecondoAcquisto + capitalGainNettoInvestito - opportunitàCostiAcquistoSecondaCasa - opportunitàCostiVenditaCasa - interessiTotaliPrimaCasa - interessiTotaliSecondoMutuo;
+            
             let patrimonioTotaleAcquistoAcquistoFormat = formatter.format(patrimonioTotaleAcquistoAcquisto);
-            document.getElementById('patrimonio-acquisto-acquisto').innerHTML = patrimonioTotaleAcquistoAcquistoFormat;
+            
+            let totaleCapitaleAcquistoAcquisto = contributoAnnualeTotale + 0 + prezzoPrimaCasa + prezzoNuovaCasa - costiTotaliTransazioneSecondoAcquisto - 0 - 0 + patrimonioRimanenteVenditaPrimaCasa - costiVenditaCasa;
+            document.getElementById('table-totale-capitale-acquisto-acquisto').innerHTML = formatter.format(totaleCapitaleAcquistoAcquisto);
+            
+            let rendimentoFinaleAcquistoAcquisto = Math.pow(patrimonioTotaleAcquistoAcquisto/totaleCapitaleAcquistoAcquisto,1/anniSimulazione)-1;
+            let rendimentoFinaleAcquistoAcquistoPercento = rendimentoFinaleAcquistoAcquisto * 100;
+            document.getElementById('table-rendimento-finale-acquisto-acquisto').innerHTML = rendimentoFinaleAcquistoAcquistoPercento.toFixed(2) + ' %';
+
+            document.getElementById('table-totale-patrimonio-acquisto-acquisto-finale').innerHTML = patrimonioTotaleAcquistoAcquistoFormat;
+
+
+
+            
+
+
             
 
     let checkboxValueAffAcq = document.getElementById('checkbox-affitto-acquisto').checked; 

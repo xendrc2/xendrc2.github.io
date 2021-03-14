@@ -276,3 +276,13 @@ body {
     background: rgba(1, 23, 65, 0.836) !important;
     color:white;
 }
+
+.border-table {
+    table {
+        border-top: 1px solid black !important;
+        tfoot {
+            border-bottom: 1px solid black !important;
+        }
+    }
+    
+}

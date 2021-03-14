@@ -331,4 +331,12 @@ body .black-font {
   background: rgba(1, 23, 65, 0.836) !important;
   color: white;
 }
+
+.border-table table {
+  border-top: 1px solid black !important;
+}
+
+.border-table table tfoot {
+  border-bottom: 1px solid black !important;
+}
 /*# sourceMappingURL=style.css.map */
