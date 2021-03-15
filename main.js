@@ -941,11 +941,14 @@ function calcolo()
                     tooltips: {
                         callbacks: {
                             label: function(tooltipItems, data) { 
-                                return formatter.format(tooltipItems.yLabel);
-                            },
-                            label: function(tooltipItems, cagrData) {
-                                let item =  tooltipItems.yLabel * 100;
-                                return (item.toFixed(2) + ' %');
+                                if (tooltipItems.datasetIndex === 0) {
+                                    return formatter.format(tooltipItems.yLabel);
+                                } else {
+                                    let item =  tooltipItems.yLabel * 100;
+                                    return (item.toFixed(2) + ' %');
+                                }
+                                
+                                
                             }
                         }   
                     },
