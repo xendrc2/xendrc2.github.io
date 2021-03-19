@@ -1,3 +1,5 @@
+@import 'variables';
+
 body {
     /*font-family: 'Open Sans', sans-serif;*/
     font-family: 'Titillium Web', sans-serif;
@@ -17,8 +19,8 @@ body {
 }
 
 #header {
-    background: rgb(100,149,237);
-    background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,1) 100%);
+    background: $background-default-color;
+    background: $background-default-gradient;
     padding-top: 20px;
     padding-bottom: 20px;
     height: 100%;
@@ -51,7 +53,7 @@ body {
 
 .page-footer {
     background-color: #6495ed !important;
-    background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,1) 100%);
+    background: $background-default-gradient;
     margin-top: 30%;
 }
 
@@ -167,8 +169,8 @@ body {
 }
 
 .nav-wrapper {
-    background: rgb(100,149,237);
-    background: linear-gradient(90deg, rgba(100,149,237,1) 0%, rgba(168,29,253,1) 100%);
+    background: $background-default-color;
+    background: $background-default-gradient;
 
     .nav-bottoni {
         min-width: 100px !important;
@@ -255,7 +257,7 @@ body {
 }
 #cookie-law > div:last-child > a {
     padding: 10px 20px;
-    background: rgb(100,149,237);
+    background: $background-default-color;
     border-radius: 5px;
     color: white;
     text-decoration: none;
