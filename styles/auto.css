@@ -177,9 +177,11 @@ body .black-font {
   color: darkslategray !important;
 }
 
-#switch-prima-casa, #switch-da-privato, #switch-prima-casa-secondo-mutuo, #switch-da-privato-secondo-mutuo {
+#switch-risparmi {
   background-color: transparent !important;
   padding-bottom: 5px;
+  vertical-align: middle;
+  display: none;
 }
 
 .risultati {
@@ -257,9 +259,17 @@ body .black-font {
 }
 
 #myChart {
+  min-height: 600px;
   max-height: 600px;
   max-width: 600px;
   margin-top: 5%;
+}
+
+@media (max-width: 400px) {
+  #myChart {
+    width: 300px !important;
+    height: 300px !important;
+  }
 }
 
 .user-hidden {

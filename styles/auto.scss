@@ -135,9 +135,11 @@ body {
      color: darkslategray!important;
    }
 
-#switch-prima-casa, #switch-da-privato, #switch-prima-casa-secondo-mutuo, #switch-da-privato-secondo-mutuo {
+#switch-risparmi {
     background-color: transparent !important;
     padding-bottom: 5px;
+    vertical-align: middle;
+    display: none;
 }
 
 .risultati {
@@ -213,6 +215,11 @@ body {
 }
 
 #myChart {
+    @media (max-width: 400px) {
+        width: 300px !important;
+        height: 300px !important;
+    }
+    min-height: 600px;
     max-height: 600px;
     max-width: 600px;
     margin-top: 5%;

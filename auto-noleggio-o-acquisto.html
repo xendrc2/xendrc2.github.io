@@ -12,8 +12,8 @@
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Affittare o acquistare casa?</title>
-        <meta name="description" content="Un simulatore di scelte finanziarie: affitto vs acquisto casa.">
+        <title>Acquistare o noleggiare un'auto?</title>
+        <meta name="description" content="Un simulatore di scelte finanziarie: acquisto vs noleggio a lungo termine di un'auto.">
         <link rel="stylesheet" href="./styles/auto.css">
         
         <!--icons -->
@@ -102,15 +102,11 @@
                         <div class="col s12 center-align">
                             <h5>Generale</h5>
                         </div>
-                        <div class="input-field col s7 m5 l5 z-depth-1">
-                            <label>Quanti Km Percorri in un Anno?</label>
-                            <input type="number" class="validate" id="km-annui" value="15000" min="0" >
-                        </div>
                         <div class="input-field col s6 m4 l4 z-depth-1">
                             <label>Durata simulazione (anni)</label>
-                            <input type="number" class="validate" id="durata-simulazione" value="10" min="0" >
+                            <input type="number" class="validate" id="durata-simulazione" value="10" min="1" >
                         </div>
-                        <div class="input-field col s6 m5 l4" id="switch-prima-casa">
+                        <div class="input-field col s6 m6 l6" id="switch-risparmi">
                             <div class="switch">
                                 <label>
 
@@ -121,21 +117,20 @@
                             </div>
                         </div>
 
-                        <div class="input-field col s5 m5 l5 z-depth-1" id="container-rendimenti">
-                            <label>Rendimento investimenti</label>
-                            <input type="number" min="0" max="1" step="0.01" class="validate" id="rendimento-investimenti" value="0.07"/>
+                        <div class="input-field col s6 m6 l6 z-depth-1" id="container-rendimenti">
+                            <label>Rendimento investimenti %</label>
+                            <input type="number" min="0" max="100" step="0.10" class="validate" id="rendimento-investimenti" value="7.0"/>
                         </div>
 
                         <div class="col s12 center-align">
                             <h5>Acquisto</h5>
                         </div>
-                        <div class="input-field col s5 m4 l3 z-depth-1">
-                            <label>Prezzo Auto - Listino</label>
-                            <input type="number" class="validate" id="prezzo-auto" value="15000" min="0" >
+                        <div class="col s12 warning">
+                            <p id="warning"></p>
                         </div>
-                        <div class="input-field col s3 m2 l2 z-depth-1">
-                            <label>Km Auto</label>
-                            <input type="number" class="validate" id="km-auto" value="0" min="0" >
+                        <div class="input-field col s5 m4 l3 z-depth-1">
+                            <label>Prezzo Auto</label>
+                            <input type="number" class="validate" id="prezzo-auto" value="15000" min="0" >
                         </div>
                         <div class="input-field col s3 z-depth-1">
                             <label>Anticipo</label>
@@ -147,7 +142,7 @@
                         </div>
                         <div class="input-field col s7 m5 l4 z-depth-1">
                             <label>Durata Finanziamento (Mesi)</label>
-                            <input type="number" class="validate" id="durata-acquisto" value="36" min="0" >
+                            <input type="number" class="validate" id="durata-finanziamento" value="36" min="0" >
                         </div>
                         <div class="input-field col s4 m3 l3 z-depth-1">
                             <label>Maxi-rata Finale</label>
@@ -175,7 +170,7 @@
                         </div>
                         <div class="input-field col s4 z-depth-1">
                             <label>Rata Mensile</label>
-                            <input type="number" class="validate" id="rata-nlt" value="300" min="0" >
+                            <input type="number" class="validate" id="rata-nlt" value="200" min="0" >
                         </div>
                         <div class="input-field col s12 m8 l8 z-depth-1 tooltipped" data-position="top" data-tooltip="Molti contratti NLT coprono i costi di gestione al 100% o in misura minore. Verifica i termini contrattuale e inserisci qui i costi scoperti">
                             <label>Costi di Gestione Annuali (Bollo, Tagliando, Revisione)</label>
@@ -183,11 +178,100 @@
                         </div>
                         <div class="input-field col s3 m2 l2 z-depth-1">
                             <label>Anticipo</label>
-                            <input type="number" class="validate" id="anticipo-nlt" value="3000" min="0" >
+                            <input type="number" class="validate" id="anticipo-nlt" value="2000" min="0" >
                         </div>
                         <div class="input-field col s6 m4 l4 z-depth-1">
                             <label>Durata Noleggio (anni)</label>
                             <input type="number" class="validate" id="durata-nlt" value="3" min="0" >
+                        </div>
+                    </div>
+
+                    <div id="graph-container">
+                        <canvas id="myChart" width="0" height="0" class="hidden-chart"></canvas>
+                    </div>
+
+                    <div class="row user-hidden" id="results-container">
+                        <div class="col s12 risultati">
+                            <h3>Acquisto</h3>
+                            <div class="row card-panel tabella-costi">
+                                <h5>Costi</h5>
+                                <table>
+                                    <thead>
+                                      <tr>
+                                        <th>Oggetto</th>
+                                        <th>Valore</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>Anticipi</td>
+                                        <td id="table-anticipi-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Rate Finanziamento</td>
+                                        <td id="table-rate-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Maxi-rate finali</td>
+                                        <td id="table-maxirate"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Assicurazione RCA</td>
+                                        <td id="table-rca"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Altri Costi (Gestione, Manutenzione, ecc.)</td>
+                                        <td id="table-costi-acquisto"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Vendita auto usata</td>
+                                        <td id="table-rivendita"></td>
+                                      </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Totale</th>
+                                          <th id="table-acquisto-totale"></th>
+                                        </tr>
+                                      </tfoot>
+                                  </table>
+                            </div>
+                        </div>
+
+                        <div class="col s12 risultati">
+                            <h3>Noleggio a Lungo Termine</h3>
+                            <div class="row card-panel tabella-costi">
+                                <h5>Costi</h5>
+                                <table>
+                                    <thead>
+                                      <tr>
+                                        <th>Oggetto</th>
+                                        <th>Valore</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Anticipi</td>
+                                            <td id="table-anticipi-nlt"></td>
+                                        </tr>                    
+                                        <tr>
+                                            <td>Rate NLT</td>
+                                            <td id="table-rate-nlt"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Altri Costi (Gestione, Manutenzione, ecc.)</td>
+                                            <td id="table-costi-nlt"></td>
+                                        </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Totale</th>
+                                          <th id="table-nlt-totale"></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
