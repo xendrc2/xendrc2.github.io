@@ -75,13 +75,6 @@ var formatter = new Intl.NumberFormat(undefined, {
       };
   });
 
-  $("#warning").hide();
-
-  const selectPrezzoListino = document.getElementById('prezzo-auto');
-  selectPrezzoListino.addEventListener('change', (event) => {
-    $("#warning").hide();
-  });
-
 //Check # of simulations
 var contatore = 0;
 
@@ -90,7 +83,9 @@ var contatore = 0;
   {
     let element = document.getElementById('floating-calcolo');
       element.classList.remove("pulse");
-      
+
+      $('.table-investimenti').hide();
+
     //Generale
         let anniSimulazione = parseFloat(document.getElementById('durata-simulazione').value);
 
@@ -99,60 +94,32 @@ var contatore = 0;
         let rendimentoInvestimenti = 0;
         if (investimenti == true) {
             rendimentoInvestimenti = parseFloat(document.getElementById('rendimento-investimenti').value) / 100;
+            $('.table-investimenti').show();
         } else {
             rendimentoInvestimenti = 0;
         };
 
         const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
+        const tassaPlusvalenze = 0.26;
+
     //Costi Acquisto
         let durataAuto = parseFloat(document.getElementById('anni-auto').value);
 
-        let prezzoAuto = parseFloat(document.getElementById('prezzo-auto').value);
-
         let anticipoAcquisto = parseFloat(document.getElementById('anticipo-acquisto').value);
-        let anticipoTotale = anticipoAcquisto * Math.max(Math.ceil((anniSimulazione)/durataAuto),1);
 
         let rataAcquisto = parseFloat(document.getElementById('rata-acquisto').value);
         let rataAcquistoAnnuale = rataAcquisto * 12;
-        let mesiSimulazione = anniSimulazione * 12;
         let durataFinanziamento = parseFloat(document.getElementById('durata-finanziamento').value);
         let anniFinanziamento = durataFinanziamento/12;
-        let rateAcquistoTotali = 0;
-        if (anniSimulazione > durataAuto) {
-            rateAcquistoTotali = rataAcquisto * Math.min(mesiSimulazione, durataFinanziamento) * Math.max(Math.floor(anniSimulazione/durataAuto),1) + rataAcquisto * Math.min((anniSimulazione % durataAuto)*12,durataFinanziamento);
-        } else {
-            rateAcquistoTotali = rataAcquisto * Math.min(mesiSimulazione, durataFinanziamento);
-        }
 
-        let maxiRata = parseFloat(document.getElementById('maxirata').value);
-        let maxiRataTotale = maxiRata * Math.min(Math.floor(anniSimulazione,durataFinanziamento/12),1) + maxiRata * Math.floor(anniSimulazione/(durataAuto+anniFinanziamento));
-
-        let costoTotaleFinanziamento = anticipoAcquisto + rateAcquistoTotali + maxiRata;
-
-        if (prezzoAuto > costoTotaleFinanziamento) {
-            $("#warning").show();
-            document.getElementById('warning').innerHTML = 'Il prezzo di acquisto deve essere maggiore della somma finanziata (' + formatter.format(costoTotaleFinanziamento) + ')';
-            return
-        };        
+        let maxiRata = parseFloat(document.getElementById('maxirata').value);     
 
         let rataRCA = parseFloat(document.getElementById('rca').value);
-        let totaleRCA = rataRCA * anniSimulazione;
 
         let costiGestioneAcquisto = parseFloat(document.getElementById('costi-gestione-acquisto').value);
-        let costiGestioneAcquistoTotali = costiGestioneAcquisto * anniSimulazione;
-
-
 
         let valoreRivendita = parseFloat(document.getElementById('rivendita').value);
-        let valoreRivenditaTotale = 0;
-        if (anniSimulazione >= durataAuto) {
-            valoreRivenditaTotale = valoreRivendita * Math.max(Math.floor((anniSimulazione)/durataAuto),1);
-        } else {
-            valoreRivenditaTotale = 0;
-        }
-
-        let costiTotaliAcquisto = anticipoTotale + rateAcquistoTotali + maxiRataTotale + totaleRCA + costiGestioneAcquistoTotali - valoreRivenditaTotale;
 
         let anticipiAcquistoStorici = [];
         let rataAcquistoStorica = [];
@@ -200,47 +167,36 @@ var contatore = 0;
         let maxiRataStoricaTotale = maxiRataStorica.reduce(reducer);
         let costiGestioneAcquistoStoriciTotali = costiGestioneAcquistoStorici.reduce(reducer);
         let RCAStoricaTotale = RCAStorica.reduce(reducer);
+        let valoreRivenditaStoricaTotale = valoreRivenditaStorica.reduce(reducer);
 
-        let costiAcquistoStoriciTotali = costiAcquistoStorici.reduce(reducer);
-        
-        
-        
-        
-        
-        
-        
-        document.getElementById('table-anticipi-acquisto').innerHTML = formatter.format(anticipoTotale);
 
-        document.getElementById('table-rate-acquisto').innerHTML = formatter.format(rateAcquistoTotali);
+        
 
-        document.getElementById('table-maxirate').innerHTML = formatter.format(maxiRataTotale);
+        document.getElementById('table-anticipi-acquisto').innerHTML = formatter.format(anticipiAcquistoStoriciTotali);
 
-        document.getElementById('table-rca').innerHTML = formatter.format(totaleRCA);
+        document.getElementById('table-rate-acquisto').innerHTML = formatter.format(rataAcquistoStoricaTotale);
 
-        document.getElementById('table-costi-acquisto').innerHTML = formatter.format(costiGestioneAcquistoTotali);
+        document.getElementById('table-maxirate').innerHTML = formatter.format(maxiRataStoricaTotale);
 
-        document.getElementById('table-rivendita').innerHTML = formatter.format(-valoreRivenditaTotale);
+        document.getElementById('table-rca').innerHTML = formatter.format(RCAStoricaTotale);
 
-        document.getElementById('table-acquisto-totale').innerHTML = formatter.format(costiTotaliAcquisto);
+        document.getElementById('table-costi-acquisto').innerHTML = formatter.format(costiGestioneAcquistoStoriciTotali);
+
+        document.getElementById('table-rivendita').innerHTML = formatter.format(-valoreRivenditaStoricaTotale);
+
+
         
 
       
     //Costi NLT
         let rataNLT = parseFloat(document.getElementById('rata-nlt').value);
         let rataNLTAnnuale = rataNLT * 12;
-        let rataNLTTotale = rataNLTAnnuale * anniSimulazione;
 
         let costiGestioneNLT = parseFloat(document.getElementById('costi-gestione-nlt').value);
-        let costiGestioneNLTTotali = costiGestioneNLT * anniSimulazione;
 
         let durataNLT = parseFloat(document.getElementById('durata-nlt').value);
 
         let anticipoNLT = parseFloat(document.getElementById('anticipo-nlt').value);
-        let anticipoNLTTotale = anticipoNLT * Math.max(Math.ceil(anniSimulazione/durataNLT),1);
-        
-        let costiTotaliNLT = rataNLTTotale + costiGestioneNLTTotali + anticipoNLTTotale;
-
-        let costiTotaliNLTFormat = formatter.format(costiTotaliNLT);
 
         let rataNLTStorica = [];
         let costiGestioneNLTStorici = [];
@@ -256,26 +212,53 @@ var contatore = 0;
             };
             costiNLTStorici.push(rataNLTStorica[i] + costiGestioneNLTStorici[i] + anticipiNLTStorici[i]);
         };
-        let rataNLTStoricaTotale = rataNLTStorica.reduce(reducer);
-        let costiGestioneNLTStoriciTotali = costiGestioneNLTStorici.reduce(reducer);
-        let anticipiNLTStoriciTotali = anticipiNLTStorici.reduce(reducer);
-        let costiNLTStoriciTotali = costiNLTStorici.reduce(reducer);
-        
-        console.log(costiGestioneNLTStoriciTotali);
-        console.log(anticipiNLTStoriciTotali);
-        console.log(costiNLTStorici);
-        console.log(costiNLTStoriciTotali);
 
-        
-      
-        document.getElementById('table-anticipi-nlt').innerHTML = formatter.format(anticipoNLTTotale);
 
-        document.getElementById('table-rate-nlt').innerHTML = formatter.format(rataNLTTotale);
+    //Bilancio Patrimoniale
 
-        document.getElementById('table-costi-nlt').innerHTML = formatter.format(costiGestioneNLTTotali);
+    const surplusAcquisto = [];
+    const surplusNLT = [];
+    const patrimonioAcquisto = [];
+    const patrimonioNLT = [];
 
-        document.getElementById('table-nlt-totale').innerHTML = formatter.format(costiTotaliNLT);
+    for (i = 0; i < anniSimulazione; i++) {
+        surplusAcquisto.push(Math.max(- costiAcquistoStorici[i] + costiNLTStorici[i],0));
+        surplusNLT.push(Math.max(costiAcquistoStorici[i] - costiNLTStorici[i],0));
+
+        patrimonioAcquisto.push(surplusAcquisto[i] * Math.pow(1+rendimentoInvestimenti,anniSimulazione - i - 1));
+        patrimonioNLT.push(surplusNLT[i] * Math.pow(1+rendimentoInvestimenti,anniSimulazione - i - 1));
+    };
+
+    const capitaleAcquisto = surplusAcquisto.reduce(reducer);
+    const capitaleNLT = surplusNLT.reduce(reducer);
+    const patrimonioAcquistoTotale = patrimonioAcquisto.reduce(reducer);
+    const patrimonioNLTTotale = patrimonioNLT.reduce(reducer);
+    const plusvalenzeLordeAcquisto = patrimonioAcquistoTotale - capitaleAcquisto;
+    const plusvalenzeLordeNLT = patrimonioNLTTotale - capitaleNLT;
+    const plusvalenzeNetteAcquisto = plusvalenzeLordeAcquisto * (1 - tassaPlusvalenze);
+    const plusvalenzeNetteNLT = plusvalenzeLordeNLT * (1 - tassaPlusvalenze);
+
+    document.getElementById('table-rendimenti-acquisto').innerHTML = formatter.format(-plusvalenzeNetteAcquisto);
+
+    document.getElementById('table-rendimenti-nlt').innerHTML = formatter.format(-plusvalenzeNetteNLT);
+
+
+    let rataNLTStoricaTotale = rataNLTStorica.reduce(reducer);
+    let costiGestioneNLTStoriciTotali = costiGestioneNLTStorici.reduce(reducer);
+    let anticipiNLTStoriciTotali = anticipiNLTStorici.reduce(reducer);
+    let costiNLTStoriciTotali = costiNLTStorici.reduce(reducer) - plusvalenzeNetteNLT;
   
+    document.getElementById('table-anticipi-nlt').innerHTML = formatter.format(anticipiNLTStoriciTotali);
+
+    document.getElementById('table-rate-nlt').innerHTML = formatter.format(rataNLTStoricaTotale);
+
+    document.getElementById('table-costi-nlt').innerHTML = formatter.format(costiGestioneNLTStoriciTotali);
+
+    document.getElementById('table-nlt-totale').innerHTML = formatter.format(costiNLTStoriciTotali);
+    
+    let costiAcquistoStoriciTotali = costiAcquistoStorici.reduce(reducer) - plusvalenzeNetteAcquisto;
+    document.getElementById('table-acquisto-totale').innerHTML = formatter.format(costiAcquistoStoriciTotali);
+
     //Creazione Grafico
         if(contatore > 0) {
             $('#myChart').remove(); // this is my <canvas> element
@@ -283,8 +266,8 @@ var contatore = 0;
         };
 
         let data = [];
-        data.push(costiTotaliAcquisto);
-        data.push(costiTotaliNLT);
+        data.push(costiAcquistoStoriciTotali);
+        data.push(costiNLTStoriciTotali);
         console.log(data);
         let labels = ['Acquisto','NLT'];
         var ctx = document.getElementById('myChart');
