@@ -257,7 +257,7 @@ body .black-font {
   margin-left: 2%;
 }
 
-#myChart {
+#myChart, #myChart-patrimonio {
   min-height: 600px;
   max-height: 600px;
   max-width: 600px;
@@ -265,7 +265,7 @@ body .black-font {
 }
 
 @media (max-width: 400px) {
-  #myChart {
+  #myChart, #myChart-patrimonio {
     width: 300px !important;
     height: 300px !important;
   }

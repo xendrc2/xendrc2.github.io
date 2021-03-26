@@ -220,6 +220,18 @@ var contatore = 0;
     const surplusNLT = [];
     const patrimonioAcquisto = [];
     const patrimonioNLT = [];
+    const capitaleAcquistoCumulativo = [];
+    const capitaleNLTCumulativo = [];
+    const patrimonioAcquistoCumulativo = [];
+    const patrimonioNLTCumulativo = [];
+    const plusvalenzeLordeAcquistoStoriche = [];
+    const plusvalenzeLordeAcquistoStoricheCumulative = [];
+    const plusvalenzeNetteAcquistoStoriche = [];
+    const plusvalenzeNetteAcquistoStoricheCumulative = [];
+    const plusvalenzeLordeNLTStoriche = [];
+    const plusvalenzeLordeNLTStoricheCumulative = [];
+    const plusvalenzeNetteNLTStoriche = [];
+    const plusvalenzeNetteNLTStoricheCumulative = [];
 
     for (i = 0; i < anniSimulazione; i++) {
         surplusAcquisto.push(Math.max(- costiAcquistoStorici[i] + costiNLTStorici[i],0));
@@ -227,7 +239,50 @@ var contatore = 0;
 
         patrimonioAcquisto.push(surplusAcquisto[i] * Math.pow(1+rendimentoInvestimenti,anniSimulazione - i - 1));
         patrimonioNLT.push(surplusNLT[i] * Math.pow(1+rendimentoInvestimenti,anniSimulazione - i - 1));
+
+
+
+        if (i>0) {
+            capitaleAcquistoCumulativo.push(surplusAcquisto[i]+ capitaleAcquistoCumulativo[i - 1]);
+            capitaleNLTCumulativo.push(surplusNLT[i] + capitaleNLTCumulativo[i - 1]);
+
+            patrimonioAcquistoCumulativo.push(patrimonioAcquisto[i]+ patrimonioAcquistoCumulativo[i - 1]);
+            patrimonioNLTCumulativo.push(patrimonioNLT[i] + patrimonioNLTCumulativo[i - 1]);
+
+            plusvalenzeLordeAcquistoStoriche.push((capitaleAcquistoCumulativo[i - 1] + plusvalenzeLordeAcquistoStoriche.reduce(reducer))* (rendimentoInvestimenti));
+            plusvalenzeLordeAcquistoStoricheCumulative.push(plusvalenzeLordeAcquistoStoriche[i] + plusvalenzeLordeAcquistoStoricheCumulative[i - 1]);
+
+            plusvalenzeNetteAcquistoStoriche.push(plusvalenzeLordeAcquistoStoriche[i] * (1 - tassaPlusvalenze));
+            plusvalenzeNetteAcquistoStoricheCumulative.push(plusvalenzeNetteAcquistoStoriche[i] + plusvalenzeNetteAcquistoStoricheCumulative[i - 1]);
+
+            plusvalenzeLordeNLTStoriche.push((capitaleNLTCumulativo[i - 1] + plusvalenzeLordeNLTStoriche.reduce(reducer))* (rendimentoInvestimenti));
+            plusvalenzeLordeNLTStoricheCumulative.push(plusvalenzeLordeNLTStoriche[i] + plusvalenzeLordeNLTStoricheCumulative[i - 1]);
+
+            plusvalenzeNetteNLTStoriche.push(plusvalenzeLordeNLTStoriche[i] * (1 - tassaPlusvalenze));
+            plusvalenzeNetteNLTStoricheCumulative.push(plusvalenzeNetteNLTStoriche[i] + plusvalenzeNetteNLTStoricheCumulative[i - 1]);
+
+        } else {
+            patrimonioAcquistoCumulativo.push(patrimonioAcquisto[i]);
+            patrimonioNLTCumulativo.push(patrimonioNLT[i]);
+
+            plusvalenzeLordeAcquistoStoriche.push(0);
+            plusvalenzeLordeAcquistoStoricheCumulative.push(plusvalenzeLordeAcquistoStoriche[i]);
+
+            capitaleAcquistoCumulativo.push(surplusAcquisto[i]);
+            capitaleNLTCumulativo.push(surplusNLT[i]);
+
+            plusvalenzeNetteAcquistoStoriche.push(plusvalenzeLordeAcquistoStoriche[i] * (1 - tassaPlusvalenze));
+            plusvalenzeNetteAcquistoStoricheCumulative.push(plusvalenzeNetteAcquistoStoriche[i]);
+
+            plusvalenzeLordeNLTStoriche.push(0);
+            plusvalenzeLordeNLTStoricheCumulative.push(plusvalenzeLordeNLTStoriche[i]);
+
+            plusvalenzeNetteNLTStoriche.push(plusvalenzeLordeNLTStoriche[i] * (1 - tassaPlusvalenze));
+            plusvalenzeNetteNLTStoricheCumulative.push(plusvalenzeNetteNLTStoriche[i]);
+        };
+
     };
+
 
     const capitaleAcquisto = surplusAcquisto.reduce(reducer);
     const capitaleNLT = surplusNLT.reduce(reducer);
@@ -260,38 +315,63 @@ var contatore = 0;
     document.getElementById('table-acquisto-totale').innerHTML = formatter.format(costiAcquistoStoriciTotali);
 
     //Creazione Grafico
+        Chart.defaults.global.defaultFontFamily = 'Titillium Web', "sans-serif";
+
         if(contatore > 0) {
             $('#myChart').remove(); // this is my <canvas> element
             $('#graph-container').append('<canvas id="myChart" width="0" height="0" class="hidden-chart"><canvas>');
+
+            $('#myChart-patrimonio').remove(); // this is my <canvas> element
+            $('#graph-container-patrimonio').append('<canvas id="myChart-patrimonio" width="0" height="0" class="hidden-chart"><canvas>');
         };
 
-        let data = [];
-        data.push(costiAcquistoStoriciTotali);
-        data.push(costiNLTStoriciTotali);
-        console.log(data);
-        let labels = ['Acquisto','NLT'];
+        let dataAcquistoTotale = [];
+        dataAcquistoTotale.push(costiAcquistoStoriciTotali);
+        let dataNLTTotale =[];
+        dataNLTTotale.push(costiNLTStoriciTotali);
+
+        let dataAcquistoStorico = [];
+        dataAcquistoStorico.push(costiAcquistoStorici);
+        let dataNLTStorico =[];
+        dataNLTStorico.push(costiNLTStorici);
+
+        let labels = [];
+        let backgroundColorCostiAcquisto = [];
+        let backgroundColorCostiNLT = [];
+        let backgroundColorAcquisto = [];
+        let backgroundColorNLT = [];
+        let backgroundColorRendimentiLordiAcquisto = [];
+        let backgroundColorRendimentiNettiAcquisto = [];
+        let backgroundColorRendimentiLordiNLT = [];
+        let backgroundColorRendimentiNettiNLT = [];
+        for (i = 0; i < anniSimulazione; i++) {
+            labels.push(i+1);
+            backgroundColorCostiAcquisto.push('rgba(0, 99, 132, 0.8)');
+            backgroundColorCostiNLT.push('rgba(232, 126, 4, 0.8)');
+            backgroundColorAcquisto.push('rgba(0, 99, 132, 0.2)');
+            backgroundColorNLT.push('rgba(232, 126, 4, 0.2)');
+            backgroundColorRendimentiLordiAcquisto.push('rgba(0, 99, 132, 0.5)');
+            backgroundColorRendimentiNettiAcquisto.push('rgba(0, 99, 132, 0.8)');
+            backgroundColorRendimentiLordiNLT.push('rgba(232, 126, 4, 0.5)');
+            backgroundColorRendimentiNettiNLT.push('rgba(232, 126, 4, 0.8)');
+        };
         var ctx = document.getElementById('myChart');
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Costi Totali',
-                    data: data,
-                    backgroundColor: [
-                        'rgba(0, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(10, 120, 61, 0.5)',
-                        'rgba(110, 11, 11, 0.5)'
-                    ],
-                    borderColor: [
-                        'rgba(0, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(10, 120, 61, 0.5)',
-                        'rgba(110, 11, 11, 0.5)'
-                    ],
+                    label: 'Acquisto',
+                    data: costiAcquistoStorici,
+                    backgroundColor: backgroundColorCostiAcquisto,
                     borderWidth: 1
-                }]
+                },
+                {
+                    label: 'NLT',
+                    data: costiNLTStorici,
+                    backgroundColor: backgroundColorCostiNLT,
+                    borderWidth: 1
+                }],
             },
             options: {
                 scales: {
@@ -301,18 +381,34 @@ var contatore = 0;
                             callback: function(value, index, values) {
                                 return formatter.format(value);
                             }
+                        },
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        scaleLabel:{
+                            display: true,
+                            labelString: 'Anni'
                         }
                     }]
+
                 },
                 title:{
                     display: true,
-                    text: 'Costi Totali'
+                    text: 'Costi Annuali'
                 },
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'top',
+                    align: 'center',
                 },
                 tooltips: {
                     callbacks: {
+                        title: function(tooltipItems, data) {
+                            //Return value for title
+                            return tooltipItems.xLabel;
+                        },
                         label: function(tooltipItems, data) { 
                             return formatter.format(tooltipItems.yLabel);
                         }
@@ -322,10 +418,114 @@ var contatore = 0;
                 maintainAspectRatio: false
             }
         });
+
+        var ctxPatrimonio = document.getElementById('myChart-patrimonio');
+        var myChart = new Chart(ctxPatrimonio, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Patrimonio Acquisto',
+                    data: patrimonioAcquistoCumulativo,
+                    backgroundColor: backgroundColorAcquisto,
+                    borderWidth: 1,
+                    //xAxisID: "bar-x-axis1",
+                    stack: 'Acquisto'
+                },
+                {
+                    label: 'Rendimenti Lordi Acquisto',
+                    data: plusvalenzeLordeAcquistoStoricheCumulative,
+                    backgroundColor: backgroundColorRendimentiLordiAcquisto,
+                    borderWidth: 1,
+                    //xAxisID: "bar-x-axis1",
+                    stack: 'Acquisto'
+                },
+                {
+                    label: 'Rendimenti Netti Acquisto',
+                    data: plusvalenzeNetteAcquistoStoricheCumulative,
+                    backgroundColor: backgroundColorRendimentiNettiAcquisto,
+                    borderWidth: 1,
+                    //xAxisID: "bar-x-axis1",
+                    stack: 'Acquisto'
+                },
+                {
+                    label: 'Patrimonio NLT',
+                    data: patrimonioNLTCumulativo,
+                    backgroundColor: backgroundColorNLT,
+                    borderWidth: 1,
+                    //xAxisID: "bar-x-axis2"
+                },
+                {
+                    label: 'Rendimenti Lordi NLT',
+                    data: plusvalenzeLordeNLTStoricheCumulative,
+                    backgroundColor: backgroundColorRendimentiLordiNLT,
+                    borderWidth: 1,
+                    //xAxisID: "bar-x-axis2"
+                },
+                {
+                    label: 'Rendimenti Netti NLT',
+                    data: plusvalenzeNetteNLTStoricheCumulative,
+                    backgroundColor: backgroundColorRendimentiNettiNLT,
+                    borderWidth: 1,
+                    //xAxisID: "bar-x-axis2"
+                }
+            ],
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                return formatter.format(value);
+                            }
+                        },
+                        stacked: false
+                    }],
+                    xAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                },
+                                scaleLabel:{
+                                    display: true,
+                                    labelString: 'Anni'
+                                },
+                                stacked: true,
+                            }]
+                        },
+                title:{
+                    display: true,
+                    text: 'Patrimonio totale'
+                },
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'center'
+                },
+                tooltips: {
+                    mode: 'x',
+                    callbacks: {
+                        label: function(tooltipItems, data) { 
+                            var label = data.datasets[tooltipItems.datasetIndex].label;
+                            return label + ' ' + formatter.format(tooltipItems.yLabel);
+                        }
+                    }   
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
         //document.getElementById("myChart").width = "600";
         //document.getElementById("myChart").height = "600";
         contatore = contatore + 1;
         console.log(contatore);
+
+        if (investimenti) {
+            $('#graph-container-patrimonio').show();
+        } else {
+            $('#graph-container-patrimonio').hide();
+        }
   
       document.getElementById("results-container").classList.remove("user-hidden");
   }

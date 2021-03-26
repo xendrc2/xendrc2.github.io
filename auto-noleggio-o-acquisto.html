@@ -159,19 +159,19 @@
                         </div>
 
                         <div class="col s12 center-align">
-                            <h5>Noleggio a Lungo Termine</h5>
+                            <h5>Noleggio a Lungo Termine (NLT)</h5>
                         </div>
-                        <div class="input-field col s4 z-depth-1">
+                        <div class="input-field col s5 z-depth-1">
                             <label>Rata Mensile</label>
                             <input type="number" class="validate" id="rata-nlt" value="200" min="0" >
+                        </div>
+                        <div class="input-field col s5 z-depth-1">
+                            <label>Anticipo</label>
+                            <input type="number" class="validate" id="anticipo-nlt" value="2000" min="0" >
                         </div>
                         <div class="input-field col s12 m8 l8 z-depth-1 tooltipped" data-position="top" data-tooltip="Molti contratti NLT coprono i costi di gestione al 100% o in misura minore. Verifica i termini contrattuale e inserisci qui i costi scoperti">
                             <label>Costi di Gestione Annuali (Bollo, Tagliando, Revisione)</label>
                             <input type="number" class="validate" id="costi-gestione-nlt" value="0" min="0" >
-                        </div>
-                        <div class="input-field col s3 m2 l2 z-depth-1">
-                            <label>Anticipo</label>
-                            <input type="number" class="validate" id="anticipo-nlt" value="2000" min="0" >
                         </div>
                         <div class="input-field col s6 m4 l4 z-depth-1">
                             <label>Durata Noleggio (anni)</label>
@@ -181,6 +181,10 @@
 
                     <div id="graph-container">
                         <canvas id="myChart" width="0" height="0" class="hidden-chart"></canvas>
+                    </div>
+
+                    <div id="graph-container-patrimonio">
+                        <canvas id="myChart-patrimonio" width="0" height="0" class="hidden-chart"></canvas>
                     </div>
 
                     <div class="row user-hidden" id="results-container">
