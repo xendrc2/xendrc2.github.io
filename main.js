@@ -914,6 +914,10 @@ function calcolo()
                                 callback: function(value, index, values) {
                                     return formatter.format(value);
                                 }
+                            },
+                            scaleLabel:{
+                                display: true,
+                                labelString: 'Patrimonio'
                             }
                         }, {
                             id: 'CAGR',
@@ -928,7 +932,11 @@ function calcolo()
                             },
                             gridLines: {
                                 display:false
-                            }                           
+                            },       
+                            scaleLabel:{
+                                display: true,
+                                labelString: 'Crescita annuale'
+                            }
                         }]
                     },
                     title:{
@@ -960,6 +968,25 @@ function calcolo()
             //document.getElementById("myChart").height = "600";
             contatore = contatore + 1;
             console.log(contatore);
+    
+    $('#results').remove();
+    $('.results-card').show();
+    if (patrimonioTotaleAffittoChart == Math.max(...data)) {
+        let textSpan = "<span id='results'>La scelta più conveniente è l'<b>Affitto!</b> 🎉 Accumulerai un patrimonio di <b>" + formatter.format(patrimonioTotaleAffittoChart) + "</b> in " + anniSimulazione + " anni. <br><br> Scorri per maggiori dettagli.";
+        $('.results-card').append(textSpan);
+    } else if (patrimonioTotaleAcquisto == Math.max(...data)) {
+        let textSpan = "<span id='results'>La scelta più conveniente è l'<b>Acquisto!</b> 🎉 Accumulerai un patrimonio di <b>" + formatter.format(patrimonioTotaleAcquisto) + "</b> in " + anniSimulazione + " anni. <br><br> Scorri per maggiori dettagli.";
+        $('.results-card').append(textSpan);
+    } else if (patrimonioTotaleAffittoAcquisto == Math.max(...data) && checkboxValueAffAcq == true) {
+        let textSpan = "<span id='results'>La scelta più conveniente è <b>Affitto + Acquisto!</b> 🎉 Accumulerai un patrimonio di <b>" + formatter.format(patrimonioTotaleAffittoAcquisto) + "</b> in " + anniSimulazione + " anni. <br><br> Scorri per maggiori dettagli.";
+        $('.results-card').append(textSpan);
+    } else if (patrimonioTotaleAcquistoAcquisto == Math.max(...data) && checkboxValueAcqAcq == true) {
+        let textSpan = "<span id='results'>La scelta più conveniente è l'<b>Acquisto + Acquisto!</b> 🎉 Accumulerai un patrimonio di <b>" + formatter.format(patrimonioTotaleAcquistoAcquisto) + "</b> in " + anniSimulazione + " anni. <br><br> Scorri per maggiori dettagli.";
+        $('.results-card').append(textSpan);
+    } else {
+        let textSpan = "<span id='results'>Ci sono scenari <b>identici</b> nell'arco di " + anniSimulazione + " anni! Scegli quindi quella che preferisci. <br><br> Scorri per maggiori dettagli.";
+        $('.results-card').append(textSpan);
+    }
 
     document.getElementById("results-container").classList.remove("user-hidden");
     $("#icona-opzioni-avanzate").html('arrow_drop_down');

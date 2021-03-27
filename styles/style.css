@@ -339,4 +339,10 @@ body .black-font {
 .border-table table tfoot {
   border-bottom: 1px solid black !important;
 }
+
+.results-card {
+  border-radius: 25px !important;
+  font-size: 1.2rem;
+  display: none;
+}
 /*# sourceMappingURL=style.css.map */
