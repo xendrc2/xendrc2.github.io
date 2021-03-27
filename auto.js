@@ -232,6 +232,8 @@ var contatore = 0;
     const plusvalenzeLordeNLTStoricheCumulative = [];
     const plusvalenzeNetteNLTStoriche = [];
     const plusvalenzeNetteNLTStoricheCumulative = [];
+    const patrimonioAcquistoStoricoCumulativo = [];
+    const patrimonioNLTStoricoCumulativo = [];
 
     for (i = 0; i < anniSimulazione; i++) {
         surplusAcquisto.push(Math.max(- costiAcquistoStorici[i] + costiNLTStorici[i],0));
@@ -281,6 +283,8 @@ var contatore = 0;
             plusvalenzeNetteNLTStoricheCumulative.push(plusvalenzeNetteNLTStoriche[i]);
         };
 
+        patrimonioAcquistoStoricoCumulativo.push(capitaleAcquistoCumulativo[i] + plusvalenzeLordeAcquistoStoricheCumulative[i]);
+        patrimonioNLTStoricoCumulativo.push(capitaleNLTCumulativo[i] + plusvalenzeLordeNLTStoricheCumulative[i]);
     };
 
 
@@ -426,7 +430,7 @@ var contatore = 0;
                 labels: labels,
                 datasets: [{
                     label: 'Patrimonio Acquisto',
-                    data: patrimonioAcquistoCumulativo,
+                    data: patrimonioAcquistoStoricoCumulativo,
                     backgroundColor: backgroundColorAcquisto,
                     borderWidth: 1,
                     //xAxisID: "bar-x-axis1",
@@ -450,7 +454,7 @@ var contatore = 0;
                 },
                 {
                     label: 'Patrimonio NLT',
-                    data: patrimonioNLTCumulativo,
+                    data: patrimonioNLTStoricoCumulativo,
                     backgroundColor: backgroundColorNLT,
                     borderWidth: 1,
                     //xAxisID: "bar-x-axis2"
