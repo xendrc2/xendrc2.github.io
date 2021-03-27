@@ -327,6 +327,7 @@ var contatore = 0;
 
             $('#myChart-patrimonio').remove(); // this is my <canvas> element
             $('#graph-container-patrimonio').append('<canvas id="myChart-patrimonio" width="0" height="0" class="hidden-chart"><canvas>');
+
         };
 
         let dataAcquistoTotale = [];
@@ -530,6 +531,20 @@ var contatore = 0;
         } else {
             $('#graph-container-patrimonio').hide();
         }
+
+        $('#results').remove();
+        $('.results-card').show();
+        if (costiAcquistoStoriciTotali > costiNLTStoriciTotali) {
+            let textSpan = "<span id='results'>La scelta più conveniente è il <b>Noleggio a Lungo Termine!</b> 🎉 Risparmierai <b>" + formatter.format(costiAcquistoStoriciTotali - costiNLTStoriciTotali) + "</b> rispetto all'Acquisto in " + anniSimulazione + " anni. <br><br> Scorri per maggiori dettagli.";
+            $('.results-card').append(textSpan);
+        } else if (costiAcquistoStoriciTotali < costiNLTStoriciTotali) {
+            let textSpan = "<span id='results'>La scelta più conveniente è l'<b>Acquisto!</b> 🎉 Risparmierai <b>" + formatter.format(- costiAcquistoStoriciTotali + costiNLTStoriciTotali) + "</b> rispetto al Noleggio a Lungo Termine in " + anniSimulazione + " anni. <br> Scorri per maggiori dettagli.";
+            $('.results-card').append(textSpan);
+        } else {
+            let textSpan = "<span id='results'>Le due scelte sono esattamente <b>identiche</b> nell'arco di " + anniSimulazione + " anni! Scegli quindi quella che preferisci. <br> Scorri per maggiori dettagli.";
+            $('.results-card').append(textSpan);
+        }
+        
   
       document.getElementById("results-container").classList.remove("user-hidden");
   }

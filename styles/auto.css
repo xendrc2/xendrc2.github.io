@@ -324,4 +324,10 @@ body .black-font {
   color: white;
   text-decoration: none;
 }
+
+.results-card {
+  border-radius: 25px !important;
+  font-size: 1.2rem;
+  display: none;
+}
 /*# sourceMappingURL=auto.css.map */
