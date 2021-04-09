@@ -239,7 +239,8 @@ body p {
   grid-column: 3/4;
   border: 1px solid white !important;
   border-radius: 5px;
-  padding: 1rem 0rem 1rem 0rem;
+  padding: 1rem 0.6rem 1rem 0.6rem;
+  margin: 1rem 0rem;
 }
 
 .grid .link-auto:hover, .grid .link-auto:focus {
@@ -270,6 +271,38 @@ body p {
   font-weight: bold;
 }
 
+.grid .link-pac {
+  border: 1px solid white !important;
+  border-radius: 5px;
+  padding: 1rem 0.6rem 1rem 0.6rem;
+  margin: 1rem 0rem;
+}
+
+.grid .link-pac:hover, .grid .link-pac:focus {
+  -webkit-box-shadow: 0 0.5em 0.5em -0.4em;
+          box-shadow: 0 0.5em 0.5em -0.4em;
+  -webkit-transform: translateY(-0.25em);
+          transform: translateY(-0.25em);
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  color: linear-gradient(90deg, cornflowerblue 0%, #a81dfd 100%);
+  -webkit-box-shadow: inset 0 -3.25em 0 0;
+          box-shadow: inset 0 -3.25em 0 0;
+}
+
+.grid .pac {
+  color: white;
+  padding: 14px 25px;
+  border-radius: 3%;
+  text-decoration: none;
+}
+
+.grid .pac:hover, .grid .pac:focus {
+  color: #266ae9;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 1100px) {
   .grid .link-casa {
     -ms-grid-column: 1;
@@ -277,6 +310,11 @@ body p {
     grid-column: 1/4;
   }
   .grid .link-auto {
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 3;
+    grid-column: 1/4;
+  }
+  .grid .link-pac {
     -ms-grid-column: 1;
     -ms-grid-column-span: 3;
     grid-column: 1/4;
