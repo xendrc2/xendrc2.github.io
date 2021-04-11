@@ -92,6 +92,32 @@ var contatore = 0;
 //Funzione per calcolare il totale di un array
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
+//Calcolo e aggiornamento automatico IRPEF
+
+
+const selectRAL = document.getElementById('ral');
+selectRAL.addEventListener('change', (event) => {
+    let RAL = parseFloat(document.getElementById('ral').value);
+    let scaglioni = [15000,13000,27000,20000,Math.pow(10, 1000)];
+    let IRPEF = [0.23, 0.27, 0.38, 0.41, 0.43];
+    let decreasingRAL = RAL;
+    let scaglioniRAL = [];
+    let appliedIRPEF = [];
+    for (i = 0; i < 5; i++) {
+        scaglioniRAL.push(Math.min(decreasingRAL, scaglioni[i]));
+        decreasingRAL = decreasingRAL - scaglioniRAL[i];
+
+        if (scaglioniRAL[i] != 0) {
+            appliedIRPEF.push(IRPEF[i]);
+        } else {
+            appliedIRPEF.push(0);
+        }
+    }
+
+    document.getElementById('irpef').value = Math.max.apply(Math, appliedIRPEF) * 100;
+});
+
+
   //FUNZIONE DI CALCOLO - abbinata al bottone
   function calcolo()
   {
@@ -103,194 +129,162 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
         let investimentoAnnuale = parseFloat(document.getElementById('investimento-annuale').value);
 
+        const limiteDeducibilità = 5164.57;
+        const impostaDiBollo = 0.002;
         const tassaPlusvalenzePAC = 0.26;
         const tassaPlusvalenzeFP = 0.2;
 
-
+        let contributoDeducibile = Math.min(investimentoAnnuale, limiteDeducibilità);
     //PAC
     
-        let rendimentoPAC = parseFloat(document.getElementById('rendimento-pac').value);
+        let rendimentoPAC = parseFloat(document.getElementById('rendimento-pac').value) / 100;
 
-        let costiGestionePAC = parseFloat(document.getElementById('costi-gestione-pac').value);
+        let costiGestionePAC = parseFloat(document.getElementById('costi-gestione-pac').value) / 100;
 
-        let investimentiStorici = [];
-        let costiGestioneStorici = [];
-        let investimentiCumulativi = [];
-        let costiGestioneCumulativi = [];
-        let patrimonioStoricoLordo = [];
-        let tasseStoriche = [];
-        let tasseStoricheCumulative = [];
-        let patrimonioStoricoNettoCosti = [];
-        let patrimonioStoricoNettoCostiTasse = [];
-        let patrimonioStoricoLordoCumulativo = [];
-        let patrimonioStoricoNettoCumulativoCosti = [];
-        let patrimonioStoricoNettoCumulativoCostiTasse = [];
+        let investimentiStoriciPAC = [];
+        let investimentiCumulativiPAC = [];
+
+        let costiGestioneCumulativiPAC = [];
+
+        let tasseStoricheCumulativePAC = [];
+
+        let patrimonioStoricoLordoCumulativoPAC = [];
+        let patrimonioStoricoNettoCumulativoCostiPAC = [];
+        let patrimonioStoricoNettoCumulativoCostiImpostaPAC = [];
+        let plusvalenzeStoricheCumulativePAC = [];
+        let patrimonioStoricoNettoCumulativoCostiImpostaTassePAC = [];
 
         for (i = 0; i < anniSimulazione; i++) {
 
-            investimentiStorici.push();
-            costiGestioneStorici.push();
+            investimentiStoriciPAC.push(investimentoAnnuale);
 
-            investimentiCumulativi.push();
-            costiGestioneCumulativi.push();
+            investimentiCumulativiPAC.push(investimentiStoriciPAC[i] + Math.max(investimentiCumulativiPAC[i - 1], 0));
 
-            patrimonioStoricoLordo.push();
-            patrimonioStoricoNettoCosti.push();
-            patrimonioStoricoNettoCostiTasse.push();
+            let compoundingFactor = 1 + rendimentoPAC;
 
-            patrimonioStoricoLordoCumulativo.push();
-            patrimonioStoricoNettoCumulativoCosti.push();
-            patrimonioStoricoNettoCumulativoCostiTasse.push();
+            patrimonioStoricoLordoCumulativoPAC.push(investimentiStoriciPAC[i] + Math.max(investimentiCumulativiPAC[i - 1], 0) * compoundingFactor);
+
+            costiGestioneCumulativiPAC.push(costiGestionePAC * patrimonioStoricoLordoCumulativoPAC[i]);
+
+            patrimonioStoricoNettoCumulativoCostiPAC.push(patrimonioStoricoLordoCumulativoPAC[i] - costiGestioneCumulativiPAC[i]);
+            patrimonioStoricoNettoCumulativoCostiImpostaPAC.push(patrimonioStoricoNettoCumulativoCostiPAC[i] * (1 - impostaDiBollo));
+            
+            plusvalenzeStoricheCumulativePAC.push(patrimonioStoricoNettoCumulativoCostiImpostaPAC[i] - investimentiCumulativiPAC[i]);
+            
+            tasseStoricheCumulativePAC.push(plusvalenzeStoricheCumulativePAC[i] * tassaPlusvalenzePAC);
+            patrimonioStoricoNettoCumulativoCostiImpostaTassePAC.push(plusvalenzeStoricheCumulativePAC[i] * (1 - tassaPlusvalenzePAC) + investimentiCumulativiPAC[i]);
         };
 
-        let investimentiTotali = investimentiStorici.reduce(reducer);
-        let costiTotali = costiGestioneStorici.reduce(reducer);
-        let patrimonioTotaleLordo = Math.max(patrimonioStoricoLordoCumulativo);
-        let tasseTotali = Math.max(tasseStoricheCumulative);
-        let patrimonioTotaleNettoCosti = Math.max(patrimonioStoricoNettoCumulativoCosti);
-        let patrimonioTotaleNettoCostiTasse = Math.max(patrimonioStoricoNettoCumulativoCostiTasse);
+        let costiTotaliPAC = Math.max(costiGestioneCumulativiPAC);
+        let patrimonioTotaleLordoPAC = Math.max(patrimonioStoricoLordoCumulativoPAC);
+        let tasseTotaliPAC = Math.max(tasseStoricheCumulativePAC);
+
+        let patrimonioTotaleNettoCostiImpostaTassePAC = Math.max(patrimonioStoricoNettoCumulativoCostiImpostaTassePAC);
 
 
         
 
-        document.getElementById('table-patrimonio-pac').innerHTML = formatter.format(patrimonioTotaleLordo);
+        document.getElementById('table-patrimonio-pac').innerHTML = formatter.format(patrimonioTotaleLordoPAC);
 
-        document.getElementById('table-costi-pac').innerHTML = formatter.format(costiTotali);
+        document.getElementById('table-costi-pac').innerHTML = formatter.format(costiTotaliPAC);
 
-        document.getElementById('table-tasse-pac').innerHTML = formatter.format(tasseTotali);
+        document.getElementById('table-tasse-pac').innerHTML = formatter.format(tasseTotaliPAC);
 
-        document.getElementById('table-pac-totale').innerHTML = formatter.format(patrimonioTotaleNettoCostiTasse);
+        document.getElementById('table-pac-totale').innerHTML = formatter.format(patrimonioTotaleNettoCostiImpostaTassePAC);
 
       
     //Fondo Pensione
-        let rataNLT = parseFloat(document.getElementById('rata-nlt').value);
-        let rataNLTAnnuale = rataNLT * 12;
-
-        let costiGestioneNLT = parseFloat(document.getElementById('costi-gestione-nlt').value);
-
-        let durataNLT = parseFloat(document.getElementById('durata-nlt').value);
-
-        let anticipoNLT = parseFloat(document.getElementById('anticipo-nlt').value);
-
-        let rataNLTStorica = [];
-        let costiGestioneNLTStorici = [];
-        let anticipiNLTStorici = [];
-        let costiNLTStorici = [];
-        for (i = 0; i < anniSimulazione; i++) {
-            rataNLTStorica.push(rataNLTAnnuale);
-            costiGestioneNLTStorici.push(costiGestioneNLT);
-            if (i % durataNLT == 0) {
-                anticipiNLTStorici.push(anticipoNLT);
-            } else {
-                anticipiNLTStorici.push(0);
-            };
-            costiNLTStorici.push(rataNLTStorica[i] + costiGestioneNLTStorici[i] + anticipiNLTStorici[i]);
-        };
-
-
-    //Bilancio Patrimoniale
-
-    const surplusAcquisto = [];
-    const surplusNLT = [];
-    const patrimonioAcquisto = [];
-    const patrimonioNLT = [];
-    const capitaleAcquistoCumulativo = [];
-    const capitaleNLTCumulativo = [];
-    const patrimonioAcquistoCumulativo = [];
-    const patrimonioNLTCumulativo = [];
-    const plusvalenzeLordeAcquistoStoriche = [];
-    const plusvalenzeLordeAcquistoStoricheCumulative = [];
-    const plusvalenzeNetteAcquistoStoriche = [];
-    const plusvalenzeNetteAcquistoStoricheCumulative = [];
-    const plusvalenzeLordeNLTStoriche = [];
-    const plusvalenzeLordeNLTStoricheCumulative = [];
-    const plusvalenzeNetteNLTStoriche = [];
-    const plusvalenzeNetteNLTStoricheCumulative = [];
-    const patrimonioAcquistoStoricoCumulativo = [];
-    const patrimonioNLTStoricoCumulativo = [];
-
-    for (i = 0; i < anniSimulazione; i++) {
-        surplusAcquisto.push(Math.max(- costiAcquistoStorici[i] + costiNLTStorici[i],0));
-        surplusNLT.push(Math.max(costiAcquistoStorici[i] - costiNLTStorici[i],0));
-
-        patrimonioAcquisto.push(surplusAcquisto[i] * Math.pow(1+rendimentoInvestimenti,anniSimulazione - i - 1));
-        patrimonioNLT.push(surplusNLT[i] * Math.pow(1+rendimentoInvestimenti,anniSimulazione - i - 1));
-
-
-
-        if (i>0) {
-            capitaleAcquistoCumulativo.push(surplusAcquisto[i]+ capitaleAcquistoCumulativo[i - 1]);
-            capitaleNLTCumulativo.push(surplusNLT[i] + capitaleNLTCumulativo[i - 1]);
-
-            patrimonioAcquistoCumulativo.push(patrimonioAcquisto[i]+ patrimonioAcquistoCumulativo[i - 1]);
-            patrimonioNLTCumulativo.push(patrimonioNLT[i] + patrimonioNLTCumulativo[i - 1]);
-
-            plusvalenzeLordeAcquistoStoriche.push((capitaleAcquistoCumulativo[i - 1] + plusvalenzeLordeAcquistoStoriche.reduce(reducer))* (rendimentoInvestimenti));
-            plusvalenzeLordeAcquistoStoricheCumulative.push(plusvalenzeLordeAcquistoStoriche[i] + plusvalenzeLordeAcquistoStoricheCumulative[i - 1]);
-
-            plusvalenzeNetteAcquistoStoriche.push(plusvalenzeLordeAcquistoStoriche[i] * (1 - tassaPlusvalenze));
-            plusvalenzeNetteAcquistoStoricheCumulative.push(plusvalenzeNetteAcquistoStoriche[i] + plusvalenzeNetteAcquistoStoricheCumulative[i - 1]);
-
-            plusvalenzeLordeNLTStoriche.push((capitaleNLTCumulativo[i - 1] + plusvalenzeLordeNLTStoriche.reduce(reducer))* (rendimentoInvestimenti));
-            plusvalenzeLordeNLTStoricheCumulative.push(plusvalenzeLordeNLTStoriche[i] + plusvalenzeLordeNLTStoricheCumulative[i - 1]);
-
-            plusvalenzeNetteNLTStoriche.push(plusvalenzeLordeNLTStoriche[i] * (1 - tassaPlusvalenze));
-            plusvalenzeNetteNLTStoricheCumulative.push(plusvalenzeNetteNLTStoriche[i] + plusvalenzeNetteNLTStoricheCumulative[i - 1]);
-
-        } else {
-            patrimonioAcquistoCumulativo.push(patrimonioAcquisto[i]);
-            patrimonioNLTCumulativo.push(patrimonioNLT[i]);
-
-            plusvalenzeLordeAcquistoStoriche.push(0);
-            plusvalenzeLordeAcquistoStoricheCumulative.push(plusvalenzeLordeAcquistoStoriche[i]);
-
-            capitaleAcquistoCumulativo.push(surplusAcquisto[i]);
-            capitaleNLTCumulativo.push(surplusNLT[i]);
-
-            plusvalenzeNetteAcquistoStoriche.push(plusvalenzeLordeAcquistoStoriche[i] * (1 - tassaPlusvalenze));
-            plusvalenzeNetteAcquistoStoricheCumulative.push(plusvalenzeNetteAcquistoStoriche[i]);
-
-            plusvalenzeLordeNLTStoriche.push(0);
-            plusvalenzeLordeNLTStoricheCumulative.push(plusvalenzeLordeNLTStoriche[i]);
-
-            plusvalenzeNetteNLTStoriche.push(plusvalenzeLordeNLTStoriche[i] * (1 - tassaPlusvalenze));
-            plusvalenzeNetteNLTStoricheCumulative.push(plusvalenzeNetteNLTStoriche[i]);
-        };
-
-        patrimonioAcquistoStoricoCumulativo.push(capitaleAcquistoCumulativo[i] + plusvalenzeLordeAcquistoStoricheCumulative[i]);
-        patrimonioNLTStoricoCumulativo.push(capitaleNLTCumulativo[i] + plusvalenzeLordeNLTStoricheCumulative[i]);
-    };
-
-
-    const capitaleAcquisto = surplusAcquisto.reduce(reducer);
-    const capitaleNLT = surplusNLT.reduce(reducer);
-    const patrimonioAcquistoTotale = patrimonioAcquisto.reduce(reducer);
-    const patrimonioNLTTotale = patrimonioNLT.reduce(reducer);
-    const plusvalenzeLordeAcquisto = patrimonioAcquistoTotale - capitaleAcquisto;
-    const plusvalenzeLordeNLT = patrimonioNLTTotale - capitaleNLT;
-    const plusvalenzeNetteAcquisto = plusvalenzeLordeAcquisto * (1 - tassaPlusvalenze);
-    const plusvalenzeNetteNLT = plusvalenzeLordeNLT * (1 - tassaPlusvalenze);
-
-    document.getElementById('table-rendimenti-acquisto').innerHTML = formatter.format(-plusvalenzeNetteAcquisto);
-
-    document.getElementById('table-rendimenti-nlt').innerHTML = formatter.format(-plusvalenzeNetteNLT);
-
-
-    let rataNLTStoricaTotale = rataNLTStorica.reduce(reducer);
-    let costiGestioneNLTStoriciTotali = costiGestioneNLTStorici.reduce(reducer);
-    let anticipiNLTStoriciTotali = anticipiNLTStorici.reduce(reducer);
-    let costiNLTStoriciTotali = costiNLTStorici.reduce(reducer) - plusvalenzeNetteNLT;
-  
-    document.getElementById('table-anticipi-nlt').innerHTML = formatter.format(anticipiNLTStoriciTotali);
-
-    document.getElementById('table-rate-nlt').innerHTML = formatter.format(rataNLTStoricaTotale);
-
-    document.getElementById('table-costi-nlt').innerHTML = formatter.format(costiGestioneNLTStoriciTotali);
-
-    document.getElementById('table-nlt-totale').innerHTML = formatter.format(costiNLTStoriciTotali);
     
-    let costiAcquistoStoriciTotali = costiAcquistoStorici.reduce(reducer) - plusvalenzeNetteAcquisto;
-    document.getElementById('table-acquisto-totale').innerHTML = formatter.format(costiAcquistoStoriciTotali);
+        let rendimentoFP = parseFloat(document.getElementById('rendimento-fp').value) / 100;
+
+        let costiGestioneFP = parseFloat(document.getElementById('costi-gestione-fp').value) / 100;
+
+        
+
+        let aliquotaIRPEF = parseFloat(document.getElementById('irpef').value) / 100;
+
+        let contributoDTD = 0;
+
+        let checkboxPercentageValue = document.getElementById('si-percentage').checked;
+        let checkboxFlatValue = document.getElementById('si-flat').checked;
+
+        if (checkboxPercentageValue) {
+            contributoDTD = parseFloat(document.getElementById('contributo-percentuale-calcolato').value)
+        } else if (checkboxFlatValue) {
+            contributoDTD = parseFloat(document.getElementById('contributo-flat').value)
+        }
+
+        let investimentoPrimoAnnoFP = Math.min(investimentoAnnuale + contributoDTD, limiteDeducibilità);
+        let investimentoPrimoAnnoPAC = Math.max(investimentoAnnuale + contributoDTD - limiteDeducibilità, 0);
+        let conguaglioFiscaleAnnuale = aliquotaIRPEF * contributoDeducibile;
+
+        let investimentoAnnualeInclConguaglioFP = () => {
+            let gap = Math.max(investimentoAnnuale + contributoDTD - limiteDeducibilità,0);
+
+        };
+
+        let investimentiStoriciFP = [];
+        let costiGestioneStoriciFP = [];
+        let investimentiCumulativiFP = [];
+        let costiGestioneCumulativiFP = [];
+        let patrimonioStoricoLordoFP = [];
+        let tasseStoricheFP = [];
+        let tasseStoricheCumulativeFP = [];
+        let aliquotaStoricaFP = [];
+        let patrimonioStoricoNettoCostiFP = [];
+        let patrimonioStoricoNettoCostiTasseFP = [];
+        let patrimonioStoricoLordoCumulativoFP = [];
+        let patrimonioStoricoNettoCumulativoCostiFP = [];
+        let plusvalenzeStoricheCumulativeFP = [];
+        let patrimonioStoricoNettoCumulativoCostiImpostaFP = [];
+        let patrimonioStoricoNettoCumulativoCostiImpostaTasseFP = [];
+
+        for (i = 0; i < anniSimulazione; i++) {
+
+            //investimenti deducibili in FP
+            investimentiStoriciFP.push(contributoDeducibile);
+
+            investimentiCumulativiFP.push(investimentiStoriciFP[i] + Math.max(investimentiCumulativiFP[i - 1], 0));
+
+            let compoundingFactor = 1 + rendimentoFP;
+
+            patrimonioStoricoLordoCumulativoFP.push(investimentiStoriciFP[i] + Math.max(investimentiCumulativiFP[i - 1], 0) * compoundingFactor);
+
+            costiGestioneCumulativiFP.push(costiGestioneFP * patrimonioStoricoLordoCumulativoFP[i]);
+
+            patrimonioStoricoNettoCumulativoCostiFP.push(patrimonioStoricoLordoCumulativoFP[i] - costiGestioneCumulativiFP[i]);
+            patrimonioStoricoNettoCumulativoCostiImpostaFP.push(patrimonioStoricoNettoCumulativoCostiFP[i] * (1 - impostaDiBollo));
+            
+            plusvalenzeStoricheCumulativeFP.push(patrimonioStoricoNettoCumulativoCostiImpostaFP[i] - investimentiCumulativiFP[i]);
+            
+            tasseStoricheCumulativeFP.push(plusvalenzeStoricheCumulativeFP[i] * tassaPlusvalenzeFP);
+            patrimonioStoricoNettoCumulativoCostiImpostaTasseFP.push(plusvalenzeStoricheCumulativeFP[i] * (1 - tassaPlusvalenzeFP) + investimentiCumulativiFP[i]);
+
+            //investimenti non deducibili + conguaglio fiscale in un PAC
+
+
+
+            //Totale
+
+        };
+
+        let investimentiTotaliFP = investimentiStoriciFP.reduce(reducer);
+        let costiTotaliFP = costiGestioneStoriciFP.reduce(reducer);
+        let patrimonioTotaleLordoFP = Math.max(patrimonioStoricoLordoCumulativoFP);
+        let tasseTotaliFP = Math.max(tasseStoricheCumulativeFP);
+        let patrimonioTotaleNettoCostiFP = Math.max(patrimonioStoricoNettoCumulativoCostiFP);
+        let patrimonioTotaleNettoCostiTasseFP = Math.max(patrimonioStoricoNettoCumulativoCostiTasseFP);
+
+
+        
+
+        document.getElementById('table-patrimonio-pac').innerHTML = formatter.format(patrimonioTotaleLordoFP);
+
+        document.getElementById('table-costi-pac').innerHTML = formatter.format(costiTotaliFP);
+
+        document.getElementById('table-tasse-pac').innerHTML = formatter.format(tasseTotaliFP);
+
+        document.getElementById('table-pac-totale').innerHTML = formatter.format(patrimonioTotaleNettoCostiTasseFP);
 
     //Creazione Grafico
         Chart.defaults.global.defaultFontFamily = 'Titillium Web', "sans-serif";
@@ -299,24 +293,16 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue;
             $('#myChart').remove(); // this is my <canvas> element
             $('#graph-container').append('<canvas id="myChart" width="0" height="0" class="hidden-chart"><canvas>');
 
-            $('#myChart-patrimonio').remove(); // this is my <canvas> element
-            $('#graph-container-patrimonio').append('<canvas id="myChart-patrimonio" width="0" height="0" class="hidden-chart"><canvas>');
-
         };
 
-        let dataAcquistoTotale = [];
-        dataAcquistoTotale.push(costiAcquistoStoriciTotali);
-        let dataNLTTotale =[];
-        dataNLTTotale.push(costiNLTStoriciTotali);
-
-        let dataAcquistoStorico = [];
-        dataAcquistoStorico.push(costiAcquistoStorici);
-        let dataNLTStorico =[];
-        dataNLTStorico.push(costiNLTStorici);
+        let patrimonioCumulativoPAC = [];
+        dataAcquistoTotale.push(patrimonioTotaleNettoCostiImpostaTassePAC);
+        let patrimonioCumulativoFP =[];
+        dataNLTTotale.push(patrimonioTotaleNettoCostiTasseFP);
 
         let labels = [];
-        let backgroundColorCostiAcquisto = [];
-        let backgroundColorCostiNLT = [];
+        let backgroundColorPAC = [];
+        let backgroundColorFP = [];
         let backgroundColorAcquisto = [];
         let backgroundColorNLT = [];
         let backgroundColorRendimentiLordiAcquisto = [];
@@ -325,7 +311,7 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue;
         let backgroundColorRendimentiNettiNLT = [];
         for (i = 0; i < anniSimulazione; i++) {
             labels.push(i+1);
-            backgroundColorCostiAcquisto.push('rgba(0, 99, 132, 0.8)');
+            backgroundColorPAC.push('rgba(0, 99, 132, 0.8)');
             backgroundColorCostiNLT.push('rgba(232, 126, 4, 0.8)');
             backgroundColorAcquisto.push('rgba(0, 99, 132, 0.2)');
             backgroundColorNLT.push('rgba(232, 126, 4, 0.2)');
@@ -340,15 +326,15 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue;
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Acquisto',
-                    data: costiAcquistoStorici,
-                    backgroundColor: backgroundColorCostiAcquisto,
+                    label: 'PAC',
+                    data: patrimonioCumulativoPAC,
+                    backgroundColor: backgroundColorPAC,
                     borderWidth: 1
                 },
                 {
-                    label: 'NLT',
-                    data: costiNLTStorici,
-                    backgroundColor: backgroundColorCostiNLT,
+                    label: 'Fondo Pensione',
+                    data: patrimonioCumulativoFP,
+                    backgroundColor: backgroundColorFP,
                     borderWidth: 1
                 }],
             },

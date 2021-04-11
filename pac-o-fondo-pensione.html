@@ -124,7 +124,7 @@
                             </div>
                             <div class="input-field col s5 m5 l5 z-depth-1">
                                 <label>Costi di Gestione %</label>
-                                <input type="number" min="0" max="100" step="0.01" class="validate" id="costi-gestione-PAC" value="0.2"/>
+                                <input type="number" min="0" max="100" step="0.01" class="validate" id="costi-gestione-pac" value="0.2"/>
                             </div>
                         </div>
                         <div class="col s12 center-align">
@@ -150,7 +150,7 @@
 
                             <div class="input-field col s4 m4 l4 z-depth-1">
                                 <label>Aliquota IRPEF %</label>
-                                <input type="number" min="0" max="100" step="1" class="validate" id="irpef" value="38" readonly/>
+                                <input type="number" min="0" max="100" step="1" id="irpef" value="38" readonly/>
                             </div>
                         </div>
                         <div class="col s12 m12 l12 z-depth-1">
@@ -165,13 +165,13 @@
                                 <p>
                                     <label>
                                         <input name="group1" type="radio" id="si-percentage"/>
-                                        <span>Sì, una % della mia RAL</span>
+                                        <span>Sì, una % della mia RAL </span>
                                     </label>
                                 </p>
                                 <p>
                                     <label>
                                         <input name="group1" type="radio" id="si-flat"/>
-                                        <span>Sì, un contributo flat</span>
+                                        <span>Sì, un contributo flat annuale</span>
                                     </label>
                                 </p>
                             </form>
@@ -268,16 +268,20 @@
                                             <td id="table-patrimonio-fp"></td>
                                         </tr>                    
                                         <tr>
-                                            <td>Patrimonio Fondo Pensione da contributi del datore di lavoro</td>
-                                            <td id="table-patrimonio-dtd-fp"></td>
-                                        </tr>
-                                        <tr>
                                             <td>Patrimonio PAC</td>
                                             <td id="table-patrimonio-pac-fp"></td>
                                         </tr>
                                         <tr>
                                             <td>Costi di Gestione</td>
                                             <td id="table-costi-fp"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ritenuta sulla rendita</td>
+                                            <td id="table-tasse-pac"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tasse sulle Plusvalenze</td>
+                                            <td id="table-tasse-pac"></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
