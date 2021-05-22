@@ -14,7 +14,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Investimenti: PAC o Fondo Pensione?</title>
         <meta name="description" content="Un simulatore di scelte finanziarie: investire in un PAC o in un Fondo Pensione?">
-        <link rel="stylesheet" href="./styles/auto.css">
+        <link rel="stylesheet" href="./styles/pac-o-fp.css">
         
         <!--icons -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -116,7 +116,7 @@
                         <div class="col s12 center-align">
                             <h5>PAC</h5>
                         </div>
-                        <div class="col s12 m12 l12 z-depth-1">
+                        <div class="col s12 m12 l12 z-depth-1 round-border">
                             <p>Rendimento atteso e costi</p>
                             <div class="input-field col s5 m5 l5 z-depth-1">
                                 <label>Rendimento atteso annuale %</label>
@@ -130,7 +130,7 @@
                         <div class="col s12 center-align">
                             <h5>Fondo Pensione</h5>
                         </div>
-                        <div class="col s12 m12 l12 z-depth-1">
+                        <div class="col s12 m12 l12 z-depth-1 round-border">
                             <p>Rendimento atteso e costi</p>
                             <div class="input-field col s6 m5 l5 z-depth-1">
                                 <label>Rendimento atteso annuale %</label>
@@ -141,7 +141,7 @@
                                 <input type="number" min="0" max="100" step="0.01" class="validate" id="costi-gestione-fp" value="1.0"/>
                             </div>
                         </div>
-                        <div class="col s12 m12 l12 z-depth-1">
+                        <div class="col s12 m12 l12 z-depth-1 round-border">
                             <p>RAL e IRPEF</p>
                             <div class="input-field col s4 m4 l4 z-depth-1">
                                 <label>Qual è la tua RAL?</label>
@@ -153,7 +153,7 @@
                                 <input type="number" min="0" max="100" step="1" id="irpef" value="38" readonly/>
                             </div>
                         </div>
-                        <div class="col s12 m12 l12 z-depth-1">
+                        <div class="col s12 m12 l12 z-depth-1 round-border">
                             <p>Il tuo datore di lavoro contribuirebbe al Fondo Pensione?</p>
                             <form action="#" id="contributo-datore-lavoro">
                                 <p>
@@ -171,7 +171,7 @@
                                 <p>
                                     <label>
                                         <input name="group1" type="radio" id="si-flat"/>
-                                        <span>Sì, un contributo flat annuale</span>
+                                        <span>Sì, un contributo annuale</span>
                                     </label>
                                 </p>
                             </form>
