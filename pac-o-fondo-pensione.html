@@ -86,7 +86,7 @@
 
         <div class="fixed-action-btn">
             <a class="btn-floating btn-large red pulse" id="floating-calcolo" onclick="calcolo()">
-              <i class="large material-icons">autorenew</i>
+              Calcola
             </a>
         </div>
 
@@ -123,7 +123,7 @@
                                 <input type="number" min="0" max="100" step="0.10" class="validate" id="rendimento-pac" value="5.0"/>
                             </div>
                             <div class="input-field col s5 m5 l5 z-depth-1">
-                                <label>Costi di Gestione %</label>
+                                <label>Costi Annuali %</label>
                                 <input type="number" min="0" max="100" step="0.01" class="validate" id="costi-gestione-pac" value="0.2"/>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                 <input type="number" min="0" max="100" step="0.10" class="validate" id="rendimento-fp" value="5.0"/>
                             </div>
                             <div class="input-field col s4 m4 l4 z-depth-1">
-                                <label>Costi di Gestione %</label>
+                                <label>Costi Annuali %</label>
                                 <input type="number" min="0" max="100" step="0.01" class="validate" id="costi-gestione-fp" value="1.0"/>
                             </div>
                         </div>
@@ -179,19 +179,19 @@
                             <div id="contributo-percentuale-ral">
                                 <div class="input-field col s4 m4 l4 z-depth-1" >
                                     <label>% della tua RAL</label>
-                                    <input type="number" min="0" max="100" step="1" class="validate" id="irpef" value="1" readonly/>
+                                    <input type="number" min="0" max="100" step="1" class="validate" id="percentualeRAL" value="1"/>
                                 </div>
 
                                 <div class="input-field col s4 m4 l4 z-depth-1">
                                     <label>Contributo</label>
-                                    <input type="number" min="0"  class="validate" id="contributo-percentuale-calcolato" value="300" readonly/>
+                                    <input type="number" min="0" id="contributo-percentuale-calcolato" value="300" readonly/>
                                 </div>
 
 
                             </div>
 
                             <div class="input-field col s4 m4 l4 z-depth-1" id="contributo-flat">
-                                <label>Contributo flat</label>
+                                <label>Contributo (€)</label>
                                 <input type="number" class="validate" id="contributo-flat" value="1000" min="0" >
                             </div>
                         </div>
@@ -233,8 +233,12 @@
                                         <td id="table-patrimonio-pac"></td>
                                       </tr>
                                       <tr>
-                                        <td>Costi di Gestione</td>
+                                        <td>Costi Annuali</td>
                                         <td id="table-costi-pac"></td>
+                                      </tr>
+                                      <tr>
+                                        <td>Imposta di Bollo</td>
+                                        <td id="table-imposta-pac"></td>
                                       </tr>
                                       <tr>
                                         <td>Tasse sulle Plusvalenze</td>
@@ -272,16 +276,20 @@
                                             <td id="table-patrimonio-pac-fp"></td>
                                         </tr>
                                         <tr>
-                                            <td>Costi di Gestione</td>
+                                            <td>Costi Annuali</td>
                                             <td id="table-costi-fp"></td>
                                         </tr>
                                         <tr>
+                                            <td>Imposta di Bollo</td>
+                                            <td id="table-imposta-fp"></td>
+                                          </tr>
+                                        <tr>
                                             <td>Ritenuta sulla rendita</td>
-                                            <td id="table-tasse-pac"></td>
+                                            <td id="table-ritenuta-fp"></td>
                                         </tr>
                                         <tr>
                                             <td>Tasse sulle Plusvalenze</td>
-                                            <td id="table-tasse-pac"></td>
+                                            <td id="table-tasse-fp"></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -297,7 +305,7 @@
                 </div>
             </div>
         </div>
-
+        </div>
 
         <!-- Compiled and minified JavaScript -->
         
@@ -314,7 +322,7 @@
               </div>
               <div class="container">
                 <a href="privacy-policy.html" style="color: white">Privacy Policy</a>
-            </div>
+              </div>
             </div>
         </footer>
     </body>

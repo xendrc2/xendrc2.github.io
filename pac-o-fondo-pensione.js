@@ -89,10 +89,13 @@ $(document).ready(function(){
 //Check # of simulations
 var contatore = 0;
 
-//Funzione per calcolare il totale di un array
+//Funzione per calcolare il totale e il max di un array 
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
+const maxArray = function(a, b) {
+    return Math.max(a, b);
+};
 
-//Calcolo e aggiornamento automatico IRPEF
+//Calcolo e aggiornamento automatico IRPEF e contributo percentuale RAL
 
 
 const selectRAL = document.getElementById('ral');
@@ -115,6 +118,10 @@ selectRAL.addEventListener('change', (event) => {
     }
 
     document.getElementById('irpef').value = Math.max.apply(Math, appliedIRPEF) * 100;
+
+    let contributoPercentualeRAL = parseFloat(document.getElementById('percentualeRAL').value) / 100;
+    document.getElementById('contributo-percentuale-calcolato').value = contributoPercentualeRAL * RAL;
+
 });
 
 
@@ -146,6 +153,8 @@ selectRAL.addEventListener('change', (event) => {
 
         let costiGestioneCumulativiPAC = [];
 
+        let impostaBolloCumulativaPAC = [];
+
         let tasseStoricheCumulativePAC = [];
 
         let patrimonioStoricoLordoCumulativoPAC = [];
@@ -158,15 +167,18 @@ selectRAL.addEventListener('change', (event) => {
 
             investimentiStoriciPAC.push(investimentoAnnuale);
 
-            investimentiCumulativiPAC.push(investimentiStoriciPAC[i] + Math.max(investimentiCumulativiPAC[i - 1], 0));
+            investimentiCumulativiPAC.push(investimentiStoriciPAC.reduce(reducer));
 
             let compoundingFactor = 1 + rendimentoPAC;
 
-            patrimonioStoricoLordoCumulativoPAC.push(investimentiStoriciPAC[i] + Math.max(investimentiCumulativiPAC[i - 1], 0) * compoundingFactor);
+            patrimonioStoricoLordoCumulativoPAC.push(investimentiStoriciPAC[i] + (i == 0 ? 0 : patrimonioStoricoLordoCumulativoPAC[i - 1] * compoundingFactor));
 
             costiGestioneCumulativiPAC.push(costiGestionePAC * patrimonioStoricoLordoCumulativoPAC[i]);
 
             patrimonioStoricoNettoCumulativoCostiPAC.push(patrimonioStoricoLordoCumulativoPAC[i] - costiGestioneCumulativiPAC[i]);
+
+            impostaBolloCumulativaPAC.push(patrimonioStoricoNettoCumulativoCostiPAC[i] * impostaDiBollo);
+
             patrimonioStoricoNettoCumulativoCostiImpostaPAC.push(patrimonioStoricoNettoCumulativoCostiPAC[i] * (1 - impostaDiBollo));
             
             plusvalenzeStoricheCumulativePAC.push(patrimonioStoricoNettoCumulativoCostiImpostaPAC[i] - investimentiCumulativiPAC[i]);
@@ -175,11 +187,12 @@ selectRAL.addEventListener('change', (event) => {
             patrimonioStoricoNettoCumulativoCostiImpostaTassePAC.push(plusvalenzeStoricheCumulativePAC[i] * (1 - tassaPlusvalenzePAC) + investimentiCumulativiPAC[i]);
         };
 
-        let costiTotaliPAC = Math.max(costiGestioneCumulativiPAC);
-        let patrimonioTotaleLordoPAC = Math.max(patrimonioStoricoLordoCumulativoPAC);
-        let tasseTotaliPAC = Math.max(tasseStoricheCumulativePAC);
+        let costiTotaliPAC = costiGestioneCumulativiPAC.reduce(maxArray);
+        let patrimonioTotaleLordoPAC = patrimonioStoricoLordoCumulativoPAC.reduce(maxArray);
+        let tasseTotaliPAC = tasseStoricheCumulativePAC.reduce(maxArray);
+        let impostaBolloTotalePAC = impostaBolloCumulativaPAC.reduce(maxArray);
 
-        let patrimonioTotaleNettoCostiImpostaTassePAC = Math.max(patrimonioStoricoNettoCumulativoCostiImpostaTassePAC);
+        let patrimonioTotaleNettoCostiImpostaTassePAC = patrimonioStoricoNettoCumulativoCostiImpostaTassePAC.reduce(maxArray);
 
 
         
@@ -187,6 +200,8 @@ selectRAL.addEventListener('change', (event) => {
         document.getElementById('table-patrimonio-pac').innerHTML = formatter.format(patrimonioTotaleLordoPAC);
 
         document.getElementById('table-costi-pac').innerHTML = formatter.format(costiTotaliPAC);
+
+        document.getElementById('table-imposta-pac').innerHTML = formatter.format(impostaBolloTotalePAC);
 
         document.getElementById('table-tasse-pac').innerHTML = formatter.format(tasseTotaliPAC);
 
@@ -258,7 +273,7 @@ selectRAL.addEventListener('change', (event) => {
             plusvalenzeStoricheCumulativeFP.push(patrimonioStoricoNettoCumulativoCostiImpostaFP[i] - investimentiCumulativiFP[i]);
             
             tasseStoricheCumulativeFP.push(plusvalenzeStoricheCumulativeFP[i] * tassaPlusvalenzeFP);
-            patrimonioStoricoNettoCumulativoCostiImpostaTasseFP.push(plusvalenzeStoricheCumulativeFP[i] * (1 - tassaPlusvalenzeFP) + investimentiCumulativiFP[i]);
+            patrimonioStoricoNettoCumulativoCostiImpostaTasseFP.push(patrimonioStoricoNettoCumulativoCostiImpostaFP[i] - tasseStoricheCumulativeFP[i]);
 
             //investimenti non deducibili + conguaglio fiscale in un PAC
 
@@ -269,36 +284,31 @@ selectRAL.addEventListener('change', (event) => {
         };
 
         let investimentiTotaliFP = investimentiStoriciFP.reduce(reducer);
-        let costiTotaliFP = costiGestioneStoriciFP.reduce(reducer);
+        let costiTotaliFP = Math.max(costiGestioneCumulativiFP);
         let patrimonioTotaleLordoFP = Math.max(patrimonioStoricoLordoCumulativoFP);
         let tasseTotaliFP = Math.max(tasseStoricheCumulativeFP);
         let patrimonioTotaleNettoCostiFP = Math.max(patrimonioStoricoNettoCumulativoCostiFP);
-        let patrimonioTotaleNettoCostiTasseFP = Math.max(patrimonioStoricoNettoCumulativoCostiTasseFP);
+        let patrimonioTotaleNettoCostiImpostaTasseFP = Math.max(patrimonioStoricoNettoCumulativoCostiImpostaTasseFP);
 
 
         
 
-        document.getElementById('table-patrimonio-pac').innerHTML = formatter.format(patrimonioTotaleLordoFP);
+        document.getElementById('table-patrimonio-fp').innerHTML = formatter.format(patrimonioTotaleLordoFP);
 
-        document.getElementById('table-costi-pac').innerHTML = formatter.format(costiTotaliFP);
+        document.getElementById('table-costi-fp').innerHTML = formatter.format(costiTotaliFP);
 
-        document.getElementById('table-tasse-pac').innerHTML = formatter.format(tasseTotaliFP);
+        document.getElementById('table-tasse-fp').innerHTML = formatter.format(tasseTotaliFP);
 
-        document.getElementById('table-pac-totale').innerHTML = formatter.format(patrimonioTotaleNettoCostiTasseFP);
+        document.getElementById('table-fp-totale').innerHTML = formatter.format(patrimonioTotaleNettoCostiImpostaTasseFP);
 
     //Creazione Grafico
-        Chart.defaults.global.defaultFontFamily = 'Titillium Web', "sans-serif";
+    /*    Chart.defaults.global.defaultFontFamily = 'Titillium Web', "sans-serif";
 
         if(contatore > 0) {
             $('#myChart').remove(); // this is my <canvas> element
             $('#graph-container').append('<canvas id="myChart" width="0" height="0" class="hidden-chart"><canvas>');
 
         };
-
-        let patrimonioCumulativoPAC = [];
-        dataAcquistoTotale.push(patrimonioTotaleNettoCostiImpostaTassePAC);
-        let patrimonioCumulativoFP =[];
-        dataNLTTotale.push(patrimonioTotaleNettoCostiTasseFP);
 
         let labels = [];
         let backgroundColorPAC = [];
@@ -480,19 +490,13 @@ selectRAL.addEventListener('change', (event) => {
                 maintainAspectRatio: false
             }
         });
-
+        */
         //document.getElementById("myChart").width = "600";
         //document.getElementById("myChart").height = "600";
         contatore = contatore + 1;
         console.log(contatore);
 
-        if (investimenti) {
-            $('#graph-container-patrimonio').show();
-        } else {
-            $('#graph-container-patrimonio').hide();
-        }
-
-        $('#results').remove();
+        /*$('#results').remove();
         $('.results-card').show();
         if (costiAcquistoStoriciTotali > costiNLTStoriciTotali) {
             let textSpan = "<span id='results'>La scelta più conveniente è il <b>Noleggio a Lungo Termine!</b> 🎉 Risparmierai <b>" + formatter.format(costiAcquistoStoriciTotali - costiNLTStoriciTotali) + "</b> rispetto all'Acquisto in " + anniSimulazione + " anni. <br><br> Scorri per maggiori dettagli.";
@@ -503,7 +507,7 @@ selectRAL.addEventListener('change', (event) => {
         } else {
             let textSpan = "<span id='results'>Le due scelte sono esattamente <b>identiche</b> nell'arco di " + anniSimulazione + " anni! Scegli quindi quella che preferisci. <br> Scorri per maggiori dettagli.";
             $('.results-card').append(textSpan);
-        }
+        }*/
         
   
       document.getElementById("results-container").classList.remove("user-hidden");

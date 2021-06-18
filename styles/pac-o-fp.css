@@ -335,4 +335,11 @@ body .black-font {
   border-radius: 10px;
   margin-bottom: 1em;
 }
+
+.btn-floating {
+  border-radius: 25px !important;
+  width: 130px !important;
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+}
 /*# sourceMappingURL=pac-o-fp.css.map */
