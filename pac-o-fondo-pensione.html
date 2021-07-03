@@ -179,7 +179,7 @@
                             <div id="contributo-percentuale-ral">
                                 <div class="input-field col s4 m4 l4 z-depth-1" >
                                     <label>% della tua RAL</label>
-                                    <input type="number" min="0" max="100" step="1" class="validate" id="percentualeRAL" value="1"/>
+                                    <input type="number" min="0" max="100" step="0.1" class="validate" id="percentualeRAL" value="1"/>
                                 </div>
 
                                 <div class="input-field col s4 m4 l4 z-depth-1">
@@ -207,10 +207,6 @@
                         </div>
                       </div>
 
-                    <div id="graph-container">
-                        <canvas id="myChart" width="0" height="0" class="hidden-chart"></canvas>
-                    </div>
-
                     <div id="graph-container-patrimonio">
                         <canvas id="myChart-patrimonio" width="0" height="0" class="hidden-chart"></canvas>
                     </div>
@@ -228,17 +224,13 @@
                                       </tr>
                                     </thead>
                                     <tbody>
+                                        <tr>
+                                            <td>Totale Investimenti</td>
+                                            <td id="table-investimenti-pac"></td>
+                                          </tr>
                                       <tr>
                                         <td>Patrimonio Lordo</td>
                                         <td id="table-patrimonio-pac"></td>
-                                      </tr>
-                                      <tr>
-                                        <td>Costi Annuali</td>
-                                        <td id="table-costi-pac"></td>
-                                      </tr>
-                                      <tr>
-                                        <td>Imposta di Bollo</td>
-                                        <td id="table-imposta-pac"></td>
                                       </tr>
                                       <tr>
                                         <td>Tasse sulle Plusvalenze</td>
@@ -268,23 +260,23 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Patrimonio Fondo Pensione</td>
+                                            <td>Investimenti Fondo Pensione</td>
+                                            <td id="table-investimenti-fp"></td>
+                                        </tr> 
+                                        <tr>
+                                            <td>Investimenti PAC</td>
+                                            <td id="table-investimenti-fp-pac"></td>
+                                        </tr> 
+                                        <tr>
+                                            <td>Patrimonio Lordo Fondo Pensione</td>
                                             <td id="table-patrimonio-fp"></td>
                                         </tr>                    
                                         <tr>
-                                            <td>Patrimonio PAC</td>
+                                            <td>Patrimonio Lordo PAC</td>
                                             <td id="table-patrimonio-pac-fp"></td>
                                         </tr>
                                         <tr>
-                                            <td>Costi Annuali</td>
-                                            <td id="table-costi-fp"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Imposta di Bollo</td>
-                                            <td id="table-imposta-fp"></td>
-                                          </tr>
-                                        <tr>
-                                            <td>Ritenuta sulla rendita</td>
+                                            <td>Ritenuta sulla rendita FP</td>
                                             <td id="table-ritenuta-fp"></td>
                                         </tr>
                                         <tr>
@@ -294,7 +286,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                          <th>Totale</th>
+                                          <th>Patrimonio Netto Totale</th>
                                           <th id="table-fp-totale"></th>
                                         </tr>
                                     </tfoot>
