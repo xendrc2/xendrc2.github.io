@@ -327,7 +327,7 @@ selectPercentualeRAL.addEventListener('change', (event) => {
 
             let compoundingFactorFP = 1 + rendimentoFP;
 
-            patrimonioStoricoLordoCumulativoFP.push((investimentiStoriciFP[i] + (i == 0 ? 0 : patrimonioStoricoLordoCumulativoFP[i - 1] * compoundingFactorFP)) * (1 - costiGestioneFP) * (1 - impostaDiBollo));
+            patrimonioStoricoLordoCumulativoFP.push((investimentiStoriciFPeConguaglioFP[i] + (i == 0 ? 0 : patrimonioStoricoLordoCumulativoFP[i - 1] * compoundingFactorFP)) * (1 - costiGestioneFP) * (1 - impostaDiBollo));
             
             plusvalenzeStoricheCumulativeFP.push(Math.max(patrimonioStoricoLordoCumulativoFP[i] - investimentiCumulativiFP[i],0));
             
